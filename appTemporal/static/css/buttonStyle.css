@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:900i');
 
 .wrapper-button {
+    z-index: 1000;
     display: flex;
     /* justify-content: center; */
     margin-top:-40px;
   }
   
   .cta {
+    /* z-index: 1001; */
       display: flex;
       padding: 10px 45px;
       text-decoration: none;

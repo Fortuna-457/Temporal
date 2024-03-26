@@ -62,7 +62,7 @@
     z-index: 3;
 }
 
-.parallax__foreground-front,
+/* .parallax__foreground-front,
 .parallax__foreground-back {
     z-index: 999;
     align-self: end;
@@ -72,7 +72,7 @@
     transform: scaleY(1.2);
     transform-origin: bottom;
     mix-blend-mode: hard-light;
-}
+} */
 
 /* .main-content {
     position: relative;
@@ -80,26 +80,25 @@
     background: hsl(238, 100%, 6%);
 } */
 
-@keyframes parallax {
+/* @keyframes parallax {
     to {
         transform:
         translateY(calc(var(--parallax-speed) * 200px));
     }
-}
+} */
 
 /* general styling */
 
 html {
-    color-scheme: dark;
-   height: 100vh;
+   color-scheme: dark;
 }
 
 body {
     margin: 0;
     font-family: "Rubik", sans-serif;
     font-size: 1.25rem;
-    font-weight: 700; /* for demo only */
-    text-transform: uppercase; /* for demo only */
+    font-weight: 700; 
+    text-transform: uppercase;
     /* min-height: 300vh;  */
 }
 
@@ -138,20 +137,26 @@ img {
 }
 
 .primary-header__inner {
+    z-index: 10001;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
+.primary-nav {
+    position: relative;
+    z-index: 1000; 
+}
+
 .primary-nav ul {
-    flex: 1;
     list-style: none;
     margin: 0;
+    margin-left:50px;
     padding: 0;
     display: flex;
     gap: 1rem;
     justify-content: space-between;
 }
+
 
 .primary-nav a {
     color: white;
@@ -173,7 +178,11 @@ img {
 }
 
 .hero {
-    margin-block-start: max(20vh, 8rem);
+    position: relative;
+    z-index: 1000;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero__title {
@@ -204,40 +213,36 @@ img {
 }
 
 
-.who-are-we-container{
-    border:1px solid red;
-}
-
-.game-explain-container{
-    border:1px solid blue;
-}
-
-.founders-container{
-    border:1px solid pink;
-}
-
-.get-in-touch-container{
-    border:1px solid green;
-}
-
-.support-us-container{
-    border:1px solid purple;
-}
-
-footer{
-    border:1px solid yellow;
-}
-
-.who-are-we-container,
-.game-explain-container,
-.founders-container,
-.get-in-touch-container,
-.support-us-container{
-    min-height: 100vh; /* Use min-height instead of fixed height */
-}
-
-footer{
-    height:50vh;
+.temporal{
+    color:purple;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 
+
+.primary-nav ul li a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+
+.primary-nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+
+.primary-nav ul li a:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
