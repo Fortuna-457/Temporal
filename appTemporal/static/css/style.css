@@ -8,9 +8,11 @@
 }
 
 .parallax > * {
-    grid-area: stack;
-    animation: parallax linear;
-    animation-timeline: scroll();
+   grid-area: stack;
+
+   /* UNCOMMENT THESE TWO LINES TO GET THE EFFECT */
+      /*animation: parallax linear;
+    animation-timeline: scroll(); */
 }
 
 .parallax > img {
