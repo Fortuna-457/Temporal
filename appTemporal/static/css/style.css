@@ -1,32 +1,35 @@
+
+
 .parallax {
-    /* overflow: hidden; */
+    overflow: hidden;
     position: relative;
     z-index: 0;
-    min-height: 75vh;
+    width: 100%;
+    height: 100vh;
     display: grid;
     grid-template-areas: "stack";
 }
 
 .parallax > * {
-   grid-area: stack;
-
-   /* UNCOMMENT THESE TWO LINES TO GET THE EFFECT */
-      /*animation: parallax linear;
+    grid-area: stack;
+    /* animation: parallax linear;
     animation-timeline: scroll(); */
 }
 
 .parallax > img {
+    min-height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
 .primary-header,
 .hero {
-    --parallax-speed: 8;
+    --parallax-speed: 3;
     z-index: 10;
 }
 
 .parallax__bg {
-    --parallax-speed: -3;
+    --parallax-speed: -1;
 
     z-index: 1;
     min-height: 100%;
@@ -35,27 +38,27 @@
 }
 
 .parallax__dust {
-    --parallax-speed: -5;
+    --parallax-speed: -3;
     z-index: 2;
 }
 
 .parallax__luna {
-    --parallax-speed: 13;
+    --parallax-speed: 8;
     z-index: 3;
 }
 
 .parallax__manny {
-    --parallax-speed: 10;
+    --parallax-speed: 6;
     z-index: 4;
 }
 
 .parallax__jax {
-    --parallax-speed: 8;
+    --parallax-speed: 5;
     z-index: 5;
 }
 
 .parallax__rays {
-    --parallax-speed: 3;
+    --parallax-speed: 1;
     z-index: 3;
 }
 
@@ -71,11 +74,11 @@
     mix-blend-mode: hard-light;
 }
 
-.main-content {
+/* .main-content {
     position: relative;
-    /* z-index: 1; */
+    z-index: 1;
     background: hsl(238, 100%, 6%);
-}
+} */
 
 @keyframes parallax {
     to {
@@ -88,6 +91,7 @@
 
 html {
     color-scheme: dark;
+   height: 100vh;
 }
 
 body {
@@ -96,7 +100,7 @@ body {
     font-size: 1.25rem;
     font-weight: 700; /* for demo only */
     text-transform: uppercase; /* for demo only */
-    min-height: 300vh; /* for demo only */
+    /* min-height: 300vh;  */
 }
 
 img {
