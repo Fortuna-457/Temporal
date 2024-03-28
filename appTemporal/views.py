@@ -6,3 +6,7 @@ def index(request):
 
 def games(request):
     return render(request, 'layouts/games.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
