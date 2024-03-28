@@ -57,6 +57,9 @@ a{
     box-sizing: border-box;
     text-align: center;
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+
+    display:flex;
+    flex-flow: column nowrap;
 }
 
 .part-games h1{
@@ -139,9 +142,9 @@ a{
 
   .button-games {
     margin-top:20px;
-    --😀: #644dff;
-    --😀😀: #4836bb;
-    --😀😀😀: #654dff63;
+    --color1: #644dff;
+    --color2: #4836bb;
+    --color3: #654dff63;
     cursor: pointer;
     width: 184px;
     height: 48px;
@@ -153,17 +156,19 @@ a{
     font-weight: 800;
     letter-spacing: 2px;
     color: #fff;
-    background: var(--😀);
-    border: 2px solid var(--😀😀);
+    background: var(--color1);
+    border: 2px solid var(--color2);
     border-radius: .75rem;
-    box-shadow: 0 8px 0 var(--😀😀);
+    box-shadow: 0 8px 0 var(--color2);
     transform: skew(-10deg);
     transition: all .1s ease;
-    filter: drop-shadow(0 15px 20px var(--😀😀😀));
+    filter: drop-shadow(0 15px 20px var(--color3));
   }
   
   .button-games:active {
     letter-spacing: 0px;
     transform: skew(-10deg) translateY(8px);
-    box-shadow: 0 0 0 var(--😀😀😀);
+    box-shadow: 0 0 0 var(--color3);
   }
+
+
