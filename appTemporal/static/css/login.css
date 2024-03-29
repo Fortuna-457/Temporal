@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-/**VARIABLES DE COLORES**/
+/**VARIABLES**/
 
 body{
     height:100%;
@@ -16,6 +16,7 @@ body{
     background-size:cover;
     background-position:center center;
     background-attachment: fixed;
+    position: relative;
 }
 
 
@@ -179,6 +180,7 @@ a:hover{
 .register a{
     font-weight: 500;
 }
+
 
 @media only screen and (max-width: 564px ){
     .wrapper{

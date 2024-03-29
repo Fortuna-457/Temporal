@@ -12,8 +12,6 @@
 
 .parallax > * {
     grid-area: stack;
-    /* animation: parallax linear;
-    animation-timeline: scroll(); */
 }
 
 .parallax > img {
@@ -24,13 +22,10 @@
 
 .primary-header,
 .hero {
-    --parallax-speed: 3;
     z-index: 10;
 }
 
 .parallax__bg {
-    --parallax-speed: -1;
-
     z-index: 1;
     min-height: 100%;
     width: 100%;
@@ -38,12 +33,10 @@
 }
 
 .parallax__dust {
-    --parallax-speed: -3;
     z-index: 2;
 }
 
 .parallax__luna {
-    --parallax-speed: 8;
     z-index: 3;
 }
 
@@ -53,41 +46,16 @@
 }
 
 .parallax__jax {
-    --parallax-speed: 5;
     z-index: 5;
 }
 
 .parallax__rays {
-    --parallax-speed: 1;
     z-index: 3;
 }
 
-/* .parallax__foreground-front,
-.parallax__foreground-back {
-    z-index: 999;
-    align-self: end;
-}
 
-.parallax__foreground-back {
-    transform: scaleY(1.2);
-    transform-origin: bottom;
-    mix-blend-mode: hard-light;
-} */
 
-/* .main-content {
-    position: relative;
-    z-index: 1;
-    background: hsl(238, 100%, 6%);
-} */
-
-/* @keyframes parallax {
-    to {
-        transform:
-        translateY(calc(var(--parallax-speed) * 200px));
-    }
-} */
-
-/* general styling */
+/** general styling **/
 
 html {
    color-scheme: dark;
