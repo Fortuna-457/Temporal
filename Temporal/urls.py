@@ -28,4 +28,5 @@ urlpatterns = [
     path('', include("appTemporal.urls")),
     path('games/', views.games, name='games'),
     path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
 ]
