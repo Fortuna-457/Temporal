@@ -6,3 +6,7 @@ def index(request):
 
 def games(request):
     return render(request, 'layouts/games.html')
+
+
+def login(request):
+    return render(request, 'layouts/login.html')

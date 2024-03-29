@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from appTemporal import views
+
 # Configuración de las URLs para el proyecto Temporal.
 urlpatterns = [
     # URL para acceder al panel de administración de Django.
@@ -24,4 +26,6 @@ urlpatterns = [
     
     # URL para incluir las URLs definidas en el archivo "appTemporal.urls".
     path('', include("appTemporal.urls")),
+    path('games/', views.games, name='games'),
+    path('login/', views.login, name='login'),
 ]
