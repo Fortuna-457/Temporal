@@ -54,39 +54,42 @@
         <div class="wrapper">
 
           
-            
-            <div class="login_box">
-                <div class="login-header">
-                    <span>LOG IN</span>
-                </div>
-                <div class="input_box">
-                    <input type="text" name="user" id="user" class="input-field" required>
-                    <label for="user" class="label">Username</label>
-                    <i class="bx bx-user icon"></i>
-                </div>
-                <div class="input_box">
-                    <input type="text" name="pass" id="pass" class="input-field" required>
-                    <label for="user" class="label">Password</label>
-                    <i class="bx bx-lock-alt icon"></i>
-                </div>
-                <div class="remember-forgot">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember"></input>
-                        <label for="remember">Remember me</label>
-                    </div>
-                    <div class="forgot">
-                        <a href="#">Forgot password?</a>
-                    </div>
-                </div>
-                <div class="input_box">
-                    <input type="submit" class="input-submit" value="login"></input>
-                </div>
-                <div class="register">
-                    <span>Don't have an account? <a href="#">Register</a></span>
-                </div>
-            </div>
-        </div>
+            <form class="text-center" method="POST">
 
-        
+                {% csrf_token %}
+
+                <div class="login_box">
+                    <div class="login-header">
+                        <span>LOG IN</span>
+                    </div>
+                    <div class="input_box">
+                        <input type="text" name="user" id="user" class="input-field" required>
+                        <label for="user" class="label">Username</label>
+                        <i class="bx bx-user icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="pass" id="pass" class="input-field" required>
+                        <label for="user" class="label">Password</label>
+                        <i class="bx bx-lock-alt icon"></i>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember"></input>
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <div class="forgot">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="input_box">
+                        <input type="submit" class="input-submit" value="login"></input>
+                    </div>
+                    <div class="register">
+                        <span>Don't have an account? <a href="#">Register</a></span>
+                    </div>
+                </div>
+            </form>
+
+        </div>
     </body>
 </html>
