@@ -13,6 +13,9 @@ def index(request):
 def games(request):
     return render(request, 'layouts/games.html')
 
-def logout_view(request):
-    logout(request)
-    return redirect('/')
+
+def login(request):
+    return render(request, 'layouts/login.html')
+
+def register(request):
+    return render(request, 'layouts/register.html')

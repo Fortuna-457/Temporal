@@ -1,31 +1,34 @@
+
+/*****************************************/
+/** STYLES FOR THE MAIN SCREEN **/
+/*****************************************/
+
 .parallax {
-    /* overflow: hidden; */
+    overflow: hidden;
     position: relative;
     z-index: 0;
-    min-height: 75vh;
+    width: 100%;
+    height: 100vh;
     display: grid;
     grid-template-areas: "stack";
 }
 
 .parallax > * {
     grid-area: stack;
-    animation: parallax linear;
-    animation-timeline: scroll();
 }
 
 .parallax > img {
+    min-height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
 .primary-header,
 .hero {
-    --parallax-speed: 8;
     z-index: 10;
 }
 
 .parallax__bg {
-    --parallax-speed: -3;
-
     z-index: 1;
     min-height: 100%;
     width: 100%;
@@ -33,68 +36,41 @@
 }
 
 .parallax__dust {
-    --parallax-speed: -5;
     z-index: 2;
 }
 
 .parallax__luna {
-    --parallax-speed: 13;
     z-index: 3;
 }
 
 .parallax__manny {
-    --parallax-speed: 10;
+    --parallax-speed: 6;
     z-index: 4;
 }
 
 .parallax__jax {
-    --parallax-speed: 8;
     z-index: 5;
 }
 
 .parallax__rays {
-    --parallax-speed: 3;
     z-index: 3;
 }
 
-.parallax__foreground-front,
-.parallax__foreground-back {
-    z-index: 999;
-    align-self: end;
-}
 
-.parallax__foreground-back {
-    transform: scaleY(1.2);
-    transform-origin: bottom;
-    mix-blend-mode: hard-light;
-}
 
-.main-content {
-    position: relative;
-    /* z-index: 1; */
-    background: hsl(238, 100%, 6%);
-}
-
-@keyframes parallax {
-    to {
-        transform:
-        translateY(calc(var(--parallax-speed) * 200px));
-    }
-}
-
-/* general styling */
+/** general styling **/
 
 html {
-    color-scheme: dark;
+   color-scheme: dark;
 }
 
 body {
     margin: 0;
     font-family: "Rubik", sans-serif;
     font-size: 1.25rem;
-    font-weight: 700; /* for demo only */
-    text-transform: uppercase; /* for demo only */
-    min-height: 300vh; /* for demo only */
+    font-weight: 700; 
+    text-transform: uppercase;
+    /* min-height: 300vh;  */
 }
 
 img {
@@ -132,20 +108,26 @@ img {
 }
 
 .primary-header__inner {
+    z-index: 10001;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
+.primary-nav {
+    position: relative;
+    z-index: 1000; 
+}
+
 .primary-nav ul {
-    flex: 1;
     list-style: none;
     margin: 0;
+    margin-left:50px;
     padding: 0;
     display: flex;
     gap: 1rem;
     justify-content: space-between;
 }
+
 
 .primary-nav a {
     color: white;
@@ -167,11 +149,15 @@ img {
 }
 
 .hero {
-    margin-block-start: max(20vh, 8rem);
+    position: relative;
+    z-index: 1000;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero__title {
-    font-size: 6rem;
+    font-size: 5rem;
     max-width: 10ch;
     line-height: 1;
     font-style: italic;
@@ -198,38 +184,36 @@ img {
 }
 
 
-.who-are-we-container{
-    border:1px solid red;
+.temporal{
+    color:purple;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-.game-explain-container{
-    border:1px solid blue;
+
+
+.primary-nav ul li a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-.founders-container{
-    border:1px solid pink;
+
+.primary-nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
 }
 
-.get-in-touch-container{
-    border:1px solid green;
-}
 
-.support-us-container{
-    border:1px solid purple;
-}
-
-footer{
-    border:1px solid yellow;
-}
-
-.who-are-we-container,
-.game-explain-container,
-.founders-container,
-.get-in-touch-container,
-.support-us-container{
-    min-height: 100vh; /* Use min-height instead of fixed height */
-}
-
-footer{
-    height:50vh;
+.primary-nav ul li a:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
 }
