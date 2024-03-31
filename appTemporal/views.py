@@ -1,15 +1,19 @@
-from django.urls import reverse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
-from django.http import HttpResponse
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import login_required
+from appTemporal.models import ExtraFields
 
 
 # Create your views here.
 
 @login_required
 def index(request):
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+        user_model = get_user_model()
+        user = user_model.objects.get(username=username)
+        login(request, user)
     return render(request, 'layouts/index.html')
 
 
@@ -29,7 +33,12 @@ def loginView(request):
                             password = request.POST.get('pass'))
         if user is not None:
             login(request, user)
-            return redirect('index')
+            if request.POST.get('remember'):
+                response = redirect('index')
+                response.set_cookie('username', user.username)
+                return response
+            else:
+                return redirect('index')
         else:
             messages.error(request, 'Incorrect username and/or password.')
             return render(request, "layouts/login.html")
@@ -45,26 +54,39 @@ def register(request): # Vista registro
         username = request.POST.get('user')
         email = request.POST.get('email')
         password = request.POST.get('pass')
+        confirm_password = request.POST.get('confirm-pass')
+        accept_privacy = request.POST.get('accept-privacy')
         
-        # Obtiene el modelo de usuario personalizado de Django
-        User = get_user_model()
+        if accept_privacy:
+            accept_privacy=0
+            
+            # Obtiene el modelo de usuario personalizado de Django
+            User = get_user_model()
+            
+            # Verifica si el username ya esta registrado
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'This username already exists. Try again.')
+                return redirect('register')
+            
+            # Verifica si el email ya esta registrado
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'This email already exists. Try again.')
+                return redirect('register')
+            
+            if confirm_password != password:
+                messages.error(request, 'Passwords do not match.')
+                return redirect('register')
+            
+            try:
+                # Intenta crear el nuevo usuario y su perfil extendido con campos adicionales
+                user = User.objects.create_user(username=username, password=password, email=email)
+                eUser = ExtraFields(user=user, privacy_policy=accept_privacy)
+                user.save()
+                eUser.save()
+            except Exception as e: # Captura cualquier excepción durante el registro
+                print(f"Error in function register (appTemporal/views.py): {e}")
         
-        # Verifica si el username ya esta registrado
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'This username already exists. Try again.')
+            # Redirecciona a la vista loginView si el registro fue exitoso
+            return redirect('login')
+        else:
             return redirect('register')
-        
-        # Verifica si el email ya esta registrado
-        if User.objects.filter(email=email).exists():
-            messages.error(request, 'This email already exists. Try again.')
-            return redirect('register')
-        
-        try:
-            # Intenta crear el nuevo usuario y su perfil extendido con campos adicionales
-            user = User.objects.create_user(username=username, password=password, email=email)
-            user.save()
-        except Exception as e: # Captura cualquier excepción durante el registro
-            print(f"Error in function registerView (appTemporal/views.py): {e}")
-        
-        # Redirecciona a la vista loginView si el registro fue exitoso
-        return redirect('login')
