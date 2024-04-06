@@ -24,7 +24,7 @@ def games(request):
 
 def loginView(request):
     if request.method == "GET":
-        return render(request, 'layouts/login.html')
+        return render(request, 'registration/login.html')
     else:
         
         # Intenta autenticar al usuario con el username y password proporcionados
@@ -41,13 +41,13 @@ def loginView(request):
                 return redirect('index')
         else:
             messages.error(request, 'Incorrect username and/or password.')
-            return render(request, "layouts/login.html")
+            return render(request, "registration/login.html")
 
 
 def register(request): # Vista registro
     
     if request.method == "GET": # Comprueba si el request es un GET
-        return render(request, 'layouts/register.html')
+        return render(request, 'registration/register.html')
     else: # Si el metodo no es GET, lo asumirá como POST
         
         # Recoge los datos enviados por el usuario a través del formulario de registro
