@@ -26,3 +26,28 @@ signupBtn.addEventListener('click', (e) => {
 		}
 	});
 });
+
+
+$(document).ready(function(){
+    // Mostrar/ocultar contraseña
+    $(".icon").mouseenter(function(){
+        var input = $(this).siblings("input");
+        input.attr("type", "text");
+    }).mouseleave(function(){
+        var input = $(this).siblings("input");
+        if (!input.hasClass("show-password")) {
+            input.attr("type", "password");
+        }
+    });
+
+    // Cambiar clase y tipo de entrada al hacer clic en el icono
+    $(".icon").click(function(){
+        $(this).toggleClass("bx-show-alt bx-hide");
+        var input = $(this).siblings("input");
+        if (input.attr("type") == "password") {
+            input.attr("type", "text").addClass("show-password");
+        } else {
+            input.attr("type", "password").removeClass("show-password");
+        }
+    });
+});

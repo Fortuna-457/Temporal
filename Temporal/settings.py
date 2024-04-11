@@ -130,4 +130,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apptemporal.education@gmail.com'
-EMAIL_HOST_PASSWORD = 'glxlkxqryqpcwemh'
+EMAIL_HOST_PASSWORD = 'uuly azwz emlu itwx'

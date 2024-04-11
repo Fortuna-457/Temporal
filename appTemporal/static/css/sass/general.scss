@@ -1,0 +1,16 @@
+$colors: (
+    primary: #6225E6,
+    purple1: #644dff,
+    purple2: #4836bb,
+    darkerPurple: #654dff63,
+    secondary: #FBC638,
+    lightYellowColor: #fff5d1,
+    register-color: pink,
+    black-color: #000000,
+    lightWhite: #ececec,
+);
+
+
+@function getColor($colorName) {
+    @return map-get($colors, $colorName);
+}
