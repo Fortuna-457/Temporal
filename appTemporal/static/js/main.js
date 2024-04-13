@@ -28,4 +28,19 @@ $(document).ready(function() {
             $img.css("transform", "translate(" + transformX + "px, " + transformY + "px)");
         });
     });
+
+
+    $('#togglePassword').click(function(){
+        var passwordField = $('#user');
+        var passwordFieldType = passwordField.attr('type');
+        if(passwordFieldType == 'password'){
+            passwordField.attr('type', 'text');
+            $(this).removeClass('bx-lock-alt').addClass('bxs-lock-alt');
+        } else {
+            passwordField.attr('type', 'password');
+            $(this).removeClass('bxs-lock-alt').addClass('bx-lock-alt');
+        }
+    });
+
+
 });

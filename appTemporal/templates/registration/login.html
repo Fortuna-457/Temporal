@@ -7,57 +7,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
        
         <title>Login</title>
-        {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
         <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
-        <link href="{% static 'css/loginRegister.css' %}" rel="stylesheet">
+        <link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
+        <link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link href="{% static 'css/particles.css' %}" rel='stylesheet'>
-
-
+        <link href="{% static 'js/login.js' %}" rel='stylesheet'>
     </head>
     <body>
     
         <div id="particle-container">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
+            <!-- Partículas -->
         </div>
 
         <div class="wrapper">
-
-          
             <form class="text-center" method="POST">
-
                 {% csrf_token %}
-
                 <div class="login_box">
                     <div class="login-header">
                         <span>LOG IN</span>
@@ -69,8 +34,9 @@
                     </div>
                     <div class="input_box">
                         <input type="password" name="pass" id="pass" class="input-field" required>
-                        <label for="user" class="label">Password</label>
+                        <label for="pass" class="label">Password</label>
                         <i class="bx bx-lock-alt icon"></i>
+                       
                     </div>
                     <div class="remember-forgot">
                         <div class="remember-me">
@@ -89,7 +55,9 @@
                     </div>
                 </div>
             </form>
-
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     </body>
 </html>
