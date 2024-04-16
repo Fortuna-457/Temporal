@@ -90,3 +90,7 @@ def register(request): # Vista registro
             return redirect('login')
         else:
             return redirect('register')
+       
+ 
+def mapsView(request):
+    return render(request, 'maps/map.html')
