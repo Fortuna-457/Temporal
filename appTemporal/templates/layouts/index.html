@@ -9,32 +9,142 @@
         <title>Temporal</title>
         {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../../static/css/style.css" rel="stylesheet">
         <link href="../../static/css/buttonStyle.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     </head>
-    <body>
+    <body class="shrink">
+
+
+
         <div class="parallax">
-            <header class="primary-header">
-                <div class="wrapper">
-                    <div class="primary-header__inner">
-                        <div class="logo">
-                            <img src="../../static/img\Logo.webp" alt="">
-                        </div>
-                        <nav class="primary-nav">
-                            <ul role="list">
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Game</a></li>
-                                <li><a href="#">Other</a></li>
-                                <li><a href="#">Other</a></li>
-                            </ul>
-                        </nav>
-                       
+
+        <nav>
+            <div class="sidebar-top">
+              <span class="shrink-btn">
+                <i class='bx bx-chevron-left'></i>
+              </span>
+              <img src="{% static 'img/logo.png' %}" class="logo" alt="">
+              <h3 class="hide">Temporal</h3>
+            </div>
+        
+            <div class="search">
+              <i class='bx bx-search'></i>
+              <input type="text" class="hide" placeholder="Quick Search ...">
+            </div>
+        
+            <div class="sidebar-links">
+              <ul>
+                <div class="active-tab"></div>
+                <li class="tooltip-element" data-tooltip="0">
+                  <a href="#" class="active" data-active="0">
+                    <div class="icon">
+                      <i class='bx bx-tachometer'></i>
+                      <i class='bx bxs-tachometer'></i>
                     </div>
+                    <span class="link hide">Dashboard</span>
+                  </a>
+                </li>
+                <li class="tooltip-element" data-tooltip="1">
+                  <a href="#" data-active="1">
+                    <div class="icon">
+                      <i class='bx bx-folder'></i>
+                      <i class='bx bxs-folder'></i>
+                    </div>
+                    <span class="link hide">Games</span>
+                  </a>
+                </li>
+                <li class="tooltip-element" data-tooltip="2">
+                  <a href="#" data-active="2">
+                    <div class="icon">
+                      <i class='bx bx-message-square-detail'></i>
+                      <i class='bx bxs-message-square-detail'></i>
+                    </div>
+                    <span class="link hide">Blog</span>
+                  </a>
+                </li>
+                <li class="tooltip-element" data-tooltip="3">
+                  <a href="#" data-active="3">
+                    <div class="icon">
+                      <i class='bx bx-bar-chart-square'></i>
+                      <i class='bx bxs-bar-chart-square'></i>
+                    </div>
+                    <span class="link hide">Other link</span>
+                  </a>
+                </li>
+                <div class="tooltip">
+                  <span class="show">Dashboard</span>
+                  <span>Other</span>
+                  <span>Blog</span>
+                  <span>Other</span>
                 </div>
-            </header>
+              </ul>
+        
+              <h4 class="hide">Shortcuts</h4>
+        
+              <ul>
+                <li class="tooltip-element" data-tooltip="0">
+                  <a href="#" data-active="4">
+                    <div class="icon">
+                      <i class='bx bx-notepad'></i>
+                      <i class='bx bxs-notepad'></i>
+                    </div>
+                    <span class="link hide">Privacy policy</span>
+                  </a>
+                </li>
+                <li class="tooltip-element" data-tooltip="1">
+                  <a href="#" data-active="5">
+                    <div class="icon">
+                      <i class='bx bx-help-circle'></i>
+                      <i class='bx bxs-help-circle'></i>
+                    </div>
+                    <span class="link hide">Contact</span>
+                  </a>
+                </li>
+                <li class="tooltip-element" data-tooltip="2">
+                  <a href="#" data-active="6">
+                    <div class="icon">
+                      <i class='bx bx-cog'></i>
+                      <i class='bx bxs-cog'></i>
+                    </div>
+                    <span class="link hide">Settings</span>
+                  </a>
+                </li>
+                <div class="tooltip">
+                  <span class="show">Privacy policy</span>
+                  <span>Contact</span>
+                  <span>Settings</span>
+                </div>
+              </ul>
+            </div>
+        
+            <div class="sidebar-footer">
+              <a href="#" class="account tooltip-element" data-tooltip="0">
+                <i class='bx bx-user'></i>
+              </a>
+              <div class="admin-user tooltip-element" data-tooltip="1">
+                <div class="admin-profile hide">
+                  <img src="{% static 'img/defaultPic.png' %}" alt="">
+                  <div class="admin-info">
+                    <h3>Sofía K</h3>
+                    <h5>Lvl 99</h5>
+                  </div>
+                </div>
+                <a href="#" class="log-out">
+                  <i class='bx bx-log-out'></i>
+                </a>
+              </div>
+              <div class="tooltip">
+                <span class="show">Sofia K</span>
+                <span>Logout</span>
+              </div>
+            </div>
+          </nav>
+
             <div class="hero">
                 <div class="wrapper">
                     <h1 class="hero__title">
