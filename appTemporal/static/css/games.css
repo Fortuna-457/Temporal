@@ -10,10 +10,18 @@ body {
 h1 {
   padding: 0;
   margin: 0;
+  font-family: "Rubik", sans-serif;
+  font-style: italic;
+  margin-bottom: 20px;
 }
 
 a {
   text-decoration: none;
+}
+
+ul, p {
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper-games {
@@ -34,12 +42,13 @@ a {
   display: flex;
 }
 .wrapper-games .container-games .part-games {
-  flex: 1;
+  flex: 4;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .wrapper-games .container-games .part-games:nth-child(2) {
+  flex: 3;
   font-family: "Rubik", sans-serif;
   color: white;
   padding: 20px;
@@ -60,7 +69,7 @@ a {
 /*******************************/
 .card {
   width: 100%;
-  height: 500px;
+  height: 600px;
   transition: all 0.2s;
   position: relative;
   cursor: pointer;
@@ -72,7 +81,7 @@ a {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
   border-radius: 8px;
-  padding: 20px;
+  padding: 30px;
   box-sizing: border-box;
   color: white;
   font-family: "Montserrat", sans-serif;
@@ -111,6 +120,29 @@ a {
   to {
     transform: translateY(10px);
   }
+}
+
+.photo-games-container {
+  width: 100%;
+  min-height: 120px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.photo-games-container div {
+  border-radius: 10px;
+  background-image: url("../img/creative.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+.photo-games-container .photo-games2 {
+  background-image: url("../img/trivial.jpeg");
+}
+
+p {
+  margin: 20px 0;
 }
 
 /*******************************/
