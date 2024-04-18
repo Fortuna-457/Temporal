@@ -13,6 +13,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../../static/css/style.css" rel="stylesheet">
+        <link href="{% static 'css/sidebar.css' %}" rel='stylesheet'>
         <link href="../../static/css/buttonStyle.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -23,7 +24,7 @@
 
         <div class="parallax">
 
-        <nav>
+        <nav class="navbar">
             <div class="sidebar-top">
               <span class="shrink-btn">
                 <i class='bx bx-chevron-left'></i>
@@ -76,12 +77,6 @@
                     <span class="link hide">Other link</span>
                   </a>
                 </li>
-                <div class="tooltip">
-                  <span class="show">Dashboard</span>
-                  <span>Other</span>
-                  <span>Blog</span>
-                  <span>Other</span>
-                </div>
               </ul>
         
               <h4 class="hide">Shortcuts</h4>
@@ -114,11 +109,6 @@
                     <span class="link hide">Settings</span>
                   </a>
                 </li>
-                <div class="tooltip">
-                  <span class="show">Privacy policy</span>
-                  <span>Contact</span>
-                  <span>Settings</span>
-                </div>
               </ul>
             </div>
         
