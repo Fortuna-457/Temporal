@@ -17,6 +17,7 @@ a{
 }
 
 nav {
+    font-family: "Rubik", sans-serif;
     z-index: 99999;
     position: fixed;
     top: 0;
@@ -72,6 +73,7 @@ nav {
   
     h3 {
       padding-left: 0.5rem;
+      text-transform: uppercase;
       font-weight: 600;
       font-size: 1.15rem;
     }
@@ -136,6 +138,7 @@ nav {
   }
   
   .sidebar-links {
+    text-transform: uppercase;
     ul {
       position: relative;
     }

@@ -47,7 +47,6 @@ a{
 .parallax__bg {
     z-index: 1;
     min-height: 100%;
-    width: 100%;
     object-fit: cover;
 }
 
@@ -87,6 +86,12 @@ body {
     font-weight: 700; 
     text-transform: uppercase;
     grid-template-columns: 16rem 1fr; 
+
+    	  
+    background-image:url('../img/bg.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
 }
 
 img {
@@ -98,10 +103,11 @@ img {
     height:100vh;
 }
 
-.wrapper {
+.wrapper-body {
     height:auto;
     width: min(65rem, 100% - 4rem);
     margin-inline: auto;
+    margin-top: 62px;
 }
 
 
@@ -150,6 +156,7 @@ img {
     font-style: italic;
     font-weight: 900;
     position: relative;
+    color: white;
 
     > span {
         font-style: normal;

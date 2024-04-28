@@ -1,0 +1,290 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+*:focus,
+*:active {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wrapper-map {
+  position: relative;
+  height: 100vh;
+  flex-direction: column-reverse;
+  background-image: url("../img/google-maps-22.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-color: #efceff;
+}
+
+.map {
+  flex: 1;
+  z-index: 1;
+  width: 100%;
+}
+
+@-webkit-keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+    transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+    transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+    transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+    transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+    transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+    transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+    transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+    transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+.floating-container {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  bottom: 0;
+  left: 0;
+  margin: 35px 25px;
+}
+.floating-container:hover {
+  height: 300px;
+}
+.floating-container:hover .floating-button {
+  box-shadow: #6225E6;
+  transform: translatey(5px);
+  transition: all 0.3s;
+}
+.floating-container:hover .element-container .float-element:nth-child(1) {
+  animation: come-in 0.4s forwards 0.2s;
+}
+.floating-container:hover .element-container .float-element:nth-child(2) {
+  animation: come-in 0.4s forwards 0.4s;
+}
+.floating-container:hover .element-container .float-element:nth-child(3) {
+  animation: come-in 0.4s forwards 0.6s;
+}
+.floating-container .floating-button {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: #6225E6;
+  bottom: 0;
+  border-radius: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: white;
+  line-height: 65px;
+  text-align: center;
+  font-size: 40px;
+  z-index: 100;
+  box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.floating-container .float-element {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 15px auto;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  line-height: 50px;
+  z-index: 0;
+  opacity: 0;
+  transform: translateY(100px);
+}
+.floating-container .float-element .bx {
+  font-size: 20px;
+  line-height: inherit !important;
+}
+.floating-container .float-element:nth-child(1) {
+  background: #644dff;
+  box-shadow: 0 20px 20px -10px rgba(224, 66, 245, 0.5);
+}
+.floating-container .float-element:nth-child(2) {
+  background: #4836bb;
+  box-shadow: 0 20px 20px -10px rgba(181, 77, 202, 0.5);
+}
+.floating-container .float-element:nth-child(3) {
+  background: #644dff;
+  box-shadow: 0 20px 20px -10px rgba(140, 0, 255, 0.5);
+}
+
+.bubble {
+  --r: 25px; /* the radius */
+  --t: 30px; /* the size of the tail */
+  padding: calc(2 * var(--r) / 3);
+  -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, rgba(0, 0, 0, 0) 98%, #000 102%) var(--_d) 100%/calc(100% - var(--r)) var(--t) no-repeat, conic-gradient(at var(--r) var(--r), #000 75%, rgba(0, 0, 0, 0) 0) calc(var(--r) / -2) calc(var(--r) / -2) padding-box, radial-gradient(50% 50%, #000 98%, rgba(0, 0, 0, 0) 101%) 0 0/var(--r) var(--r) space padding-box;
+  -webkit-mask-composite: source-over; /* Added for compatibility */
+  mask-composite: source-over; /* Added for compatibility */
+  mask: radial-gradient(var(--t) at var(--_d) 0, rgba(0, 0, 0, 0) 98%, #000 102%) var(--_d) 100%/calc(100% - var(--r)) var(--t) no-repeat, conic-gradient(at var(--r) var(--r), #000 75%, rgba(0, 0, 0, 0) 0) calc(var(--r) / -2) calc(var(--r) / -2) padding-box, radial-gradient(50% 50%, #000 98%, rgba(0, 0, 0, 0) 101%) 0 0/var(--r) var(--r) space padding-box;
+  background: linear-gradient(90deg, hsl(278, 97%, 31%) 0%, hsl(280, 79%, 13%) 100%) border-box;
+  color: #fff;
+}
+
+.left {
+  --_d: 0%;
+  border-left: var(--t) solid rgba(0, 0, 0, 0);
+  margin-right: var(--t);
+  place-self: start;
+  font-family: "Montserrat", serif;
+}
+.left p {
+  font-size: clamp(1em, -0.2rem + 1.333vw, 1rem);
+}
+
+.imgBubble {
+  margin-top: auto;
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 150px;
+  max-height: 150px;
+  background-image: url("../img/mannyCircle.webp");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.599));
+}
+
+.bubbleComic {
+  margin-bottom: 35px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.item-map {
+  flex: 1;
+  position: relative;
+  margin-top: auto;
+}
+
+.container-map {
+  margin: 0px 88px 0px 180px;
+  position: absolute;
+  bottom: 0;
+  flex: 1;
+  display: flex;
+  overflow: visible;
+}
+
+.map-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.map-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  width: 64px;
+  height: 64px;
+  text-decoration: none;
+  border-radius: 100%;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
+}
+.map-button::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  transition: 0.3s;
+}
+.map-button:focus, .map-button:hover {
+  color: #fff;
+}
+.map-button:focus::after, .map-button:hover::after {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin-left: calc(-50% - 1px);
+}
+.map-button i,
+.map-button svg {
+  position: relative;
+  z-index: 1;
+  transition: 0.3s;
+}
+.map-button i {
+  font-size: 25.6px;
+}
+.map-button svg {
+  height: 40%;
+  width: 40%;
+}
+.map-button--river {
+  color: #3b5999;
+}
+.map-button--river::after {
+  background: #3b5999;
+}
+.map-button--countryside {
+  color: #00b551;
+}
+.map-button--countryside::after {
+  background: #00b551;
+}
+.map-button--mountains {
+  color: #a5640f;
+}
+.map-button--mountains::after {
+  background: #a5640f;
+}
+.map-button--cities {
+  color: #6e5494;
+}
+.map-button--cities::after {
+  background: #6e5494;
+}
+.map-button--world {
+  color: #212121;
+}
+.map-button--world::after {
+  background: #212121;
+}

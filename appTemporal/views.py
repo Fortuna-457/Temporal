@@ -8,6 +8,10 @@ from appTemporal.models import ExtraFields
 # Create your views here.
 
 @login_required
+def creativeMap(request):
+    return render(request, 'layouts/maps/creativeMap.html')
+
+@login_required
 def index(request):
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
