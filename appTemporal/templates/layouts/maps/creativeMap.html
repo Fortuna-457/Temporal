@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../../static/img/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Temporal</title>
+    {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'css/sidebar.css' %}" rel='stylesheet'>
+    <link href="{% static 'css/mapCreative.css' %}" rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+</head>
+<body class="shrink">
+
+  <div class="wrapper-map">
+    <div class="map">
+
+      <nav class="navbar">
+          <div class="sidebar-top">
+            <span class="shrink-btn">
+              <i class='bx bx-chevron-left'></i>
+            </span>
+            <img src="{% static 'img/logo.png' %}" class="logo" alt="">
+            <h3 class="hide">Temporal</h3>
+          </div>
+      
+          <div class="search">
+            <i class='bx bx-search'></i>
+            <input type="text" class="hide" placeholder="Quick Search ...">
+          </div>
+      
+          <div class="sidebar-links">
+            <ul>
+              <div class="active-tab"></div>
+              <li class="tooltip-element" data-tooltip="0">
+                <a href="#" class="active" data-active="0">
+                  <div class="icon">
+                    <i class='bx bx-tachometer'></i>
+                    <i class='bx bxs-tachometer'></i>
+                  </div>
+                  <span class="link hide">Dashboard</span>
+                </a>
+              </li>
+              <li class="tooltip-element" data-tooltip="1">
+                <a href="#" data-active="1">
+                  <div class="icon">
+                    <i class='bx bx-folder'></i>
+                    <i class='bx bxs-folder'></i>
+                  </div>
+                  <span class="link hide">Games</span>
+                </a>
+              </li>
+              <li class="tooltip-element" data-tooltip="2">
+                <a href="#" data-active="2">
+                  <div class="icon">
+                    <i class='bx bx-message-square-detail'></i>
+                    <i class='bx bxs-message-square-detail'></i>
+                  </div>
+                  <span class="link hide">Blog</span>
+                </a>
+              </li>
+              
+            </ul>
+
+      
+            <ul>
+              
+              <li class="tooltip-element" data-tooltip="3">
+                <a href="#" data-active="3">
+                  <div class="icon">
+                    <i class='bx bx-help-circle'></i>
+                    <i class='bx bxs-help-circle'></i>
+                  </div>
+                  <span class="link hide">Contact</span>
+                </a>
+              </li>
+              <li class="tooltip-element" data-tooltip="4">
+                <a href="#" data-active="4">
+                  <div class="icon">
+                    <i class='bx bx-cog'></i>
+                    <i class='bx bxs-cog'></i>
+                  </div>
+                  <span class="link hide">Settings</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+      
+          <div class="sidebar-footer">
+            <a href="#" class="account tooltip-element" data-tooltip="0">
+              <i class='bx bx-user'></i>
+            </a>
+            <div class="admin-user tooltip-element" data-tooltip="1">
+              <div class="admin-profile hide">
+                <img src="{% static 'img/defaultPic.png' %}" alt="">
+                <div class="admin-info">
+                  <h3>Sofía K</h3>
+                  <h5>Lvl 99</h5>
+                </div>
+              </div>
+              <a href="#" class="log-out">
+                <i class='bx bx-log-out'></i>
+              </a>
+            </div>
+            <div class="tooltip">
+              <span class="show">Sofia K</span>
+              <span>Logout</span>
+            </div>
+          </div>
+      </nav>
+    </div>
+
+      <div class="floating-container">
+        <div class="floating-button">≡</div>
+        <div class="element-container">
+          <a href="google.com">
+            <span class="float-element tooltip-left">
+              <i class='bx bxs-shopping-bag'></i>
+            </span>
+          </a>
+          <span class="float-element">
+            <i class='bx bxs-cog'></i>
+          </span>
+          <span class="float-element">
+            <i class='bx bxs-map-alt'></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="container-map">
+        <div class="item-map">
+          <div class="bubbleComic">
+            <div class="imgBubble"></div>
+            <div class="bubble left">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-map">
+          <div class="map-buttons">
+              <a href="#" class="map-button map-button--river" aria-label="River">
+                <i class='bx bx-water'></i>
+              </a>
+              <a href="#" class="map-button map-button--countryside" aria-label="Countryside">
+                <i class='bx bxs-tree' ></i>
+              </a>
+              <a href="#" class="map-button map-button--mountains" aria-label="Mountains">
+                <i class='bx bxs-landscape'></i>
+              </a>
+              <a href="#" class="map-button map-button--cities" aria-label="Cities">
+                <i class='bx bxs-buildings'></i>
+              </a>
+              <a href="#" class="map-button map-button--world" aria-label="World">
+                <i class='bx bx-world' ></i>
+              </a>
+          </div>
+      </div>
+      
+
+  </div>
+
+  <script src="../../static/js/sidebar.js" defer></script>
+</body>
+</html>
