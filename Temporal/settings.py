@@ -41,6 +41,7 @@ BASE_APPS = [
 
 OWN_APPS = [
     'appTemporal.apps.ApptemporalConfig',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + OWN_APPS
@@ -53,6 +54,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+# Permitir solo solicitudes desde un origen específico
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
 ]
 
 ROOT_URLCONF = 'Temporal.urls'

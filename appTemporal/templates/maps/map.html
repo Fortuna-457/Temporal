@@ -3,11 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Aquí se incluye el token CSRF -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Map</title>
+    <!-- CSS Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- CSS Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Script JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+    <p id="respuesta"></p>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8">
@@ -15,40 +22,69 @@
             </div>
         </div>
     </div>
+    <!-- Script Leaflet -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function obtenerNombreLugar(lat, lng) {
-            fetch(`https://overpass-api.de/api/interpreter?data=[out:json];(node["natural"](around:0010,${lat},${lng});way["natural"](around:0010,${lat},${lng});relation["natural"](around:1000,${lat},${lng}););out;`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.elements && data.elements.length > 0) {
-                        const name = data.elements[0].tags.name;
-                        alert("Lugar: " + name);
-                    } else {
-                        alert("No se encontró información sobre el lugar.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener información del lugar:', error);
-                });
-        }
+            $.ajax({
+                url: `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+                method: 'GET',
+                dataType: 'json'
+            })
+            .done(function(data) {
+                if (data.display_name) {
+                    alert("Lugar: " + data.display_name);
     
-        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-		var map = L.map('mapid', {
-				center: [38.085, -0.946],
-                minZoom: 2,
-				zoom: 3,
-                maxZoom: 18,
-			    layers: osm
+                    // Obtiene el valor del token CSRF de la etiqueta meta
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    
+                    const datos = {
+                        lugar: data.display_name,
+                        coordenadas: lat + ", " + lng
+                    };
+    
+                    // Convertir el objeto de datos a JSON
+                    const jsonData = JSON.stringify(datos);
+    
+                    $.ajax({
+                        url: '/maps/',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        headers: {
+                            'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
+                        },
+                        data: jsonData
+                    })
+                    .done(function(response) {
+                        $("#respuesta").text(response.lugar);
+                    })
+                    .fail(function(error) {
+                        console.error('Error:', error);
+                    });
+    
+                } else {
+                    alert("No se encontró información sobre el lugar.");
+                }
+            })
+            .fail(function(error) {
+                console.error('Error al obtener información del lugar:', error);
             });
-    
+        }
+        
+        var map = L.map('mapid').setView([51.505, -0.09], 13);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+        
         function onMapClick(e) {
             alert("Coordenadas: " + e.latlng.lat + ", " + e.latlng.lng);
             obtenerNombreLugar(e.latlng.lat, e.latlng.lng);
         }
-    
-        map.on('click', onMapClick);
+        
+        map.on('click', onMapClick);        
     </script>
     
 </body>

@@ -3,7 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from appTemporal.models import ExtraFields
+import json
+from django.http import JsonResponse
+import openai
 
+# Configura tu API key de OpenAI
+openai.api_key = 'sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo'
 
 # Create your views here.
 
@@ -91,6 +96,32 @@ def register(request): # Vista registro
         else:
             return redirect('register')
        
- 
+@login_required
 def mapsView(request):
-    return render(request, 'maps/map.html')
+    if request.method == 'POST':
+        
+        # Leer y decodificar los datos JSON recibidos
+        datos_json = json.loads(request.body)
+        
+        lugar = datos_json['lugar']
+        coordenadas = datos_json['coordenadas']
+        
+        prompt = 'Hola, ¿cómo estás?'
+        
+        # Realizar la solicitud a la API de OpenAI
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=1024,
+            n=1,
+            stop=None,
+            temperature=0.5,
+        )
+        
+        # Obtener el texto de respuesta
+        response_text = response['choices'][0]['text']
+        
+        # Devolver solo la parte 'lugar' de los datos
+        return JsonResponse({'lugar': response_text})
+    else:
+        return render(request, 'maps/map.html')
