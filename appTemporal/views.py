@@ -1,14 +1,15 @@
+from datetime import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
-from appTemporal.models import ExtraFields
+from appTemporal.models import ExtraFields, Place
 import json
 from django.http import JsonResponse
 import openai
 
 # Configura tu API key de OpenAI
-openai.api_key = 'sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo'
+openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
 
 # Create your views here.
 
@@ -110,22 +111,35 @@ def mapsView(request):
         lugar = datos_json['lugar']
         coordenadas = datos_json['coordenadas']
         
-        prompt = 'Hola, ¿cómo estás?'
+        try:
+            # Intentar obtener el objeto Place basado en las coordenadas
+            place = Place.objects.get(coordinates=coordenadas)
+            response_text = place.answer_text
         
-        # Realizar la solicitud a la API de OpenAI
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=1024,
-            n=1,
-            stop=None,
-            temperature=0.5,
-        )
+        except Place.DoesNotExist:
+            try:
+                # Realizar la solicitud a la API de OpenAI
+                response = openai.completions.create(
+                    model='gpt-3.5-turbo',
+                    prompt = 'Historia de:' + lugar +', en un máximo de 100 palabras.',
+                    temperature=0,
+                    max_tokens=60,
+                    top_p=1,
+                    frequency_penalty=0.5,
+                    presence_penalty=0
+                )
+                
+                # Obtener el texto de respuesta
+                response_text = response['choices'][0]['text']
+                
+                # Crear un nuevo objeto Place con las coordenadas y la respuesta
+                place = Place(coordinates=coordenadas, answer_text=response_text, pub_date=timezone.now())
+                place.save()
+                
+            except Exception as e: # Captura cualquier excepción durante el registro:
+                print(f"Error in function mapsView (appTemporal/views.py): {e}")
         
-        # Obtener el texto de respuesta
-        response_text = response['choices'][0]['text']
-        
-        # Devolver solo la parte 'lugar' de los datos
+        # Devolver el texto de respuesta en formato JSON
         return JsonResponse({'lugar': response_text})
     else:
         return render(request, 'maps/map.html')

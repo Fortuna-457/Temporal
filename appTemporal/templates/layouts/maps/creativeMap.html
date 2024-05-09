@@ -169,5 +169,69 @@
   </div>
 
   <script src="../../static/js/sidebar.js" defer></script>
+  <!-- Script Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Script Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+      function obtenerNombreLugar(lat, lng) {
+          $.ajax({
+              url: `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+              method: 'GET',
+              dataType: 'json'
+          })
+          .done(function(data) {
+              if (data.display_name) {
+                  alert("Lugar: " + data.display_name);
+  
+                  // Obtiene el valor del token CSRF de la etiqueta meta
+                  const csrfToken = $('meta[name="csrf-token"]').attr('content');
+  
+                  const datos = {
+                      lugar: data.display_name,
+                      coordenadas: lat + ", " + lng
+                  };
+  
+                  // Convertir el objeto de datos a JSON
+                  const jsonData = JSON.stringify(datos);
+  
+                  $.ajax({
+                      url: '/maps/',
+                      method: 'POST',
+                      contentType: 'application/json',
+                      headers: {
+                          'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
+                      },
+                      data: jsonData
+                  })
+                  .done(function(response) {
+                      $("#respuesta").text(response.lugar);
+                  })
+                  .fail(function(error) {
+                      console.error('Error:', error);
+                  });
+  
+              } else {
+                  alert("No se encontró información sobre el lugar.");
+              }
+          })
+          .fail(function(error) {
+              console.error('Error al obtener información del lugar:', error);
+          });
+      }
+      
+      var map = L.map('mapid').setView([51.505, -0.09], 13);
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+      }).addTo(map);
+      
+      function onMapClick(e) {
+          alert("Coordenadas: " + e.latlng.lat + ", " + e.latlng.lng);
+          obtenerNombreLugar(e.latlng.lat, e.latlng.lng);
+      }
+      
+      map.on('click', onMapClick);        
+  </script>
 </body>
 </html>

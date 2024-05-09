@@ -8,7 +8,7 @@ urlpatterns = [
     # Url de la página de modos de juego
     path('games/', views.games, name='games'),
      # Url del modo creative
-    path('maps/', views.creativeMap, name='creativeMap'),
+    # path('maps/', views.creativeMap, name='creativeMap'),
     # Url de la página de login
     path('login/', views.loginView, name='login'),
     # Url de la página de registro
