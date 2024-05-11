@@ -1,0 +1,204 @@
+@import './general.scss';
+
+#mapid {
+  height: 100vh;
+}
+
+
+.button-test {
+  margin-top: 300px;
+  z-index: 9999;
+}
+
+.offcanvas-body {
+  z-index: 99999999999;
+  position: relative;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: rgb(49 0 93) !important;
+  color: white;
+}
+
+
+.off-canvas-options{
+  width:100%;
+  display:flex;
+  .item-off-canvas-buttons{
+    .button-off-canvas{
+      font-size: 16px;
+      padding: 12px;
+      background-color: getColor("purple1");
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      &:first-child{
+        top:0;
+        position: sticky
+      }
+      &:nth-child(2){
+        top:50px;
+        position: sticky
+      }
+      &:nth-child(3){
+        top:100px;
+        position: sticky
+      }
+      &:nth-child(4){
+        top:150px;
+        position: sticky
+      }
+      &:nth-child(5){
+        top:200px;
+        position: sticky
+      }
+      &:nth-child(6){
+        top:250px;
+        position: sticky
+      }
+    }
+  }
+  
+  .item-off-canvas-answer{
+    flex:7;
+    padding:0px 15px 15px 15px;
+  }
+}
+
+
+body:not(.modal-open) {
+  padding-right: 0px !important;
+}
+
+.item-map {
+  flex: 1;
+  position: absolute;
+  bottom: 10px;
+  z-index: 9999;
+  right:50px;
+}
+
+.container-map {
+  margin: 0px 88px 0px 180px;
+  position: absolute;
+  bottom: 0;
+  flex: 1;
+  display: flex;
+  overflow: visible;
+}
+
+.map-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.map-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  width: 64px;
+  height: 64px;
+  text-decoration: none;
+  border-radius: 100%;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
+}
+.map-button::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  transition: 0.3s;
+}
+.map-button:focus, .map-button:hover {
+  color: #fff;
+}
+.map-button:focus::after, .map-button:hover::after {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin-left: calc(-50% - 1px);
+}
+.map-button i,
+.map-button svg {
+  position: relative;
+  z-index: 1;
+  transition: 0.3s;
+}
+.map-button i {
+  font-size: 25.6px;
+}
+.map-button svg {
+  height: 40%;
+  width: 40%;
+}
+.map-button--river {
+  color: #3b5999;
+}
+.map-button--river::after {
+  background: #3b5999;
+}
+.map-button--countryside {
+  color: #00b551;
+}
+.map-button--countryside::after {
+  background: #00b551;
+}
+.map-button--mountains {
+  color: #a5640f;
+}
+.map-button--mountains::after {
+  background: #a5640f;
+}
+.map-button--cities {
+  color: #6e5494;
+}
+.map-button--cities::after {
+  background: #6e5494;
+}
+.map-button--world {
+  color: #212121;
+}
+.map-button--world::after {
+  background: #212121;
+}
+
+.offcanvas-header {
+  margin-top: 62px;
+  background-color: getColor("darkerPurple");
+}
+
+.offcanvas{
+  width: 450px !important;
+}
+
+#low, #medium, #high, #voiceButtons button{
+  padding:5px 10px;
+  background-color:  rgb(98, 0, 184) !important;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  margin-right:5px;
+  border: none;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
+}
+
+#high{
+  margin-right:0px;
+}
+
+#voiceButtons button{
+  margin-bottom: 8px;
+  &:last-child{
+    margin-bottom: 0px;
+  }
+}

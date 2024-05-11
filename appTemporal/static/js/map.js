@@ -83,3 +83,24 @@ map.on('click', function(e) {
         console.error('Error al obtener los elementos:', error);
     });
 });
+
+let isDragging = false;
+
+let mapElement = document.getElementById('mapid');
+mapElement.addEventListener('mousedown', function() {
+    isDragging = false;
+});
+
+mapElement.addEventListener('mousemove', function() {
+    isDragging = true;
+});
+
+mapElement.addEventListener('mouseup', function(event) {
+    let wasDragging = isDragging;
+    isDragging = false;
+    if (!wasDragging) {
+        let offcanvasElement = document.getElementById('offcanvasExample');
+        let offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        offcanvas.show();
+    }
+});
