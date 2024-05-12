@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{% block title %}{% endblock title %}</title>
+		<!--
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		-->
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+		<link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<link href="{% static 'css/particles.css' %}" rel='stylesheet'>
+		<link href="{% static 'js/login.js' %}" rel='stylesheet'>
+		{% block extra_head %}{% endblock extra_head %}
+	</head>
+	<body>
+
+		<div id="particle-container">
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+		</div>
+
+		{% block content %}{% endblock content %}
+
+		{% block extra_footer %}{% endblock extra_footer %}
+
+	</body>
+</html>

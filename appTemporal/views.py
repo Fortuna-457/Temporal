@@ -13,11 +13,6 @@ openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
 
 # Create your views here.
 
-@login_required
-def creativeMap(request):
-    return render(request, 'layouts/maps/creativeMap.html')
-
-@login_required
 def index(request):
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
@@ -31,6 +26,10 @@ def index(request):
 def games(request):
     return render(request, 'layouts/games.html')
 
+@login_required
+def logoutView(request):
+    logout(request)
+    return redirect('/')
 
 def loginView(request):
     if request.method == "GET":

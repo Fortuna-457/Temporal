@@ -1,126 +1,85 @@
+{% extends '../Base/base-registration.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-        <title>Registration</title>
-        {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
-        <link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <link href="{% static 'css/particles.css' %}" rel='stylesheet'>
-        <link href="{% static 'js/login.js' %}" rel='stylesheet'>
 
-    </head>
-    <body>
-    
-        <div id="particle-container">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-        </div>
+{% block title %}
+	Registration
+{% endblock title %}
 
-        <div class="wrapper wrapper-register">
-            
-            <div class="item-register">
-               <div class="lunaBubble">
-                    <div class="imgLuna"></div>
+{% block content %}
+	<div class="wrapper wrapper-register">
 
-                    <div class="bubble left">Join us to be able to use our blog and play our game lorem ipsum psum dolor sit amet gaper backside single track</div>
+		<div class="item-register">
+			<div class="lunaBubble">
+				<div class="imgLuna"></div>
+				<div class="bubble left">Join us to be able to use our blog and play our game lorem ipsum psum dolor sit amet gaper backside single track</div>
+			</div> 
+		</div>
 
-               </div> 
-            </div>
+		<div class="item-register">
+			<form class="text-center" method="POST">
+			{% csrf_token %}
 
-            <div class="item-register">
-                <form class="text-center" method="POST">
+				<div class="register_box">
+					<div class="register-header">
+						<span>JOIN!</span>
+					</div>
+				
+					<div class="input_box">
+						<input type="text" name="user" id="user" class="input-field" required>
+						<label for="user" class="label">Username</label>
+						<i class="bx bx-user icon"></i>
+					</div>
+		
+					<div class="input_box">
+						<input type="email" name="email" id="email" class="input-field" required>
+						<label for="email" class="label">Email</label>
+						<i class='bx bx-spreadsheet icon'></i>
+					</div>
+			
+					<div class="input_box">
+						<input type="password" name="pass" id="pass" class="input-field" required>
+						<label for="pass" class="label">Password</label>
+						<i class="bx bx-lock-alt icon"></i>
+					</div>
+		
+					<div class="input_box">
+						<input type="password" name="confirm-pass" id="confirm-pass" class="input-field" required>
+						<label for="confirm-pass" class="label">Repeat the password</label>
+						<i class='bx bxs-lock-alt icon'></i>
+					</div>
+		
+					<div class="input_box">
+						<input type="submit" class="input-submit" value="register"></input>
+					</div>
 
-                    {% csrf_token %}
+					<div class="privacy-policy">
+						<div class="accept-privacy">
+							<input type="checkbox" id="accept-privacy" name="accept-privacy"></input>
+							{% comment %} Descomentar cuando se tenga la política de privacidad {% endcomment %}
+							{% comment %} <label for="accept-privacy">I accept the <a href="{% url 'privacy_policy' %}">Privacy policy</a></label> {% endcomment %}
+						</div>
+					</div>
 
-                    <div class="register_box">
-                        <div class="register-header">
-                            <span>JOIN!</span>
-                        </div>
-                        <div class="input_box">
-                            <input type="text" name="user" id="user" class="input-field" required>
-                            <label for="user" class="label">Username</label>
-                            <i class="bx bx-user icon"></i>
-                        </div>
-                        <div class="input_box">
-                            <input type="email" name="email" id="email" class="input-field" required>
-                            <label for="email" class="label">Email</label>
-                            <i class='bx bx-spreadsheet icon'></i>
-                        </div>
-                        <div class="input_box">
-                            <input type="password" name="pass" id="pass" class="input-field" required>
-                            <label for="pass" class="label">Password</label>
-                            <i class="bx bx-lock-alt icon"></i>
-                        </div>
-                        <div class="input_box">
-                            <input type="password" name="confirm-pass" id="confirm-pass" class="input-field" required>
-                            <label for="confirm-pass" class="label">Repeat the password</label>
-                            <i class='bx bxs-lock-alt icon'></i>
-                        </div>
-                        <div class="input_box">
-                            <input type="submit" class="input-submit" value="register"></input>
-                        </div>
-        
-                        <div class="privacy-policy">
-                            <div class="accept-privacy">
-                                <input type="checkbox" id="accept-privacy" name="accept-privacy"></input>
-                                {% comment %} Descomentar cuando se tenga la política de privacidad {% endcomment %}
-                                {% comment %} <label for="accept-privacy">I accept the <a href="{% url 'privacy_policy' %}">Privacy policy</a></label> {% endcomment %}
-                            </div>
-                        </div>
-                        
-                        <div class="login">
-                            <span>Already registered? <a href="{% url 'login' %}">Login</a></span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+					<div class="login">
+						<span>Already registered? <a href="{% url 'login' %}">Login</a></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock content %}
 
-        <!-- Mensajes de Alerta -->
-        <div class="mensaje d-flex" style="justify-content: center;">
-            {% if messages %}
-              {% for message in messages %}
-                <div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" style="padding-top: 0; padding-right: 20px; padding-bottom: 0; padding-left: 20px; width: 300px;" role="alert">
-                  <strong>Error:</strong> {{ message }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          </div>
-        
-    </body>
-</html>
+{% block extra_footer %}
+
+	<!-- Mensajes de Alerta -->
+	<div class="mensaje d-flex" style="justify-content: center;">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" style="padding-top: 0; padding-right: 20px; padding-bottom: 0; padding-left: 20px; width: 300px;" role="alert">
+					<strong>Error:</strong> {{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+
+{% endblock extra_footer %}

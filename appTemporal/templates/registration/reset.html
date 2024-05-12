@@ -1,89 +1,42 @@
+{% extends '../Base/base-registration.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-        <title>Login</title>
-        {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
-        <link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <link href="{% static 'css/particles.css' %}" rel='stylesheet'>
-        <link href="{% static 'js/login.js' %}" rel='stylesheet'>
 
+{% block title %}
+    Login
+{% endblock title %}
 
-    </head>
-    <body>
-    
-        <div id="particle-container">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-        </div>
-
-        <div class="wrapper">
-
-          
+{% block content %}
+    <div class="wrapper">
+        {% if validlink %}
             <form class="text-center" method="POST">
-
-                {% csrf_token %}
-
+            {% csrf_token %}
                 <div class="login_box">
+                
                     <div class="login-header">
                         <span>NEW</span>
                     </div>
+                    
                     <span>Set your new password. Don't forget it this time!</span>
 
                     <div class="input_box">
-                        <input type="password" name="user" id="user" class="input-field" required>
-                        <label for="user" class="label">New password</label>
+                        <input type="password" name="new_password1" id="new_password1" class="input-field" required>
+                        <label for="new_password1" class="label">New password</label>
                         <i class="bx bx-lock-alt icon"></i>
-                    </div>
-                    
-                    <div class="input_box">
-                        <input type="password" name="pass" id="pass" class="input-field" required>
-                        <label for="user" class="label">Repeat new password</label>
-                        <i class="bx bx-lock-alt icon"></i>
-                    </div>
-                    
-                    <div class="input_box">
-                        <input type="submit" class="input-submit" value="Reset password"></input>
                     </div>
 
+                    <div class="input_box">
+                        <input type="password" name="new_password2" id="new_password2" class="input-field" required>
+                        <label for="new_password2" class="label">Repeat new password</label>
+                        <i class="bx bx-lock-alt icon"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="submit" class="input-submit" value="Reset password">
+                    </div>
                 </div>
             </form>
-
-        </div>
-    </body>
-</html>
+        {% else %}
+            <p>The validation link is not valid</p>
+        {% endif %}
+    </div>
+{% endblock content %}
