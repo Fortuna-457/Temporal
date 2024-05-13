@@ -55,6 +55,17 @@
 
 		{% block content %}{% endblock content %}
 
+		<!-- Mensajes de Alerta -->
+		<div class="mensaje d-flex" style="justify-content: center;">
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" style="padding-top: 0; padding-right: 20px; padding-bottom: 0; padding-left: 20px; width: 300px;" role="alert">
+						<strong>Error:</strong> {{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+
 		{% block extra_footer %}{% endblock extra_footer %}
 
 	</body>
