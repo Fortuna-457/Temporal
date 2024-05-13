@@ -6,19 +6,20 @@
   box-sizing: border-box;
 }
 
-#mapid {
+#mapid, .offcanvas-body {
   height: 100vh;
+}
+
+.button-test, .offcanvas-body {
+  z-index: 9999;
 }
 
 .button-test {
   margin-top: 300px;
-  z-index: 9999;
 }
 
 .offcanvas-body {
-  z-index: 99999999999;
   position: relative;
-  height: 100vh;
   overflow-y: auto;
   background-color: rgb(49, 0, 93) !important;
   color: white;
@@ -28,6 +29,13 @@
   width: 100%;
   display: flex;
 }
+.off-canvas-options .item-off-canvas-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 77vh;
+  position: fixed;
+}
 .off-canvas-options .item-off-canvas-buttons .button-off-canvas {
   font-size: 16px;
   padding: 12px;
@@ -36,34 +44,41 @@
   align-items: center;
   justify-content: center;
   border-radius: 7px;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:first-child {
-  top: 0;
-  position: sticky;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:nth-child(2) {
-  top: 50px;
-  position: sticky;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:nth-child(3) {
-  top: 100px;
-  position: sticky;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:nth-child(4) {
-  top: 150px;
-  position: sticky;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:nth-child(5) {
-  top: 200px;
-  position: sticky;
-}
-.off-canvas-options .item-off-canvas-buttons .button-off-canvas:nth-child(6) {
-  top: 250px;
   position: sticky;
 }
 .off-canvas-options .item-off-canvas-answer {
   flex: 7;
   padding: 0px 15px 15px 15px;
+  margin-left: 50px;
+}
+
+#low, #medium, #high, #voiceButtons button {
+  position: relative;
+  padding: 8px 10px;
+  background-color: rgb(98, 0, 184) !important;
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 1px 0px 15px 1px;
+}
+
+#low, #medium, #high {
+  width: 150px;
+  margin-bottom: 8px;
+}
+
+#high {
+  margin-bottom: 0px;
+}
+
+#voiceButtons button {
+  width: 250px;
+  margin-bottom: 8px;
+}
+#voiceButtons button:last-child {
+  margin-bottom: 0px;
 }
 
 body:not(.modal-open) {
@@ -109,7 +124,14 @@ body:not(.modal-open) {
   text-align: center;
   box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
 }
-
+.map-button:focus, .map-button:hover {
+  color: #fff;
+}
+.map-button:focus::after, .map-button:hover::after {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin-left: calc(-50% - 1px);
+}
 .map-button::after {
   content: "";
   position: absolute;
@@ -121,28 +143,14 @@ body:not(.modal-open) {
   border-radius: 100%;
   transition: 0.3s;
 }
-
-.map-button:focus, .map-button:hover {
-  color: #fff;
-}
-
-.map-button:focus::after, .map-button:hover::after {
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-  margin-left: calc(-50% - 1px);
-}
-
-.map-button i,
-.map-button svg {
+.map-button i, .map-button svg {
   position: relative;
   z-index: 1;
   transition: 0.3s;
 }
-
 .map-button i {
   font-size: 25.6px;
 }
-
 .map-button svg {
   height: 40%;
   width: 40%;
@@ -151,7 +159,6 @@ body:not(.modal-open) {
 .map-button--river {
   color: #3b5999;
 }
-
 .map-button--river::after {
   background: #3b5999;
 }
@@ -159,7 +166,6 @@ body:not(.modal-open) {
 .map-button--countryside {
   color: #00b551;
 }
-
 .map-button--countryside::after {
   background: #00b551;
 }
@@ -167,7 +173,6 @@ body:not(.modal-open) {
 .map-button--mountains {
   color: #a5640f;
 }
-
 .map-button--mountains::after {
   background: #a5640f;
 }
@@ -175,7 +180,6 @@ body:not(.modal-open) {
 .map-button--cities {
   color: #6e5494;
 }
-
 .map-button--cities::after {
   background: #6e5494;
 }
@@ -183,13 +187,12 @@ body:not(.modal-open) {
 .map-button--world {
   color: #212121;
 }
-
 .map-button--world::after {
   background: #212121;
 }
 
 .offcanvas-header {
-  margin-top: 62px;
+  margin-top: 60px;
   background-color: rgba(101, 77, 255, 0.3882352941);
 }
 
@@ -197,24 +200,12 @@ body:not(.modal-open) {
   width: 450px !important;
 }
 
-#low, #medium, #high, #voiceButtons button {
-  padding: 5px 10px;
-  background-color: rgb(98, 0, 184) !important;
-  border-radius: 10px;
-  color: white;
-  font-size: 12px;
-  margin-right: 5px;
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
   border: none;
-  box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
-}
-
-#high {
-  margin-right: 0px;
-}
-
-#voiceButtons button {
-  margin-bottom: 8px;
-}
-#voiceButtons button:last-child {
-  margin-bottom: 0px;
+  background: none;
+  color: white;
+  font-size: 25px;
 }

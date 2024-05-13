@@ -1,70 +1,91 @@
 @import './general.scss';
 
-#mapid {
+$button-padding: 8px 10px;
+$button-color: rgb(98, 0, 184);
+$button-radius: 10px;
+$button-font-size: 14px;
+$button-margin-right: 5px;
+$button-border: none;
+$button-shadow:  rgba(0, 0, 0, 0.5) 1px 0px 15px 1px;
+
+#mapid, .offcanvas-body {
   height: 100vh;
 }
 
-
-.button-test {
-  margin-top: 300px;
+.button-test, .offcanvas-body {
   z-index: 9999;
 }
 
+.button-test {
+  margin-top: 300px;
+}
+
 .offcanvas-body {
-  z-index: 99999999999;
   position: relative;
-  height: 100vh;
   overflow-y: auto;
   background-color: rgb(49 0 93) !important;
   color: white;
 }
 
+.off-canvas-options {
+  width: 100%;
+  display: flex;
 
-.off-canvas-options{
-  width:100%;
-  display:flex;
-  .item-off-canvas-buttons{
-    .button-off-canvas{
+  .item-off-canvas-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 77vh;
+    position: fixed;
+
+    .button-off-canvas {
       font-size: 16px;
       padding: 12px;
       background-color: getColor("purple1");
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 7px;
-      &:first-child{
-        top:0;
-        position: sticky
-      }
-      &:nth-child(2){
-        top:50px;
-        position: sticky
-      }
-      &:nth-child(3){
-        top:100px;
-        position: sticky
-      }
-      &:nth-child(4){
-        top:150px;
-        position: sticky
-      }
-      &:nth-child(5){
-        top:200px;
-        position: sticky
-      }
-      &:nth-child(6){
-        top:250px;
-        position: sticky
-      }
+      position: sticky;
     }
   }
-  
-  .item-off-canvas-answer{
-    flex:7;
-    padding:0px 15px 15px 15px;
+
+  .item-off-canvas-answer {
+    flex: 7;
+    padding: 0px 15px 15px 15px;
+    margin-left: 50px;
   }
 }
 
+#low, #medium, #high, #voiceButtons button {
+  position: relative;
+  padding: $button-padding;
+  background-color: $button-color !important;
+  border-radius: $button-radius;
+  color: white;
+  font-size: $button-font-size;
+  margin-right: $button-margin-right;
+  border: $button-border;
+  box-shadow: $button-shadow;
+}
+
+#low, #medium, #high {
+  width: 150px;
+  margin-bottom: 8px;
+}
+
+#high {
+  margin-bottom: 0px;
+}
+
+#voiceButtons button {
+  width: 250px;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
 
 body:not(.modal-open) {
   padding-right: 0px !important;
@@ -75,7 +96,7 @@ body:not(.modal-open) {
   position: absolute;
   bottom: 10px;
   z-index: 9999;
-  right:50px;
+  right: 50px;
 }
 
 .container-map {
@@ -108,97 +129,100 @@ body:not(.modal-open) {
   background: #fff;
   text-align: center;
   box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
+
+  &:focus, &:hover {
+    color: #fff;
+
+    &::after {
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      margin-left: calc(-50% - 1px);
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    display: block;
+    width: 0;
+    height: 0;
+    border-radius: 100%;
+    transition: 0.3s;
+  }
+
+  i, svg {
+    position: relative;
+    z-index: 1;
+    transition: 0.3s;
+  }
+
+  i {
+    font-size: 25.6px;
+  }
+
+  svg {
+    height: 40%;
+    width: 40%;
+  }
 }
-.map-button::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 50%;
-  display: block;
-  width: 0;
-  height: 0;
-  border-radius: 100%;
-  transition: 0.3s;
-}
-.map-button:focus, .map-button:hover {
-  color: #fff;
-}
-.map-button:focus::after, .map-button:hover::after {
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-  margin-left: calc(-50% - 1px);
-}
-.map-button i,
-.map-button svg {
-  position: relative;
-  z-index: 1;
-  transition: 0.3s;
-}
-.map-button i {
-  font-size: 25.6px;
-}
-.map-button svg {
-  height: 40%;
-  width: 40%;
-}
+
 .map-button--river {
   color: #3b5999;
+
+  &::after {
+    background: #3b5999;
+  }
 }
-.map-button--river::after {
-  background: #3b5999;
-}
+
 .map-button--countryside {
   color: #00b551;
+
+  &::after {
+    background: #00b551;
+  }
 }
-.map-button--countryside::after {
-  background: #00b551;
-}
+
 .map-button--mountains {
   color: #a5640f;
+
+  &::after {
+    background: #a5640f;
+  }
 }
-.map-button--mountains::after {
-  background: #a5640f;
-}
+
 .map-button--cities {
   color: #6e5494;
+
+  &::after {
+    background: #6e5494;
+  }
 }
-.map-button--cities::after {
-  background: #6e5494;
-}
+
 .map-button--world {
   color: #212121;
-}
-.map-button--world::after {
-  background: #212121;
+
+  &::after {
+    background: #212121;
+  }
 }
 
 .offcanvas-header {
-  margin-top: 62px;
+  margin-top: 60px;
   background-color: getColor("darkerPurple");
 }
 
-.offcanvas{
+.offcanvas {
   width: 450px !important;
 }
 
-#low, #medium, #high, #voiceButtons button{
-  padding:5px 10px;
-  background-color:  rgb(98, 0, 184) !important;
-  border-radius: 10px;
-  color: white;
-  font-size: 12px;
-  margin-right:5px;
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
   border: none;
-  box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
-}
-
-#high{
-  margin-right:0px;
-}
-
-#voiceButtons button{
-  margin-bottom: 8px;
-  &:last-child{
-    margin-bottom: 0px;
-  }
+  background: none;
+  color: white;
+  font-size: 25px;
 }
