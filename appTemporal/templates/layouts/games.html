@@ -1,75 +1,116 @@
+{% extends '../Base/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/svg+xml" href="../../static/img/favicon.svg">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-        <title>Selection Screen</title>
-        {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> {% endcomment %}
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
-        <link href="../../static/css/games.css" rel="stylesheet">
 
+{% block title %}
+	Selection Screen
+{% endblock title %}
 
-    </head>
-    <body>
-    
-        <div class="wrapper-games">
+{% block extra_head %}
+	<!--
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	-->
+	<link href="{% static 'css/games.css' %}" rel="stylesheet">
+{% endblock extra_head %}
 
-            <div class="container-games">
+{% block active_template %}
+  <ul class="navbar-nav ml-auto">
+    <div class="hori-selector">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'index' %}">
+        <i class='bx bxs-home-smile'></i>Home
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'games' %}">
+        <i class='bx bx-game'></i>Games
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Blog
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Contact us
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxs-cog'></i>Settings
+      </a>
+    </li>
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out-circle'></i>Logout
+        </a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class='bx bx-log-in-circle'></i>Login
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+{% endblock active_template %}
 
-                <div class="part-games">
-                    <div class="card">
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="card-inner">
-                            <h1>Creative mode</h1>
-                            <div class="photo-games-container">
-                                <div class="photo-games"></div>
-                            </div>
-                            <p>This invites players to embark on a captivating journey through history, where they have the freedom to shape their own historical narratives.</p>
-                            <ul>
-                                <li>Unrestricted Exploration</li>
-                                <li>Boundless Creativity</li>
-                                <li>Dynamic Interaction</li>
-                                <li>Personalized Customization</li>
-                            </ul>
-                            <a href="#"><button class="button-games">Go!</button></a>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="part-games">
-                    <h1>Choose your game mode!</h1>
-                </div>
-    
-                <div class="part-games">
-                    <div class="card">
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="card-inner">
-                            <h1>Trivial mode</h1>
-                            <div class="photo-games-container">
-                                <div class="photo-games2"></div>
-                            </div>
-                            <p>Challenge your knowledge with intriguing questions covering various historical events, figures, and civilizations.</p>
-                            <ul>
-                                <li>Cognitive Challenge</li>
-                                <li>Historical Depth</li>
-                                <li>Educational Focus</li>
-                                <li>Chronological Diversity</li>
-                                <li>Narrative Enrichment</li>
-                            </ul>
-                            <a href="#"><button class="button-games">Go!</button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{% block content %}
+	<div class="wrapper-games">
 
-        </div>
+		<div class="container-games">
 
+			<div class="part-games">
+				<div class="card">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="card-inner">
+						<h1>Creative mode</h1>
+						<div class="photo-games-container">
+							<div class="photo-games"></div>
+						</div>
+						<p>This invites players to embark on a captivating journey through history, where they have the freedom to shape their own historical narratives.</p>
+						<ul>
+							<li>Unrestricted Exploration</li>
+							<li>Boundless Creativity</li>
+							<li>Dynamic Interaction</li>
+							<li>Personalized Customization</li>
+						</ul>
+						<a href="{% url 'maps' %}"><button class="button-games">Go!</button></a>
+					</div>
+				</div>
+			</div>
 
-    </body>
-</html>
+			<div class="part-games">
+				<h1>Choose your game mode!</h1>
+			</div>
+
+			<div class="part-games">
+				<div class="card">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="card-inner">
+						<h1>Trivial mode</h1>
+						<div class="photo-games-container">
+							<div class="photo-games2"></div>
+						</div>
+						<p>Challenge your knowledge with intriguing questions covering various historical events, figures, and civilizations.</p>
+						<ul>
+							<li>Cognitive Challenge</li>
+							<li>Historical Depth</li>
+							<li>Educational Focus</li>
+							<li>Chronological Diversity</li>
+							<li>Narrative Enrichment</li>
+						</ul>
+						<a href="#"><button class="button-games">Go!</button></a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock content %}

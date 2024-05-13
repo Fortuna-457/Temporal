@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/svg+xml" href="../../static/img/favicon.svg">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{% block title %}{% endblock title %}</title>
+
+		<!-- boxicon -->
+		<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+		<!-- rubik font -->
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+		<!-- font awesome -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- css navbar -->
+		<link href="{% static 'css/navbar.css' %}" rel='stylesheet'>
+		<!-- jquery -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<!-- boostrap 4 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		{% block extra_head %}{% endblock extra_head %}
+
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-expand-custom navbar-mainbg">
+			<a class="navbar-brand navbar-logo" href="{% url 'index' %}">
+				<div class="logo-nav"></div>
+			</a>
+			<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<i class='bx bx-menu'></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				{% block active_template %}{% endblock active_template %}
+			</div>
+		</nav>
+		{% block content %}{% endblock content %}
+
+		<!-- navbar js -->
+		<script src="{% static 'js/navbar.js' %}" defer></script>
+		{% block extra_footer %}{% endblock extra_footer %}
+
+	</body>
+</html>
