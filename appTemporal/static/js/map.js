@@ -1,56 +1,96 @@
-// Inicializa el mapa, el marcador, y el círculo que representa el radio
+// Initialize the map, marker, and circle representing the radius
 let map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
 let marker;
 let circle;
+let radius = 15; // Define the radius in meters
+let elements = []; // Initialize the array
 
-// Carga el mapa de OpenStreetMap
+// Load the OpenStreetMap map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     minZoom: 9,
 }).addTo(map);
 
-map.on('click', function(e) {
-    let radius = 15; // Define el radio en metros
-    let latlng = e.latlng;
-    const limit_admin_level = 6; // Definimos el límite de admin_level
+// Function to handle geolocation errors
+function handleGeolocationError(error) {
+    alert('Error getting location: ' + error.message);
+}
 
-    // Coloca el marcador
-    if (marker) {
-        marker.setLatLng(e.latlng);
+// Adding geolocation using JS
+$("#geolocateBtn").on('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            let latlng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            map.setView([latlng.lat, latlng.lng], 15);
+
+            // Trigger the click event on the map with the new latlng
+            map.fire('click', { latlng: latlng });
+        }, handleGeolocationError);
     } else {
-        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+        alert('Browser does not support geolocation.');
+    }
+});
+
+map.on('click', function(e) {
+    let latlng = e.latlng;
+
+    // Place the marker
+    if (marker) {
+        marker.setLatLng(latlng);
+    } else {
+        marker = L.marker([latlng.lat, latlng.lng]).addTo(map);
     }
 
-    // Dibuja el radio
+    // Draw the circle
     if (circle) {
-        circle.setLatLng(e.latlng);
+        circle.setLatLng(latlng);
     } else {
-        circle = L.circle([e.latlng.lat, e.latlng.lng], {
+        circle = L.circle([latlng.lat, latlng.lng], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 15 // Cambia el radio según lo necesites
+            radius: radius // Use the previously defined radius variable
         }).addTo(map);
     }
 
-    // Realiza una solicitud a la API Overpass de OpenStreetMap para obtener los elementos dentro del radio
+    // Function to display elements
+    function displayElements(elements) {
+        // Clear previous response
+        $("#respuesta").empty();
+
+        let aux_array = [];
+
+        elements.forEach(element => { // Loop through filtered elements
+            if (!aux_array.includes(element.id)) {
+                // Get the first letter of type
+                let type = element.type.charAt(0); 
+            
+                // Form the new id for the paragraph
+                let newId = type + element.id;
+            
+                // Show the name to the user with the new id in the paragraph
+                $("#respuesta").append("<p id='" + newId + "'>" + element.name + "</p>"); 
+            
+                // Add the id to the auxiliary array
+                aux_array.push(element.id);
+            }
+        });
+    }
+
+    // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
     let query = `[out:json];
     (
-        node(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        way(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        relation(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
+        node(around:${radius}, ${latlng.lat}, ${latlng.lng});
+        way(around:${radius}, ${latlng.lat}, ${latlng.lng});
+        relation(around:${radius}, ${latlng.lat}, ${latlng.lng});
     );
     out body;
     >;
-    (
-        node(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        way(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        relation(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-    );
-    is_in;
-    out body;
-    >;
-    out skel qt;`
+    out skel qt;`;
 
     fetch('https://overpass-api.de/api/interpreter', {
         method: 'POST',
@@ -58,47 +98,53 @@ map.on('click', function(e) {
     })
     .then(response => response.json())
     .then(data => {
-        // Filtra y procesa los datos para obtener solo los elementos con nombres definidos
-        let elements = data.elements.filter(element => {
-            return (element.tags && element.tags.name) && 
-                (
-                    !(element.tags && element.tags.boundary) 
-                        || 
-                    (element.tags && element.tags.admin_level && element.tags.admin_level > limit_admin_level)
-                );
+        // Filter and process the data to get only the elements with defined names
+        elements = data.elements.filter(element => {
+            return (element.tags && element.tags.name);
         }).map(element => {
             return {
                 name: element.tags.name,
-                admin_level: element.tags.admin_level,
                 type: element.type,
                 id: element.id
             };
         });
-        
-        console.log(elements);
 
-        if($("#respuesta").children().length > 0){
-            $("#respuesta").empty();
+        if(elements.length === 0){
+            // Make a request to Nominatim API to get location details
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                // Add the Nominatim data as a new element to the elements array
+                elements.push({
+                    name: data.display_name, 
+                    type: data.osm_type, 
+                    id: data.osm_id
+                });
+    
+                // Display elements
+                displayElements(elements);
+    
+            })
+            .catch(error => {
+                console.error('Error getting elements:', error);
+                alert('Error getting elements. Please try again.');
+            });
+        }else{
+            // Display elements
+            displayElements(elements);
         }
 
-        let aux_array = [];
-
-        elements.forEach(element => { // Recorremos los elementos filtrados
-            if (!aux_array.includes(element.id)) {
-                $("#respuesta").append("<p>" + element.name +", "+ element.admin_level +"</p>"); // Los mostramos al usuario
-                aux_array.push(element.id);
-            }
-        });
-       
     })
     .catch(error => {
-        console.error('Error al obtener los elementos:', error);
+        console.error('Error getting elements:', error);
+        alert('Error getting elements. Please try again.');
     });
 });
 
 let isDragging = false;
 
 let mapElement = document.getElementById('mapid');
+
 mapElement.addEventListener('mousedown', function() {
     isDragging = false;
 });
@@ -116,3 +162,37 @@ mapElement.addEventListener('mouseup', function(event) {
         offcanvas.show();
     }
 });
+
+/* if (data.display_name) {
+    alert("Lugar: " + data.display_name);
+
+    // Obtiene el valor del token CSRF de la etiqueta meta
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    const datos = {
+        lugar: data.display_name,
+        coordenadas: lat + ", " + lng
+    };
+
+    // Convertir el objeto de datos a JSON
+    const jsonData = JSON.stringify(datos);
+
+    $.ajax({
+        url: '/maps/',
+        method: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
+        },
+        data: jsonData
+    })
+    .done(function(response) {
+        $("#respuesta").text(response.lugar);
+    })
+    .fail(function(error) {
+        console.error('Error:', error);
+    });
+
+} else {
+    alert("No se encontró información sobre el lugar.");
+} */
