@@ -1,7 +1,7 @@
 // Inicializa el mapa, el marcador, y el círculo que representa el radio
-var map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
-var marker;
-var circle;
+let map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
+let marker;
+let circle;
 
 // Carga el mapa de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -24,8 +24,9 @@ function animateText(element, text, delay) {
 
 
 map.on('click', function(e) {
-    var radius = 15; // Define el radio en metros
-    var latlng = e.latlng;
+    let radius = 15; // Define el radio en metros
+    let latlng = e.latlng;
+    const limit_admin_level = 6; // Definimos el límite de admin_level
 
     // Create a new bubble for each click event (right bubble)
     let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
@@ -55,7 +56,7 @@ map.on('click', function(e) {
     }
 
     // Realiza una solicitud a la API Overpass de OpenStreetMap para obtener los elementos dentro del radio
-    var query = `[out:json];
+    let query = `[out:json];
     (
         node(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
         way(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
@@ -71,7 +72,7 @@ map.on('click', function(e) {
     is_in;
     out body;
     >;
-    out skel qt;`;
+    out skel qt;`
 
     fetch('https://overpass-api.de/api/interpreter', {
         method: 'POST',
@@ -80,16 +81,22 @@ map.on('click', function(e) {
     .then(response => response.json())
     .then(data => {
         // Filtra y procesa los datos para obtener solo los elementos con nombres definidos
-        var elements = data.elements.filter(element => {
-            return element.tags && element.tags.name; // Verifica si el elemento tiene el tag "name"
+        let elements = data.elements.filter(element => {
+            return (element.tags && element.tags.name) && 
+                (
+                    !(element.tags && element.tags.boundary) 
+                        || 
+                    (element.tags && element.tags.admin_level && element.tags.admin_level > limit_admin_level)
+                );
         }).map(element => {
             return {
                 name: element.tags.name,
+                admin_level: element.tags.admin_level,
                 type: element.type,
                 id: element.id
             };
         });
-
+        
         console.log(elements);
 
         if($("#respuesta").children().length > 0){
@@ -147,16 +154,21 @@ map.on('click', function(e) {
             let greeting = messages[Math.floor(Math.random() * messages.length)]; // Select a random greeting
             newBubble.find('.greeting').text(greeting); // Set the random greeting
 
+            let aux_array =[];
+
             elements.forEach((element, index) => {
-                let newResponse = $('<span class="single-answer">' + element.name + '</span>'); // Change span to a tag
-            
-                // Add a comma if it's not the last element
-                if (index < elements.length - 1) {
-                    newResponse.append(", ");
+                if (!aux_array.includes(element.id)) {
+                    let newResponse = $('<span class="single-answer">' + element.name + '</span>'); // Change span to a tag
+                
+                    // Add a comma if it's not the last element
+                    if (index < elements.length - 1) {
+                        newResponse.append(", ");
+                    }
+                
+                    // Create a new <a> for each element
+                    newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                    aux_array.push(element.id);
                 }
-            
-                // Create a new <a> for each element
-                newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
             });
 
             newBubble.find(".loading").remove(); // Remove the loading animation
