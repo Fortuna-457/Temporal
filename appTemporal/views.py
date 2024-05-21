@@ -31,6 +31,10 @@ def index(request):
 
 
 @login_required
+def trivia(request):
+    return render(request, 'layouts/trivia.html')
+
+@login_required
 def privacyPolicyView(request):
     return render(request, 'layouts/privacyPolicy.html')
 
