@@ -7,11 +7,19 @@ from appTemporal.models import ExtraFields, Place
 import json
 from django.http import JsonResponse
 import openai
+from django.http import HttpResponseNotFound
 
 # Configura tu API key de OpenAI
 openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
 
 # Create your views here.
+
+def error_404(request, exception):
+    return render(request, 'layouts/404.html', {}, status=404)
+
+
+# def custom_404(request, exception):
+#     return HttpResponseNotFound('<h1>Page not found</h1>')
 
 def index(request):
     if 'username' in request.COOKIES:
@@ -20,6 +28,11 @@ def index(request):
         user = user_model.objects.get(username=username)
         login(request, user)
     return render(request, 'layouts/index.html')
+
+
+@login_required
+def privacyPolicyView(request):
+    return render(request, 'layouts/privacyPolicy.html')
 
 
 @login_required

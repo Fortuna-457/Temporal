@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from django.contrib import admin
 from . import views
 
@@ -15,6 +15,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # Url de la página de mapas
     path('maps/', views.mapsView, name='maps'),
-    # Url de la página de mapas
+    # Url de la página de contacto
     path('contact/', views.contactView, name='contact'),
+     # Url de la página de privacy policy
+    path('privacyPolicy/', views.privacyPolicyView, name='privacyPolicy'),
 ]
