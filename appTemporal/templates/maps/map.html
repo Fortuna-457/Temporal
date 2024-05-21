@@ -1,136 +1,23 @@
-{% comment %} <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Aquí se incluye el token CSRF -->
-    <meta name="csrf-token" content="{{ csrf_token }}">
-    <title>Map</title>
-    <!-- CSS Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- CSS Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Script JQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <p id="respuesta"></p>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8">
-                <div id="mapid" style="height: 400px;"></div>
-            </div>
-        </div>
-    </div>
-    <!-- Script Leaflet -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Script Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        var marker;
-        var circle;
-        
-        function obtenerNombreLugar(lat, lng) {
-            $.ajax({
-                url: `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
-                method: 'GET',
-                dataType: 'json'
-            })
-            .done(function(data) {
-                if (data.display_name) {
-                    alert("Lugar: " + data.display_name);
-    
-                    // Obtiene el valor del token CSRF de la etiqueta meta
-                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
-                    const datos = {
-                        lugar: data.display_name,
-                        coordenadas: lat + ", " + lng
-                    };
-    
-                    // Convertir el objeto de datos a JSON
-                    const jsonData = JSON.stringify(datos);
-    
-                    $.ajax({
-                        url: '/maps/',
-                        method: 'POST',
-                        contentType: 'application/json',
-                        headers: {
-                            'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
-                        },
-                        data: jsonData
-                    })
-                    .done(function(response) {
-                        $("#respuesta").text(response.lugar);
-                    })
-                    .fail(function(error) {
-                        console.error('Error:', error);
-                    });
-    
-                } else {
-                    alert("No se encontró información sobre el lugar.");
-                }
-            })
-            .fail(function(error) {
-                console.error('Error al obtener información del lugar:', error);
-            });
-        }
-        
-        var map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            minZoom: 9,
-        }).addTo(map);
-        
-        function onMapClick(e) {
-            alert("Coordenadas: " + e.latlng.lat + ", " + e.latlng.lng);
-            if (marker) {
-                marker.setLatLng(e.latlng);
-            } else {
-                marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-            }
-            if (circle) {
-                circle.setLatLng(e.latlng);
-            } else {
-                circle = L.circle([e.latlng.lat, e.latlng.lng], {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 15 // Cambia el radio según lo necesites
-                }).addTo(map);
-            }
-            obtenerNombreLugar(e.latlng.lat, e.latlng.lng);
-        }
-        
-        map.on('click', onMapClick);        
-    </script>
-    
-</body>
-</html> {% endcomment %}
+{% extends '../Base/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/svg+xml" href="../../static/img/favicon.svg">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% comment %} boxicon {% endcomment %}
-        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-        {% comment %} rubik font {% endcomment %}
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
-        {% comment %} font awesome {% endcomment %}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        {% comment %} css navbar {% endcomment %}
-        <link href="{% static 'css/navbar.css' %}" rel='stylesheet'>
+
+{% block title %}
+    Creative Mode
+{% endblock title %}
+
+{% block extra_head %}
+        <!-- Map CSS -->
         <link href="{% static 'css/map.css' %}" rel='stylesheet'>
-        {% comment %} button css {% endcomment %}
-        {% comment %} jquery {% endcomment %}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        {% comment %} boostrap 4 {% endcomment %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+         <!-- End Map CSS -->
+
+        <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- End Bootstrap CSS -->
+
+        <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <!-- End Bootstrap JS -->
+
         <!-- Token CSRF -->
             <meta name="csrf-token" content="{{ csrf_token }}">
         <!-- End Token CSRF -->
@@ -143,41 +30,55 @@
         <!-- Script JQuery -->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- End Script JQuery -->
-    </head>
-    <body>
-    
-        <nav class="navbar navbar-expand-custom navbar-mainbg">
-            <a class="navbar-brand navbar-logo" href="#"><div class="logo-nav"></div></a>
-            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class='bx bx-menu'></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#"><i class='bx bxs-home-smile'></i>Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class='bx bx-game'></i>Games</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class='bx bxl-blogger' ></i>Blog</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class='bx bxl-blogger' ></i>Contact us</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class='bx bxs-cog' ></i>Settings</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"> <i class='bx bx-log-in-circle'></i></i>Login</a>
-                  </li>
-                  
-                </ul>
-            </div>
-        </nav>
+{% endblock extra_head %}
 
-        <div id="mapid"></div>
+{% block active_template %}
+  <ul class="navbar-nav ml-auto">
+    <div class="hori-selector">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'index' %}">
+        <i class='bx bxs-home-smile'></i>Home
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'games' %}">
+        <i class='bx bx-game'></i>Games
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Blog
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Contact us
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxs-cog'></i>Settings
+      </a>
+    </li>
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out-circle'></i>Logout
+        </a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class='bx bx-log-in-circle'></i>Login
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+{% endblock active_template %}
+
+{% block content %}
+    <div id="mapid"></div>
 
         <div class="offcanvas offcanvas-start"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
@@ -202,30 +103,59 @@
             </div>
 
               </div>
-
-              <div class="item-map">
-                <div class="map-buttons">
-                    <a href="#" class="map-button map-button--river" aria-label="River">
-                      <i class='bx bx-water'></i>
-                    </a>
-                    <a href="#" class="map-button map-button--countryside" aria-label="Countryside">
-                      <i class='bx bxs-tree' ></i>
-                    </a>
-                    <a href="#" class="map-button map-button--mountains" aria-label="Mountains">
-                      <i class='bx bxs-landscape'></i>
-                    </a>
-                    <a href="#" class="map-button map-button--cities" aria-label="Cities">
-                      <i class='bx bxs-buildings'></i>
-                    </a>
-                    <a href="#" class="map-button map-button--world" aria-label="World">
-                      <i class='bx bx-world' ></i>
-                    </a>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="off-canvas-options">
+                <div class="item-off-canvas item-off-canvas-buttons">
+                    <div class="button-off-canvas"><i class='bx bx-refresh'></i></div>
+                    <div class="button-off-canvas" id="voiceButton">
+                        <i class='bx bx-globe'></i>
+                    </div>
+                    <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
+                    <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
+                    <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
                 </div>
+                <div id="respuesta" class="item-off-canvas item-off-canvas-answer"></div>
             </div>
+            <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
+        </div>
+    </div>
+
+    <div class="item-map">
+        <button id="geolocateBtn" class="btn btn-primary">
+          <i class="fa-solid fa-location-dot"></i>
+        </button>
+        {% comment %} <div class="map-buttons">
+            <a href="#" class="map-button map-button--river" aria-label="River">
+                <i class='bx bx-water'></i>
+            </a>
+            <a href="#" class="map-button map-button--countryside" aria-label="Countryside">
+                <i class='bx bxs-tree' ></i>
+            </a>
+            <a href="#" class="map-button map-button--mountains" aria-label="Mountains">
+                <i class='bx bxs-landscape'></i>
+            </a>
+            <a href="#" class="map-button map-button--cities" aria-label="Cities">
+                <i class='bx bxs-buildings'></i>
+            </a>
+            <a href="#" class="map-button map-button--world" aria-label="World">
+                <i class='bx bx-world' ></i>
+            </a>
+        </div> {% endcomment %}
+    </div>
+{% endblock content %}
     
+{% block extra_footer %}
+    <!-- TextToSpeech JS -->
         <script src="{% static 'js/textToSpeech.js' %}" defer></script>
+    <!-- End TextToSpeech JS -->
+
+    <!-- Map JS -->
         <script src="{% static 'js/map.js' %}" defer></script>
-        <script src="{% static 'js/navbar.js' %}" defer></script>
-        <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
-    </body>
-</html>
+    <!-- End Map JS -->
+
+{% endblock extra_footer %}

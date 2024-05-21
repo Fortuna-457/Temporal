@@ -227,6 +227,14 @@ body:not(.modal-open) {
   font-size: 25px;
 }
 
+#geolocateBtn{
+  position: relative;
+  left: 61%;
+  bottom: 7.5rem;
+  padding: 5px 10px;
+  background-color: #6225E6;
+  border: none;
+}
 
 .offcanvas-backdrop.show  {
  display: none !important;
@@ -282,9 +290,10 @@ body:not(.modal-open) {
 }
 
 .single-answer {
-  display: inline-block;
+  display: block;
   max-width: 90%;
   margin-right: 5px;
+  margin-bottom: 0.25rem;
   overflow-wrap: break-word;
   font-weight: bold;
 }

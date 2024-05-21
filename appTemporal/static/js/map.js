@@ -1,32 +1,59 @@
-// Inicializa el mapa, el marcador, y el círculo que representa el radio
+// Initialize the map, marker, and circle representing the radius
 let map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
 let marker;
 let circle;
+let radius = 15; // Define the radius in meters
+let elements = []; // Initialize the array
 
-// Carga el mapa de OpenStreetMap
+// Load the OpenStreetMap map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     minZoom: 9,
 }).addTo(map);
 
-//text letter by letter
-function animateText(element, text, delay) {
-    $(element).text(''); // Clear the text initially
-    let index = 0;
-    let interval = setInterval(function() {
-        $(element).append(text[index]);
-        index++;
-        if (index === text.length) {
-            clearInterval(interval); // Stop the interval when all characters are appended
-        }
-    }, delay);
+// Function to handle geolocation errors
+function handleGeolocationError(error) {
+    alert('Error getting location: ' + error.message);
 }
 
+// Adding geolocation using JS
+$("#geolocateBtn").on('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            let latlng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            map.setView([latlng.lat, latlng.lng], 15);
+
+        }, handleGeolocationError);
+    } else {
+        alert('Browser does not support geolocation.');
+    }
+});
 
 map.on('click', function(e) {
-    let radius = 15; // Define el radio en metros
     let latlng = e.latlng;
-    const limit_admin_level = 6; // Definimos el límite de admin_level
+
+    // Place the marker
+    if (marker) {
+        marker.setLatLng(latlng);
+    } else {
+        marker = L.marker([latlng.lat, latlng.lng]).addTo(map);
+    }
+
+    // Draw the circle
+    if (circle) {
+        circle.setLatLng(latlng);
+    } else {
+        circle = L.circle([latlng.lat, latlng.lng], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: radius // Use the previously defined radius variable
+        }).addTo(map);
+    }
 
     // Create a new bubble for each click event (right bubble)
     let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
@@ -35,73 +62,11 @@ map.on('click', function(e) {
     newBubble.find('.bubble').show(); // Show the bubble
     newBubble.find('.bubble').addClass("slideInFromRight");
 
-    
-    // Coloca el marcador
-    if (marker) {
-        marker.setLatLng(e.latlng);
-    } else {
-        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-    }
-
-    // Dibuja el radio
-    if (circle) {
-        circle.setLatLng(e.latlng);
-    } else {
-        circle = L.circle([e.latlng.lat, e.latlng.lng], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 15 // Cambia el radio según lo necesites
-        }).addTo(map);
-    }
-
-    // Realiza una solicitud a la API Overpass de OpenStreetMap para obtener los elementos dentro del radio
-    let query = `[out:json];
-    (
-        node(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        way(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        relation(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-    );
-    out body;
-    >;
-    (
-        node(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        way(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-        relation(around:`+radius+`, `+latlng.lat+`, `+latlng.lng+`);
-    );
-    is_in;
-    out body;
-    >;
-    out skel qt;`
-
-    fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        body: query
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Filtra y procesa los datos para obtener solo los elementos con nombres definidos
-        let elements = data.elements.filter(element => {
-            return (element.tags && element.tags.name) && 
-                (
-                    !(element.tags && element.tags.boundary) 
-                        || 
-                    (element.tags && element.tags.admin_level && element.tags.admin_level > limit_admin_level)
-                );
-        }).map(element => {
-            return {
-                name: element.tags.name,
-                admin_level: element.tags.admin_level,
-                type: element.type,
-                id: element.id
-            };
-        });
+    // Function to display elements
+    function displayElements(elements) {
         
-        console.log(elements);
-
-        if($("#respuesta").children().length > 0){
-            $("#respuesta").empty();
-        }
+        // Clear previous response
+        $("#respuesta").empty();
 
         if (elements.length === 0) { // Check if the elements array is empty
             let messages = [
@@ -128,7 +93,7 @@ map.on('click', function(e) {
             let message = messages[Math.floor(Math.random() * messages.length)]; // Select a random message
             newBubble.find(".loading").remove(); // Remove the loading animation
             newBubble.find(".respuesta").append("<p>" + message + "</p>"); // Add the message to the current bubble
-        } else {
+        }else{
             let messages = [
                 "Jax, tell me something about",
                 "Hey Jax, tell me about",
@@ -154,26 +119,28 @@ map.on('click', function(e) {
             let greeting = messages[Math.floor(Math.random() * messages.length)]; // Select a random greeting
             newBubble.find('.greeting').text(greeting); // Set the random greeting
 
-            let aux_array =[];
+            let aux_array = [];
 
-            elements.forEach((element, index) => {
-                if (!aux_array.includes(element.id)) {
-                    let newResponse = $('<span class="single-answer">' + element.name + '</span>'); // Change span to a tag
+            elements.forEach((element) => {
+                if (!aux_array.includes(element.name)) {
+                    
+                    // Get the first letter of type
+                    let type = element.type.charAt(0); 
                 
-                    // Add a comma if it's not the last element
-                    if (index < elements.length - 1) {
-                        newResponse.append(", ");
-                    }
+                    // Form the new id for the paragraph
+                    let newId = type + element.id;
+        
+                    let newResponse = $('<p id="'+ newId +'" class="single-answer">' + element.name + '.</p>'); // Change span to a tag
                 
                     // Create a new <a> for each element
                     newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
-                    aux_array.push(element.id);
+                    aux_array.push(element.name);
                 }
             });
 
             newBubble.find(".loading").remove(); // Remove the loading animation
         }
-        
+
         // Scroll to the top of the new bubble
         // $(".offcanvas-body").animate({ scrollTop: newBubble.offset().top }, "slow");
 
@@ -210,24 +177,76 @@ map.on('click', function(e) {
             newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
 
             // Add <a> tags for each response
-            elements.forEach((element, index) => {
-                let newResponse = $('<a class="single-answer" href="#">' + element.name + '</a>'); // Change span to a tag
-            
-                // Add a comma if it's not the last element
-                if (index < elements.length - 1) {
-                    newResponse.append(", ");
-                }
-            
+            elements.forEach((element) => {
+                let newResponse = $('<a class="single-answer" href="#">' + element.name + '.</a>'); // Change span to a tag
+
                 // Create a new <a> for each element
                 newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
             });
             newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 750); // Delay of 0.75s
+
+        $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }
+
+    // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
+    let query = `[out:json];
+    (
+        node(around:${radius}, ${latlng.lat}, ${latlng.lng});
+        way(around:${radius}, ${latlng.lat}, ${latlng.lng});
+        relation(around:${radius}, ${latlng.lat}, ${latlng.lng});
+    );
+    out body;
+    >;
+    out skel qt;`;
+
+    fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        body: query
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Filter and process the data to get only the elements with defined names
+        elements = data.elements.filter(element => {
+            return (element.tags && element.tags.name);
+        }).map(element => {
+            return {
+                name: element.tags.name,
+                type: element.type,
+                id: element.id
+            };
+        });
+
+        if(elements.length === 0){
+            // Make a request to Nominatim API to get location details
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                // Add the Nominatim data as a new element to the elements array
+                elements.push({
+                    name: data.display_name, 
+                    type: data.osm_type, 
+                    id: data.osm_id
+                });
+    
+                // Display elements
+                displayElements(elements);
+    
+            })
+            .catch(error => {
+                console.error('Error getting elements:', error);
+                alert('Error getting elements. Please try again.');
+            });
+        }else{
+            // Display elements
+            displayElements(elements);
+        }
+
     })
     .catch(error => {
-        console.error('Error al obtener los elementos:', error);
+        console.error('Error getting elements:', error);
+        alert('Error getting elements. Please try again.');
     });
-    $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
 });
 
 $('.button-off-canvas').on('click', function() {
@@ -238,10 +257,10 @@ $('.button-off-canvas').on('click', function() {
     });
 });
 
-
 let isDragging = false;
 
 let mapElement = document.getElementById('mapid');
+
 mapElement.addEventListener('mousedown', function() {
     isDragging = false;
 });
@@ -259,4 +278,3 @@ mapElement.addEventListener('mouseup', function(event) {
         offcanvas.show();
     }
 });
-
