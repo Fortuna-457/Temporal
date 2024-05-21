@@ -134,6 +134,7 @@ map.on('click', function(e) {
                 
                     // Create a new <a> for each element
                     newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                    
                     aux_array.push(element.name);
                 }
             });
@@ -176,12 +177,26 @@ map.on('click', function(e) {
             let messageAnswerBack = messagesAnswerBack[Math.floor(Math.random() * messagesAnswerBack.length)]; // Select a random message for the answer back bubble
             newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
 
+            let aux_array = [];
+
             // Add <a> tags for each response
             elements.forEach((element) => {
-                let newResponse = $('<a class="single-answer" href="#">' + element.name + '.</a>'); // Change span to a tag
+                if (!aux_array.includes(element.name)) {
 
-                // Create a new <a> for each element
-                newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                    // Get the first letter of type
+                    let type = element.type.charAt(0); 
+                
+                    // Form the new id for the paragraph
+                    let newId = type + element.id;
+
+                    // Change span to a tag
+                    let newResponse = $('<a class="single-answer" href="#">' + element.name + '.</a>');
+
+                    // Create a new <a> for each element
+                    newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                    
+                    aux_array.push(element.name);
+                }
             });
             newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 750); // Delay of 0.75s
