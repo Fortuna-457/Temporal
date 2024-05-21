@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import include, path
 from appTemporal import views
 from django.contrib.auth import views as auth_views
+from appTemporal.views import error_404
+from django.conf.urls import handler404
+
+handler404 = error_404
 
 # Configuración de las URLs para el proyecto Temporal.
 urlpatterns = [
