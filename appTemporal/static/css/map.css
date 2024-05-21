@@ -210,7 +210,7 @@ body:not(.modal-open) {
   font-size: 25px;
 }
 
-#geolocateBtn{
+#geolocateBtn {
   position: relative;
   left: 61%;
   bottom: 7.5rem;
