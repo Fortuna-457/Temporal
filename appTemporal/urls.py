@@ -15,4 +15,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # Url de la página de mapas
     path('maps/', views.mapsView, name='maps'),
+    # Url de la página de mapas
+    path('contact/', views.contactView, name='contact'),
 ]

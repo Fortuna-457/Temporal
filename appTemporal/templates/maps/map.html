@@ -80,6 +80,29 @@
 {% block content %}
     <div id="mapid"></div>
 
+        <div class="offcanvas offcanvas-start"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="off-canvas-options">
+                    <div class="item-off-canvas item-off-canvas-buttons">
+                        <div class="button-off-canvas"><i class='bx bx-refresh' id="refreshBubbles"></i></div>
+                        <div class="button-off-canvas" id="voiceButton">
+                            <i class='bx bx-globe'></i>
+                        </div>
+                        <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
+                        <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
+                        <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
+                    </div>
+                    <div class="answer-container item-off-canvas item-off-canvas-answer">
+                    </div>
+                </div>
+                <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
+            </div>
+
+              </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
@@ -103,8 +126,10 @@
     </div>
 
     <div class="item-map">
-        <button id="geolocateBtn" class="btn btn-primary">Mi ubicación</button>
-        <div class="map-buttons">
+        <button id="geolocateBtn" class="btn btn-primary">
+          <i class="fa-solid fa-location-dot"></i>
+        </button>
+        {% comment %} <div class="map-buttons">
             <a href="#" class="map-button map-button--river" aria-label="River">
                 <i class='bx bx-water'></i>
             </a>
@@ -120,7 +145,7 @@
             <a href="#" class="map-button map-button--world" aria-label="World">
                 <i class='bx bx-world' ></i>
             </a>
-        </div>
+        </div> {% endcomment %}
     </div>
 {% endblock content %}
     

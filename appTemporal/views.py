@@ -23,8 +23,14 @@ def index(request):
 
 
 @login_required
+def contactView(request):
+    return render(request, 'layouts/contact.html')
+
+
+@login_required
 def games(request):
     return render(request, 'layouts/games.html')
+
 
 @login_required
 def logoutView(request):
