@@ -11,27 +11,16 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 9,
 }).addTo(map);
 
-// Function to handle geolocation errors
-function handleGeolocationError(error) {
-    alert('Error getting location: ' + error.message);
-}
+// Personalizar el control de zoom (ubicación, estilo, etc.)
+map.zoomControl.setPosition('bottomright'); // Cambia la posición del control de zoom
 
-// Adding geolocation using JS
-$("#geolocateBtn").on('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            let latlng = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            map.setView([latlng.lat, latlng.lng], 15);
-
-        }, handleGeolocationError);
-    } else {
-        alert('Browser does not support geolocation.');
+// Añadir el botón de geolocalización
+L.control.locate({
+    position: 'bottomright',  // Posición del botón de geolocalización
+    strings: {
+        title: "Show my ubication"  // Texto alternativo del botón
     }
-});
+}).addTo(map);
 
 map.on('click', function(e) {
     let latlng = e.latlng;
