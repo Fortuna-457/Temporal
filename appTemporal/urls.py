@@ -19,6 +19,6 @@ urlpatterns = [
     path('contact/', views.contactView, name='contact'),
     # Url de la página de privacy policy
     path('privacyPolicy/', views.privacyPolicyView, name='privacyPolicy'),
-    # Url de la página del trivial
-    path('trivia/', views.trivia, name='trivia'),
+    # Url de la página del triviall
+    path('trivial/', views.trivial, name='trivial'),
 ]
