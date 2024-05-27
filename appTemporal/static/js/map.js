@@ -287,7 +287,7 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
             data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
         })
         .done(function(response) { // Sacamos la respuesta del server
-            if (response && response.length > 0){ // Si no está vacío, ni es nulo, lo mostramos.
+            if (response){ // Si no es nulo, lo mostramos.
                 console.log(response);
             }
         })
