@@ -35,7 +35,7 @@
       </a>
     </li>
     <li class="nav-item  active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{% url 'contact' %}">
         <i class='bx bxl-blogger'></i>Contact us
       </a>
     </li>
@@ -144,7 +144,7 @@
   {% comment %} SEND FORM  {% endcomment %}
   {% comment %} ////////////////////////////////////// {% endcomment %}
 
-  <div class="container form-container d-flex justify-content-center align-items-center">
+  <div id="talk-to-us" class="container form-container d-flex justify-content-center align-items-center">
 	
     <!-- // SVG
       https://www.freepik.com/free-vector/new-message-concept-landing-page_5777076.html
@@ -521,7 +521,7 @@
             <h2 class="footer-menu-name">Company</h2>
             <ul id="menu-company" class="footer-menu-list">
               <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                <a href="#">Talk to us</a>
+                <a href="#talk-to-us">Talk to us</a>
               </li>
               <li class="menu-item menu-item-type-taxonomy menu-item-object-category">
                 <a href="#">Blog</a>
@@ -532,11 +532,11 @@
             <h2 class="footer-menu-name"> Legal</h2>
             <ul id="menu-legal" class="footer-menu-list">
               <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-170434">
-                <a href="#">Privacy Notice</a>
+                <a href="{% url 'privacyPolicy' %}">Privacy Policy</a>
               </li>
-              <li class="menu-item menu-item-type-post_type menu-item-object-page">
+              {% comment %} <li class="menu-item menu-item-type-post_type menu-item-object-page">
                 <a href="#">Terms of Use</a>
-              </li>
+              </li> {% endcomment %}
             </ul>
           </div>
         </div>
@@ -545,10 +545,10 @@
             <h2 class="footer-menu-name"> Quick Links</h2>
             <ul id="menu-quick-links" class="footer-menu-list">
               <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                <a target="_blank" rel="noopener noreferrer" href="#">Contact</a>
+                <a target="_blank" rel="noopener noreferrer" href="{% url 'contact' %}">Contact</a>
               </li>
               <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                <a target="_blank" rel="noopener noreferrer" href="#">Games</a>
+                <a target="_blank" rel="noopener noreferrer" href="{% url 'games' %}">Games</a>
               </li>
               <li class="menu-item menu-item-type-post_type menu-item-object-page">
                 <a href="#">Profile</a>
@@ -557,7 +557,7 @@
                 <a href="#">trivial map</a>
               </li>
               <li class="menu-item menu-item-type-post_type_archive menu-item-object-customer">
-                <a href="#">Creative map</a></li>
+                <a href="{% url 'maps' %}">Creative map</a></li>
             </ul>
           </div>
         </div>
@@ -565,7 +565,7 @@
           <div class="footer-call-to-action">
             <h2 class="footer-call-to-action-title"> Let's Chat</h2>
             <p class="footer-call-to-action-description"> Have a support question?</p>
-            <a class="footer-call-to-action-button button" href="#" target="_self"> Get in Touch </a>
+            <a class="footer-call-to-action-button button" href="#talk-to-us" target="_self"> Get in Touch </a>
           </div>
           <div class="footer-call-to-action">
             <h2 class="footer-call-to-action-title">Call us!</h2>
@@ -588,62 +588,12 @@
       </div>
     </footer>
   </div>
-
-  <script>
-
-// Function to generate stars
-function generateStars(container, numStars) {
-  const containerWidth = container.clientWidth;
-  const containerHeight = container.clientHeight;
-
-  const minDistance = 10;
-
-  const numCircularStars = Math.floor(numStars * 0.8);
-  const numRhombusStars = numStars - numCircularStars;
-
-  for (let i = 0; i < numCircularStars; i++) {
-    const star = document.createElement('div');
-    star.classList.add('star');
-    star.style.top = `${minDistance + Math.random() * (containerHeight - minDistance * 2)}px`;
-    star.style.left = `${minDistance + Math.random() * (containerWidth - minDistance * 2)}px`;
-    container.appendChild(star);
-  }
-
-  for (let i = 0; i < numRhombusStars; i++) {
-    const star = document.createElement('div');
-    star.classList.add('star-rhombus');
-    star.style.top = `${minDistance + Math.random() * (containerHeight - minDistance * 2)}px`;
-    star.style.left = `${minDistance + Math.random() * (containerWidth - minDistance * 2)}px`;
-    container.appendChild(star);
-  }
-}
-
-// Generate stars for each stars-container
-const starContainers = document.querySelectorAll('.stars-container');
-starContainers.forEach(container => {
-  generateStars(container, 50);
-});addEventListener('scroll', function() {
-  const scrollY = window.scrollY;
-  const stars = document.querySelectorAll('.star');
-  const rhombusStars = document.querySelectorAll('.star-rhombus');
-  stars.forEach(star => {
-    // Calculate the translation distance for parallax effect
-    const translateY = Math.max(-scrollY * 0.2, -star.parentNode.clientHeight);
-
-    // Apply the translation
-    star.style.transform = `translateY(${translateY}px)`;
-  });
-  rhombusStars.forEach(star => {
-    // Calculate the translation distance for parallax effect
-    const translateY = Math.max(-scrollY * 0.4, -star.parentNode.clientHeight);
-
-    // Apply the translation
-    star.style.transform = `translateY(${translateY}px)`;
-  });
-});
-
-feather.replace();
-  </script>
-
-
 {% endblock content %}
+
+{% block extra_footer %}
+
+    <!-- Contact JS -->
+        <script src="{% static 'js/contact.js' %}" defer></script>
+    <!-- End Contact JS -->
+
+{% endblock extra_footer %}

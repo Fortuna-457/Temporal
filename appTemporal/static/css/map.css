@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scroll-behavior: smooth;
+}
+
 #mapid, .offcanvas-body {
   height: 100vh;
 }

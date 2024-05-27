@@ -2,89 +2,43 @@
 {% load static %}
 
 {% block title %}
-	Contact us
+	Page not found - 404
 {% endblock title %}
 
 {% block extra_head %}
-	<!--
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	-->
-<link href="{% static 'css/404.css' %}" rel="stylesheet">
+  <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  -->
+  <link href="{% static 'css/404.css' %}" rel="stylesheet">
 {% endblock extra_head %}
-
-{% block active_template %}
-  <ul class="navbar-nav ml-auto">
-    <div class="hori-selector">
-      <div class="left"></div>
-      <div class="right"></div>
-    </div>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'index' %}">
-        <i class='bx bxs-home-smile'></i>Home
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'games' %}">
-        <i class='bx bx-game'></i>Games
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">
-        <i class='bx bxl-blogger'></i>Blog
-      </a>
-    </li>
-    <li class="nav-item  active">
-      <a class="nav-link" href="#">
-        <i class='bx bxl-blogger'></i>Contact us
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">
-        <i class='bx bxs-cog'></i>Settings
-      </a>
-    </li>
-    <li class="nav-item">
-      {% if user.is_authenticated %}
-        <a class="nav-link" href="{% url 'logout' %}">
-          <i class='bx bx-log-out-circle'></i>Logout
-        </a>
-      {% else %}
-        <a class="nav-link" href="{% url 'login' %}">
-          <i class='bx bx-log-in-circle'></i>Login
-        </a>
-      {% endif %}
-    </li>
-  </ul>
-{% endblock active_template %}
 
 {% block content %}
 
-<section class="page_404">
-	<div class="container">
-		<div class="row">	
-		<div class="col-sm-12 ">
-		<div class="col-sm-10 col-sm-offset-1  text-center">
-		<div class="four_zero_four_bg">
-			<h1 class="text-center ">404</h1>
-		
-		
-		</div>
-		
-		<div class="contant_box_404">
-		<h3 class="h2">
-		Look like you're lost
-		</h3>
-		
-		<p>the page you are looking for not avaible!</p>
-		
-		<a href="" class="link_404">Go to Home</a>
-	</div>
-		</div>
-		</div>
-		</div>
-	</div>
-</section>
-
+  <section class="page_404">
+    <div class="container">
+      <div class="row">	
+      <div class="col-sm-12 ">
+      <div class="col-sm-10 col-sm-offset-1  text-center">
+      <div class="four_zero_four_bg">
+        <h1 class="text-center ">404</h1>
+      
+      
+      </div>
+      
+      <div class="contant_box_404">
+      <h3 class="h2">
+      Look like you're lost
+      </h3>
+      
+      <p>the page you are looking for not avaible!</p>
+      
+      <a href="{% url 'index' %}" class="link_404">Go to Home</a>
+    </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  </section>
 
 {% endblock content %}

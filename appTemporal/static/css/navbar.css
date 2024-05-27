@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scroll-behavior: smooth;
+}
+
 .navbar-logo {
   padding: 15px;
   color: #fff;

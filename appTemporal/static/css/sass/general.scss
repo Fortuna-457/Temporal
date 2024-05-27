@@ -33,6 +33,9 @@ $colors: (
     lightPurple: #ddbfff,
 );
 
+html, body{
+  scroll-behavior: smooth;
+}
 
 @function getColor($colorName) {
     @return map-get($colors, $colorName);

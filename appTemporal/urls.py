@@ -15,6 +15,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # Url de la página de mapas
     path('maps/', views.mapsView, name='maps'),
+    # Url del método que devuelve info sobre los lugares
+    path('get-info-place/', views.get_info_place, name='get-info-place'),
     # Url de la página de contacto
     path('contact/', views.contactView, name='contact'),
     # Url de la página de privacy policy
