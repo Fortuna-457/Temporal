@@ -31,12 +31,10 @@ def index(request):
     return render(request, 'layouts/index.html')
 
 
-@login_required
 def privacyPolicyView(request):
     return render(request, 'layouts/privacyPolicy.html')
 
 
-@login_required
 def contactView(request):
     return render(request, 'layouts/contact.html')
 
