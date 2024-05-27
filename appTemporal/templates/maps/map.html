@@ -27,10 +27,15 @@
             <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <!-- End Leaflet -->
 
-        <!-- LocateControl Leaflet -->
+        <!-- Leaflet LocateControl -->
           <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
           <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
-        <!-- End LocateControl Leaflet -->
+        <!-- End Leaflet LocateControl -->
+
+        <!-- Leaflet Rebound -->
+          <link rel="stylesheet" href="https://unpkg.com/leaflet-rebound/dist/leaflet-rebound.min.css" />
+          <script src="https://unpkg.com/leaflet-rebound/dist/leaflet-rebound.min.js"></script>
+        <!-- End Leaflet Rebound -->
 
         <!-- Script JQuery -->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -59,7 +64,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{% url 'contact' %}">
         <i class='bx bxl-blogger'></i>Contact us
       </a>
     </li>
@@ -83,6 +88,7 @@
 {% endblock active_template %}
 
 {% block content %}
+
     <div id="mapid"></div>
 
         <div class="offcanvas offcanvas-start"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -130,8 +136,8 @@
         </div>
     </div>
 
-    <div class="item-map">
-        {% comment %} <div class="map-buttons">
+    {% comment %} <div class="item-map">
+        <div class="map-buttons">
             <a href="#" class="map-button map-button--river" aria-label="River">
                 <i class='bx bx-water'></i>
             </a>
@@ -147,8 +153,8 @@
             <a href="#" class="map-button map-button--world" aria-label="World">
                 <i class='bx bx-world' ></i>
             </a>
-        </div> {% endcomment %}
-    </div>
+        </div>
+    </div> {% endcomment %}
 {% endblock content %}
     
 {% block extra_footer %}

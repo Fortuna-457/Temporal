@@ -3,9 +3,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Place(models.Model):
-    name = models.CharField(max_length=200, primary_key=True)
+    id = models.CharField(max_length=200, primary_key=True)
+    name = models.CharField(max_length=200)
     type = models.CharField(max_length=60)
-    relation = models.CharField(max_length=60)
+    answer_text = models.TextField()
+    pub_date = models.DateField()
     
 class ExtraFields(models.Model):
     

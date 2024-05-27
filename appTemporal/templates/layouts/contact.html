@@ -35,7 +35,7 @@
       </a>
     </li>
     <li class="nav-item  active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{% url 'contact' %}">
         <i class='bx bxl-blogger'></i>Contact us
       </a>
     </li>
@@ -545,10 +545,10 @@
             <h2 class="footer-menu-name"> Quick Links</h2>
             <ul id="menu-quick-links" class="footer-menu-list">
               <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                <a target="_blank" rel="noopener noreferrer" href="#">Contact</a>
+                <a target="_blank" rel="noopener noreferrer" href="{% url 'contact' %}">Contact</a>
               </li>
               <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                <a target="_blank" rel="noopener noreferrer" href="#">Games</a>
+                <a target="_blank" rel="noopener noreferrer" href="{% url 'games' %}">Games</a>
               </li>
               <li class="menu-item menu-item-type-post_type menu-item-object-page">
                 <a href="#">Profile</a>
@@ -557,7 +557,7 @@
                 <a href="#">Trivia map</a>
               </li>
               <li class="menu-item menu-item-type-post_type_archive menu-item-object-customer">
-                <a href="#">Creative map</a></li>
+                <a href="{% url 'maps' %}">Creative map</a></li>
             </ul>
           </div>
         </div>

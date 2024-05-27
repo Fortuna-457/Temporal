@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
+import requests
 from appTemporal.models import ExtraFields, Place
 import json
 from django.http import JsonResponse
@@ -49,6 +50,7 @@ def games(request):
 def logoutView(request):
     logout(request)
     return redirect('/')
+
 
 def loginView(request):
     if request.method == "GET":
@@ -118,46 +120,66 @@ def register(request): # Vista registro
             return redirect('login')
         else:
             return redirect('register')
+
        
 @login_required
 def mapsView(request):
+    return render(request, 'maps/map.html')
+
+
+@login_required
+def get_info_place(request):
     if request.method == 'POST':
-        
-        # Leer y decodificar los datos JSON recibidos
-        datos_json = json.loads(request.body)
-        
-        lugar = datos_json['lugar']
-        coordenadas = datos_json['coordenadas']
-        
         try:
-            # Intentar obtener el objeto Place basado en las coordenadas
-            place = Place.objects.get(coordinates=coordenadas)
-            response_text = place.answer_text
-        
-        except Place.DoesNotExist:
+            # Leer y decodificar los datos JSON recibidos
+            datos_json = json.loads(request.body)
+            relation_id = datos_json['relation_id'].upper()
+
             try:
-                # Realizar la solicitud a la API de OpenAI
-                response = openai.completions.create(
-                    model='gpt-3.5-turbo',
-                    prompt = 'Historia de:' + lugar +', en un máximo de 100 palabras.',
-                    temperature=0,
-                    max_tokens=60,
-                    top_p=1,
-                    frequency_penalty=0.5,
-                    presence_penalty=0
-                )
+                # Intentar obtener el objeto Place basado en las coordenadas
+                place = Place.objects.get(id=relation_id)
+                response_text = place.answer_text
+            
+            except Place.DoesNotExist:
+                url = f'https://nominatim.openstreetmap.org/lookup?osm_ids={relation_id}&format=json'
+                response = requests.get(url)
                 
-                # Obtener el texto de respuesta
-                response_text = response['choices'][0]['text']
-                
-                # Crear un nuevo objeto Place con las coordenadas y la respuesta
-                place = Place(coordinates=coordenadas, answer_text=response_text, pub_date=timezone.now())
-                place.save()
-                
-            except Exception as e: # Captura cualquier excepción durante el registro:
-                print(f"Error in function mapsView (appTemporal/views.py): {e}")
+                if response.status_code == 200:
+                    data = response.json()
+                    if data:
+                        location = data[0]
+                        place_name = location.get('display_name', 'N/A')
+                        place_type = location.get('osm_type', 'N/A')
+                        try:
+                            # Realizar la solicitud a la API de OpenAI
+                            response = openai.completions.create(
+                                model='gpt-3.5-turbo',
+                                prompt = 'Historical events in the:' + place_name,
+                                temperature=0,
+                                max_tokens=60,
+                                top_p=1,
+                                frequency_penalty=0.5,
+                                presence_penalty=0
+                            )
+                            
+                            # Obtener el texto de respuesta
+                            response_text = response['choices'][0]['text']
+                            
+                            # Crear un nuevo objeto Place con las coordenadas y la respuesta
+                            place = Place(id=relation_id, name=place_name, type=place_type, answer_text=response_text, pub_date=timezone.now())
+                            place.save()
+                            
+                            # Devolver el texto de respuesta en formato JSON
+                            return JsonResponse({'place': response_text})
+                            
+                        except Exception as e: # Captura cualquier excepción durante el registro:
+                            print(f"Error in function mapsView (appTemporal/views.py): {e}")
+
+            # Devolver el texto de respuesta en formato JSON
+            return JsonResponse({'place': response_text})
         
-        # Devolver el texto de respuesta en formato JSON
-        return JsonResponse({'lugar': response_text})
-    else:
-        return render(request, 'maps/map.html')
+        except Exception as e: # Captura cualquier excepción durante el registro:
+            print(f"Error in function mapsView (appTemporal/views.py): {e}")
+
+    # Return a default response if there's an error or the request method is not POST
+    return JsonResponse({'place': 'Not info found about this place.'})

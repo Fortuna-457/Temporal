@@ -1,14 +1,25 @@
 // Initialize the map, marker, and circle representing the radius
-let map = L.map('mapid').setView([37.174782319895975, -3.5914930701801504], 15);
+let map = L.map('mapid', {
+    center: [37.174782319895975, -3.5914930701801504],
+    zoom: 15,
+    maxBounds: L.latLngBounds(
+        L.latLng(-90, -180),  // Suroeste (límite inferior)
+        L.latLng(90, 180)     // Noreste (límite superior, en este caso, 180 grados de longitud)
+    ),
+    worldCopyJump: true           // Para evitar que el mapa se duplique
+});
 let marker;
 let circle;
 let radius = 15; // Define the radius in meters
 let elements = []; // Initialize the array
 
+// Get the CSRF token
+const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
 // Load the OpenStreetMap map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    minZoom: 9,
+    minZoom: 5,
 }).addTo(map);
 
 // Personalizar el control de zoom (ubicación, estilo, etc.)
@@ -19,10 +30,17 @@ L.control.locate({
     position: 'bottomright',  // Posición del botón de geolocalización
     strings: {
         title: "Show my ubication"  // Texto alternativo del botón
-    }
+    },
+    keepCurrentZoomLevel: true, // Mantener el nivel de zoom actual al geolocalizar
+    drawCircle: false,          // Dibujar un círculo de precisión alrededor de la ubicación
+    drawMarker: false,          // Dibujar un marcador de precisión en la ubicación
+    showPopup: true,            // No mostrar un popup al geolocalizar
+    flyTo: true,                // Realizar un efecto de vuelo al centrar el mapa
+    radius: 15  
 }).addTo(map);
 
 map.on('click', function(e) {
+
     let latlng = e.latlng;
 
     // Place the marker
@@ -57,7 +75,7 @@ map.on('click', function(e) {
         // Clear previous response
         $("#respuesta").empty();
 
-        if (elements.length === 0) { // Check if the elements array is empty
+        if (elements.length === 0 || elements[0].id === null) { // Check if the elements array is empty or if id is null
             let messages = [
                 "Oops! Something went wrong, click again somewhere else!",
                 "Jax is a genius, but his knowledge has its limits!",
@@ -112,7 +130,7 @@ map.on('click', function(e) {
 
             elements.forEach((element) => {
                 if (!aux_array.includes(element.name)) {
-                    
+
                     // Get the first letter of type
                     let type = element.type.charAt(0); 
                 
@@ -170,7 +188,7 @@ map.on('click', function(e) {
 
             // Add <a> tags for each response
             elements.forEach((element) => {
-                if (!aux_array.includes(element.name)) {
+                if (!aux_array.includes(element.name) && elements[0].id !== null ) {
 
                     // Get the first letter of type
                     let type = element.type.charAt(0); 
@@ -179,7 +197,7 @@ map.on('click', function(e) {
                     let newId = type + element.id;
 
                     // Change span to a tag
-                    let newResponse = $('<a class="single-answer" href="#">' + element.name + '.</a>');
+                    let newResponse = $('<a id="'+ newId +'" class="single-answer" href="#">' + element.name + '.</a>');
 
                     // Create a new <a> for each element
                     newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
@@ -215,9 +233,9 @@ map.on('click', function(e) {
             return (element.tags && element.tags.name);
         }).map(element => {
             return {
-                name: element.tags.name,
-                type: element.type,
-                id: element.id
+                name: element.tags.name || null,
+                type: element.type || null,
+                id: element.id || null
             };
         });
 
@@ -228,11 +246,11 @@ map.on('click', function(e) {
             .then(data => {
                 // Add the Nominatim data as a new element to the elements array
                 elements.push({
-                    name: data.display_name, 
-                    type: data.osm_type, 
-                    id: data.osm_id
+                    name: data.display_name || null, 
+                    type: data.osm_type || null, 
+                    id: data.osm_id || null
                 });
-    
+
                 // Display elements
                 displayElements(elements);
     
@@ -253,6 +271,34 @@ map.on('click', function(e) {
     });
 });
 
+$(".answer-container").on("click", "a.single-answer", function (e) {
+    
+    // Obtenemos el id de la respuesta
+    let id_answer = $(this).attr("id").toUpperCase();
+
+    if(id_answer){
+        $.ajax({
+            url: '/get-info-place/',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
+            },
+            data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
+        })
+        .done(function(response) { // Sacamos la respuesta del server
+            if (response && response.length > 0){ // Si no está vacío, ni es nulo, lo mostramos.
+                console.log(response);
+            }
+        })
+        .fail(function(error) {
+            console.error('Error:', error);
+        });
+    } else {
+        alert("Not info found about this place."); // En vez de un alert, lo mostramos como una burbuja de texto
+    }
+});
+
 $('.button-off-canvas').on('click', function() {
     // Add animation to fade out the bubbles
     $('.bubbleComic').addClass('fadeOut').delay(500).queue(function(next) {
@@ -261,19 +307,26 @@ $('.button-off-canvas').on('click', function() {
     });
 });
 
+// Flag to track dragging
 let isDragging = false;
 
-let mapElement = document.getElementById('mapid');
-
-mapElement.addEventListener('mousedown', function() {
+// Detect when the user is not dragging the map
+map.addEventListener('mousedown', function() {
     isDragging = false;
 });
 
-mapElement.addEventListener('mousemove', function() {
+// Detect when the user is dragging the map
+map.addEventListener('mousemove', function() {
     isDragging = true;
 });
 
-mapElement.addEventListener('mouseup', function(event) {
+// Handle the map click event
+map.getContainer().addEventListener('click', function(event) {
+    // Evitar el evento click si proviene de un control específico
+    if (event.target.closest('.leaflet-control-zoom') || event.target.closest('.leaflet-control-locate')) {
+        return;
+    }
+
     let wasDragging = isDragging;
     isDragging = false;
     if (!wasDragging) {
