@@ -19,6 +19,8 @@ urlpatterns = [
     path('get-info-place/', views.get_info_place, name='get-info-place'),
     # Url de la página de contacto
     path('contact/', views.contactView, name='contact'),
-     # Url de la página de privacy policy
+    # Url de la página de privacy policy
     path('privacyPolicy/', views.privacyPolicyView, name='privacyPolicy'),
+    # Url de la página del triviall
+    path('trivial/', views.trivial, name='trivial'),
 ]

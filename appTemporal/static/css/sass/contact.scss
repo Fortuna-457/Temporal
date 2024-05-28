@@ -42,7 +42,7 @@ body {
         bottom: 65px;
         right: 0px;
         transform: translateX(-50%);
-        font-size: clamp(2rem, 1.286rem + 1.905vw, 3rem);
+        font-size: clamp(2.5rem, 2.143rem + 0.952vw, 3rem);
         font-family: "Rubik", sans-serif;
         font-style: italic;
         text-shadow: 0 0 5px rgba(255, 255, 255, 0.9);
@@ -75,22 +75,6 @@ body {
         span {
             color: rgb(215, 171, 255);
         }
-
-        &:before {
-            content: "Time leapers";
-            font-family: "Rubik", sans-serif;
-            font-style: italic;
-            position: absolute;
-            letter-spacing: 0.3em;
-            font-size: 60px;
-            white-space: nowrap;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.2;
-            z-index: -1;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.9);
-        }
     }
 
     p {
@@ -99,6 +83,9 @@ body {
     }
 }
 
+.title-who-are-we{
+  font-size: clamp(2rem, 1.286rem + 1.905vw, 3rem);
+}
 
 .svg-transition{
     width:100%;
@@ -303,7 +290,6 @@ svg {
 }
 
 form {
-	min-width: 25rem;
 	
 	.title {
         font-family: "Rubik", sans-serif;
@@ -405,6 +391,7 @@ form {
         margin-right:10px;
         color: white;
         transition: all 0.2s ease;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
 
         &:last-child{
             margin-right: 0px;
@@ -655,30 +642,7 @@ form {
           position: relative;
         }
       }
-      @media (min-width:480px) and (max-width:599px)  { /* smartphones, Android phones, landscape iPhone */
-        .footer-content {
-          margin-left: auto;
-          margin-right: auto;
-          padding: 40px 40px 80px 50px;
-          position: relative;
-        }
-      }
-      @media (min-width:600px) and (max-width: 800px)  { /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
-        .footer-content {
-          margin-left: auto;
-          margin-right: auto;
-          padding: 40px 40px 80px 50px;
-          position: relative;
-        }
-      }
 
-      @media (min-width: 760px) {
-        .footer-content {
-            margin-left: auto;
-            margin-right: auto;
-            padding: 40px 40px 80px 50px;
-            position: relative;
-        }
 
         .footer-wave-svg {
             height: 50px;
@@ -687,10 +651,32 @@ form {
         .footer-content-column {
             flex:1;
         }
+      
+
+          /* Media Query for 1093px */
+    @media (max-width: 1200px) {
+      .container{
+        svg{
+          display:none;
       }
 
-      @media (min-width: 568px) {
-        /* .footer-content-column {
-            width: 49.99%;
-        } */
+      form{
+        width:500px;
       }
+    }
+  }
+    /* Media Query for 1093px */
+    @media (max-width: 400px) {
+      .who-are-we{
+        height:80vh;
+      }
+
+      .svg-transition1{
+        margin-bottom: -105px;
+      }
+
+      .container{
+        height:100vh;
+      }
+    }
+  
