@@ -78,22 +78,22 @@
 	border-top-right-radius: 15px;
 	margin-top: 10px;
 }
-.hori-selector .right,
-.hori-selector .left{
+.hori-selector .right-navbar,
+.hori-selector .left-navbar{
 	position: absolute;
 	width: 25px;
 	height: 25px;
 	background-color: #fff;
 	bottom: 10px;
 }
-.hori-selector .right{
+.hori-selector .right-navbar{
 	right: -25px;
 }
-.hori-selector .left{
+.hori-selector .left-navbar{
 	left: -25px;
 }
-.hori-selector .right:before,
-.hori-selector .left:before{
+.hori-selector .right-navbar:before,
+.hori-selector .left-navbar:before{
 	content: '';
     position: absolute;
     width: 50px;
@@ -101,11 +101,11 @@
     border-radius: 50%;
     background-color: getColor(primary);
 }
-.hori-selector .right:before{
+.hori-selector .right-navbar:before{
 	bottom: 0;
     right: -25px;
 }
-.hori-selector .left:before{
+.hori-selector .left-navbar:before{
 	bottom: 0;
     left: -25px;
 }
@@ -145,22 +145,22 @@
 		border-top-left-radius: 25px;
 		border-bottom-left-radius: 25px;
 	}
-	.hori-selector .left,
-	.hori-selector .right{
+	.hori-selector .left-navbar,
+	.hori-selector .right-navbar{
 		right: 10px;
 	}
-	.hori-selector .left{
+	.hori-selector .left-navbar{
 		top: -25px;
 		left: auto;
 	}
-	.hori-selector .right{
+	.hori-selector .right-navbar-navbar{
 		bottom: -25px;
 	}
-	.hori-selector .left:before{
+	.hori-selector .left-navbar:before{
 		left: -25px;
 		top: -25px;
 	}
-	.hori-selector .right:before{
+	.hori-selector .right-navbar-navbar:before{
 		bottom: -25px;
 		left: -25px;
 	}

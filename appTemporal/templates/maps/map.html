@@ -45,8 +45,8 @@
 {% block active_template %}
   <ul class="navbar-nav ml-auto">
     <div class="hori-selector">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
     </div>
     <li class="nav-item">
       <a class="nav-link" href="{% url 'index' %}">
@@ -89,12 +89,21 @@
 
 {% block content %}
 
+<div class="searchForm">
+  <form onsubmit="event.preventDefault();" role="search">
+    <label for="search">Search for stuff</label>
+    <input id="search" type="search" placeholder="Search..." autofocus required />
+    <button type="submit">Search</button>
+  </form>
+</div>
+
     <div id="mapid"></div>
 
         <div class="offcanvas offcanvas-start"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <p class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></p>
+              
             </div>
             <div class="offcanvas-body">
                 <div class="off-canvas-options">
