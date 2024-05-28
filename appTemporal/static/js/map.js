@@ -97,10 +97,55 @@ map.on('click', function(e) {
                 "Jax is on a lunch break! Click somewhere else.",
                 "Jax's sensors are offline! Try another location."
             ];
-            let message = messages[Math.floor(Math.random() * messages.length)]; // Select a random message
-            newBubble.find(".loading").remove(); // Remove the loading animation
-            newBubble.find(".respuesta").append("<p>" + message + "</p>"); // Add the message to the current bubble
-        }else{
+            let message = messages[Math.floor(Math.random() * messages.length)];
+            newBubble.find(".loading").remove();
+            newBubble.find(".respuesta").append("<p>" + message + "</p>");
+            newBubble.find('.bubble').removeClass("bubble right slideInFromRight").addClass("middle-div");
+            newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+            
+
+            // Scroll to the top of the new bubble
+            newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Create a new bubble underneath the existing one (second bubble)
+            let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
+        setTimeout(function() {
+            $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
+                  newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
+            newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
+
+                let messagesAnswerBack = [
+                    "Hey, sure, what would you like to know about?",
+                    "Sure, what about specifically?",
+                    "Select a place so I know what you're talking about!",
+                    "Good taste! Select what you'd like to know more about",
+                    "Want a random fact?, sure! Select something of the list first!",
+                    "Jax is here to assist! Click and ask away.",
+                    "Ready for more info? Click and let me know.",
+                    "Curious? Click and I'll provide answers!",
+                    "Intrigued? Click and I'll share some knowledge.",
+                    "Let's explore! Click and discover something new.",
+                    "Jax is standing by for your click! Ask away.",
+                    "Seeking information? Click and I'll provide.",
+                    "Need help? Click and I'll guide you.",
+                    "Ready for a journey? Click and let's explore.",
+                    "Jax is at your service! Click and inquire.",
+                    "Ready for adventure? Click and let's begin.",
+                    "Jax is here to enlighten! Click and discover.",
+                    "Jax is waiting for your question! Click and ask.",
+                    "Time for knowledge! Click and learn more.",
+                    "Jax is eager to assist you! Click and inquire."
+                ];
+                let messageAnswerBack = messagesAnswerBack[Math.floor(Math.random() * messagesAnswerBack.length)]; // Select a random message for the answer back bubble
+
+                //HERE
+                newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
+
+                newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 750); // Delay of 0.75s
+
+            return; // Exit the function to avoid creating a right bubble
+        } else {
             let messages = [
                 "Jax, tell me something about",
                 "Hey Jax, tell me about",
@@ -208,6 +253,7 @@ map.on('click', function(e) {
             newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 750); // Delay of 0.75s
 
+        //HERE
         $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
 

@@ -475,3 +475,23 @@ label {
   width: 1px;
   overflow: hidden;
 }
+
+.middle-div{
+  width:100%;
+  border-radius: 10px;
+  background-color: rgb(111, 0, 185);
+  margin:0px 0px 30px 0px;
+  padding:16px;
+
+  .respuesta{
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+
+    p{
+      margin: 0px;
+    }
+  }
+}
