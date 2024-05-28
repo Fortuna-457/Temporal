@@ -35,7 +35,6 @@ def index(request):
 def trivial(request):
     return render(request, 'layouts/trivial.html')
 
-@login_required
 def privacyPolicyView(request):
     return render(request, 'layouts/privacyPolicy.html')
 
