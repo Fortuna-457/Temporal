@@ -259,8 +259,8 @@ map.on('click', function(e) {
                 // Add the Nominatim data as a new element to the elements array
                 elements.push({
                     name: data.display_name || null,
-                    lat: data.lat || null,
-                    lon: data.lon || null, 
+                    lat: data.lat || latlng.lat,
+                    lon: data.lon || latlng.lng, 
                     type: data.osm_type || null, 
                     id: data.osm_id || null
                 });
@@ -330,7 +330,7 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
     let id_answer = $(this).attr("id").toUpperCase();
 
     // Utilizamos flyTo en lugar de setView para una transición suave
-    map.flyTo([$(this).data("lat"), $(this).data("lon")]);
+    map.flyTo([$(this).data("lat"), $(this).data("lon")], 18);
 
     if (marker) {
         marker.setLatLng([$(this).data("lat"), $(this).data("lon")]);
