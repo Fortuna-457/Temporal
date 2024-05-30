@@ -27,6 +27,7 @@ $button-shadow:  rgba(0, 0, 0, 0.5) 1px 0px 15px 1px;
 
 #mapid, .offcanvas-body {
   height: 100vh;
+  scroll-behavior: smooth;
 }
 
 .button-test, .offcanvas-body {
@@ -234,14 +235,16 @@ body:not(.modal-open) {
   width: 500px !important;
 }
 
-#myBtn {
+.goTopButton{
+  cursor: pointer;
   display: none;
   position: fixed;
   bottom: 20px;
+  left: 25px;
   border: none;
   background: none;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 #geolocateBtn{

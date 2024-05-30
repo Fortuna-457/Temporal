@@ -108,10 +108,8 @@
             <div class="offcanvas-body">
                 <div class="off-canvas-options">
                     <div class="item-off-canvas item-off-canvas-buttons">
-                        <div class="button-off-canvas"><i class='bx bx-refresh' id="refreshBubbles"></i></div>
-                        <div class="button-off-canvas" id="voiceButton">
-                            <i class='bx bx-globe'></i>
-                        </div>
+                        <div class="button-off-canvas" id="refreshBubbles"><i class='bx bx-refresh'></i></div>
+                        <div class="button-off-canvas" id="voiceButton"><i class='bx bx-globe'></i></div>
                         <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
                         <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
                         <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
@@ -119,31 +117,20 @@
                     <div class="answer-container item-off-canvas item-off-canvas-answer">
                     </div>
                 </div>
-                <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
+                <p  onclick="topFunction()" id="goToTop" class="goTopButton" title="Go to top"><i class='bx bxs-to-top'></i></p>
             </div>
 
               </div>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="off-canvas-options">
-                <div class="item-off-canvas item-off-canvas-buttons">
-                    <div class="button-off-canvas"><i class='bx bx-refresh'></i></div>
-                    <div class="button-off-canvas" id="voiceButton">
-                        <i class='bx bx-globe'></i>
-                    </div>
-                    <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
-                    <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
-                    <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
-                </div>
-                <div id="respuesta" class="item-off-canvas item-off-canvas-answer"></div>
-            </div>
-            <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
-        </div>
-    </div>
+              <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                  <div class="offcanvas-header">
+                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
+                      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                          <div id="respuesta" class="item-off-canvas item-off-canvas-answer"></div>
+                      </div>
+                  </div>
+              </div>
 
     {% comment %} <div class="item-map">
         <div class="map-buttons">
@@ -176,3 +163,5 @@
     <!-- End Map JS -->
 
 {% endblock extra_footer %}
+
+

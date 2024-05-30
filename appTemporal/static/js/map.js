@@ -102,17 +102,21 @@ map.on('click', function(e) {
             newBubble.find(".respuesta").append("<p>" + message + "</p>");
             newBubble.find('.bubble').removeClass("bubble right slideInFromRight").addClass("middle-div");
             newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return;
+            // return;
             
 
             // Scroll to the top of the new bubble
             newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
             // Create a new bubble underneath the existing one (second bubble)
             let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
-        setTimeout(function() {
+
+            setTimeout(function() {
             $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
-                  newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
-            newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
+                newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
+                newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
+                newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
+                // Display volume button
+                newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
 
                 let messagesAnswerBack = [
                     "Hey, sure, what would you like to know about?",
@@ -253,6 +257,8 @@ map.on('click', function(e) {
             newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 750); // Delay of 0.75s
 
+        newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
+        
         //HERE
         $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
@@ -318,9 +324,10 @@ map.on('click', function(e) {
 });
 
 $(".answer-container").on("click", "a.single-answer", function (e) {
-    
-    // Obtenemos el id de la respuesta
+    // Get the id of the answer
     let id_answer = $(this).attr("id").toUpperCase();
+    // Get the text of the clicked anchor tag
+    let clicked_text = $(this).text().trim();
 
     if(id_answer){
         $.ajax({
@@ -328,24 +335,43 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
             method: 'POST',
             contentType: 'application/json',
             headers: {
-                'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
+                'X-CSRFToken': csrfToken // Add the CSRF token as a header
             },
             data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
         })
-        .done(function(response) { // Sacamos la respuesta del server
-            if (response){ // Si no es nulo, lo mostramos.
+        .done(function(response) { // Get the server response
+            if (response){ // If it's not null, display it.
                 console.log(response);
+
+                // Create a right bubble with the clicked place name
+                let rightBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'></div></div></div>");
+                rightBubble.find('.respuesta').text(clicked_text); // Use the clicked_text variable
+                $(".answer-container").append(rightBubble);
+                rightBubble.find('.bubble').show();
+                rightBubble.find('.bubble').addClass("slideInFromRight");
+                rightBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+                setTimeout(function() {
+                    // Create a left bubble with the server response
+                    let leftBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
+                    leftBubble.find('.respuesta').text(response.place);
+                    $(".answer-container").append(leftBubble);
+                    leftBubble.find('.bubble').show();
+                    leftBubble.find('.bubble').addClass("slideInFromLeft");
+
+                    // Scroll to the left bubble
+                    leftBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+
+                }, 1000); // Delay of 1 second
+            
             }
         })
         .fail(function(error) {
             console.error('Error:', error);
         });
-    } else {
-        alert("Not info found about this place."); // En vez de un alert, lo mostramos como una burbuja de texto
     }
 });
 
-$('.button-off-canvas').on('click', function() {
+$('#refreshBubbles').on('click', function() {
     // Add animation to fade out the bubbles
     $('.bubbleComic').addClass('fadeOut').delay(500).queue(function(next) {
         $(this).remove();
@@ -381,3 +407,24 @@ map.getContainer().addEventListener('click', function(event) {
         offcanvas.show();
     }
 });
+
+//GO TO TOP BUTTON
+
+// Get the offcanvas body and the "Go to top" button
+let offcanvasBody = document.querySelector('.offcanvas-body');
+let goToTopButton = document.getElementById('goToTop');
+
+// Add a scroll event listener to the offcanvas body
+offcanvasBody.addEventListener('scroll', function() {
+    // If the offcanvas body is scrolled more than 100px, display the "Go to top" button
+    if (offcanvasBody.scrollTop > 100) {
+        goToTopButton.style.display = 'block';
+    } else {
+        goToTopButton.style.display = 'none';
+    }
+});
+
+// Define the topFunction to scroll the offcanvas body back to the top
+function topFunction() {
+    offcanvasBody.scrollTop = 0;
+}
