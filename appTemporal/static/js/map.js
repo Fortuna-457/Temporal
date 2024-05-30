@@ -219,7 +219,7 @@ map.on('click', function(e) {
             fillOpacity: 0.5,
             radius: radius // Use the previously defined radius variable
         }).addTo(map);
-    }  
+    }
 
     // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
     let query = `[out:json];
@@ -244,8 +244,8 @@ map.on('click', function(e) {
         }).map(element => {
             return {
                 name: element.tags.name || null,
-                lat: element.lat || null,
-                lon: element.lon || null,
+                lat: element.lat || latlng.lat,
+                lon: element.lon || latlng.lng,
                 type: element.type || null,
                 id: element.id || null
             };
@@ -331,6 +331,24 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
 
     // Utilizamos flyTo en lugar de setView para una transición suave
     map.flyTo([$(this).data("lat"), $(this).data("lon")]);
+
+    if (marker) {
+        marker.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+    } else {
+        marker = L.marker([$(this).data("lat"), $(this).data("lon")]).addTo(map);
+    }
+
+    // Draw the circle
+    if (circle) {
+        circle.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+    } else {
+        circle = L.circle([$(this).data("lat"), $(this).data("lon")], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: radius // Use the previously defined radius variable
+        }).addTo(map);
+    }
 
     if(id_answer){
         $.ajax({
