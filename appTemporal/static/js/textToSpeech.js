@@ -10,7 +10,7 @@ window.onload = function() {
     };
 
     
-    document.getElementById('speak').addEventListener('click', function(){
+    document.getElementsByClassName('volume-icon')[0].addEventListener('click', function(){
         console.log("speak: clicked");
         let text = document.querySelector('#respuesta').innerText;
         console.log('Text to speak:', text); // Add this line

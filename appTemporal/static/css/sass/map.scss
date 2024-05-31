@@ -498,3 +498,142 @@ label {
     }
   }
 }
+
+.exampleForm{
+  position: absolute;
+}
+/***MODAL TEXT TO SPEECH **/
+
+
+div#voiceListContainer {
+  height: 200px;
+  overflow-y: auto;
+  margin-top: 19px;
+  margin-right:10px;
+}
+
+.modal {
+  text-align: center;
+  padding: 0 !important;
+  z-index: 99999;
+
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    margin-top: 200px;
+  }
+
+  .modal-content {
+    width: 600px;
+    background-color: #4836bb;
+    margin: auto;
+    padding: 20px;
+    color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  }
+
+  .modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+
+    .info-icon{
+      content: "🛈";
+      position: absolute;
+      right: 15px;
+      cursor: pointer;
+      top:8px;
+      width:15px;
+      height:15px;
+      font-size: 20px;
+    }
+  }
+
+  .modal-title {
+    margin: 0;
+    line-height: 1.42857143;
+  }
+
+  .modal-body {
+    position: relative;
+    padding: 15px;
+  }
+
+  .modal-content-voice{
+    display:flex;
+  }
+
+  #volumeControl{
+    input{
+      width:100%;
+    }
+  }
+
+  #volumeButtons, #voiceButtons {
+    button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+}
+
+.selected-voice {
+  font-weight: bold;
+}
+
+.selected-voice::before {
+  content: "★ ";
+  color: gold;
+}
+
+#voiceButton{
+  display:flex;
+
+  p{
+    margin:0px;
+    margin-left:10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover{
+      color: getColor("lightPurple");
+    }
+  }
+
+  i{
+    margin-top: 5px;
+    cursor: pointer;
+  }
+}
+
+.voice-item{
+  flex:1;
+}
+
+.volumeName{
+  display:flex;
+
+  p{
+    margin:0px;
+    margin-left:10px;
+  }
+
+  i{
+    margin-top: 5px;
+  }
+}
