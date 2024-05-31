@@ -39,9 +39,168 @@ L.control.locate({
     radius: 15  
 }).addTo(map);
 
+// Función para disparar un evento personalizado 'click' en el contenedor del mapa
+function simulateMapClick() {
+    let offcanvasElement = document.getElementById('offcanvasExample');
+    let offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+    offcanvas.show();
+}
+
+// Function to display elements
+function displayElements(elements) {
+
+    // Create a new bubble for each click event (right bubble)
+    let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
+
+    $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
+    newBubble.find('.bubble').show(); // Show the bubble
+    newBubble.find('.bubble').addClass("slideInFromRight");
+
+    // Clear previous response
+    $("#respuesta").empty();
+
+    if (elements.length === 0 || elements[0].id === null) { // Check if the elements array is empty or if id is null
+        let messages = [
+            "Oops! Something went wrong, click again somewhere else!",
+            "Jax is a genius, but his knowledge has its limits!",
+            "Jax is a bit confused and cannot find that specific point...",
+            "Our time-leapers don't know what you mean, click somewhere else...",
+            "Jax fell off a cliff and cannot answer right now! Click somewhere else..",
+            "Looks like Jax took a break, click somewhere else!",
+            "Jax is pondering, click elsewhere!",
+            "Jax needs a coffee break, try another click!",
+            "Jax is stumped! Try a different location.",
+            "Jax is meditating, click again later!",
+            "Jax's memory banks need a refill! Try another location.",
+            "Jax's circuits are overloaded! Click elsewhere.",
+            "Jax is off exploring, try clicking somewhere else.",
+            "Jax is recalibrating, try again soon!",
+            "Jax needs a moment to process! Click somewhere else.",
+            "Jax is searching the archives! Try another click.",
+            "Jax is on vacation, try another click!",
+            "Jax is on a lunch break! Click somewhere else.",
+            "Jax's sensors are offline! Try another location."
+        ];
+        let message = messages[Math.floor(Math.random() * messages.length)]; // Select a random message
+        newBubble.find(".loading").remove(); // Remove the loading animation
+        newBubble.find(".respuesta").append("<p>" + message + "</p>"); // Add the message to the current bubble
+    }else{
+        let messages = [
+            "Jax, tell me something about",
+            "Hey Jax, tell me about",
+            "How are you doing?, Tell me information about",
+            "Can you tell me about",
+            "I'm interested in",
+            "Give me information about",
+            "I'd like to know about",
+            "Hey bud, tell me about",
+            "What's the story behind",
+            "Enlighten me about",
+            "I'm curious, share some knowledge about",
+            "Jax, could you elaborate on",
+            "Tell me more about",
+            "Let's explore",
+            "Inform me about",
+            "How about some facts on",
+            "Educate me on",
+            "I'm seeking details on",
+            "Jax, I'd appreciate insight on"
+        ];
+        
+        let greeting = messages[Math.floor(Math.random() * messages.length)]; // Select a random greeting
+        newBubble.find('.greeting').text(greeting); // Set the random greeting
+
+        let aux_array = [];
+
+        elements.forEach((element) => {
+            if (!aux_array.includes(element.name)) {
+
+                // Get the first letter of type
+                let type = element.type.charAt(0); 
+            
+                // Form the new id for the paragraph
+                let newId = type + element.id;
+    
+                let newResponse = $('<p id="'+ newId +'" class="single-answer" data-lat="'+ element.lat +'" data-lon="'+ element.lon +'" >' + element.name + '.</p>'); // Change span to a tag
+            
+                // Create a new <a> for each element
+                newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                
+                aux_array.push(element.name);
+            }
+        });
+
+        newBubble.find(".loading").remove(); // Remove the loading animation
+    }
+
+    // Scroll to the top of the new bubble
+    // $(".offcanvas-body").animate({ scrollTop: newBubble.offset().top }, "slow");
+
+    // Create a new bubble underneath the existing one (second bubble)
+    let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
+    setTimeout(function() {
+        $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
+        newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
+        newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
+
+        let messagesAnswerBack = [
+            "Hey, sure, what would you like to know about?",
+            "Sure, what about specifically?",
+            "Select a place so I know what you're talking about!",
+            "Good taste! Select what you'd like to know more about",
+            "Want a random fact?, sure! Select something of the list first!",
+            "Jax is here to assist! Click and ask away.",
+            "Ready for more info? Click and let me know.",
+            "Curious? Click and I'll provide answers!",
+            "Intrigued? Click and I'll share some knowledge.",
+            "Let's explore! Click and discover something new.",
+            "Jax is standing by for your click! Ask away.",
+            "Seeking information? Click and I'll provide.",
+            "Need help? Click and I'll guide you.",
+            "Ready for a journey? Click and let's explore.",
+            "Jax is at your service! Click and inquire.",
+            "Ready for adventure? Click and let's begin.",
+            "Jax is here to enlighten! Click and discover.",
+            "Jax is waiting for your question! Click and ask.",
+            "Time for knowledge! Click and learn more.",
+            "Jax is eager to assist you! Click and inquire."
+        ];
+        let messageAnswerBack = messagesAnswerBack[Math.floor(Math.random() * messagesAnswerBack.length)]; // Select a random message for the answer back bubble
+        newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
+
+        let aux_array = [];
+
+        // Add <a> tags for each response
+        elements.forEach((element) => {
+            if (!aux_array.includes(element.name) && elements[0].id !== null ) {
+
+                // Get the first letter of type
+                let type = element.type.charAt(0); 
+            
+                // Form the new id for the paragraph
+                let newId = type + element.id;
+
+                // Change span to a tag
+                let newResponse = $('<a id="'+ newId +'" class="single-answer" href="#" data-lat="'+ element.lat +'" data-lon="'+ element.lon +'">' + element.name + '.</a>');
+
+                // Create a new <a> for each element
+                newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
+                
+                aux_array.push(element.name);
+            }
+        });
+        newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 750); // Delay of 0.75s
+
+    $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+}
+
 map.on('click', function(e) {
 
     let latlng = e.latlng;
+
+    // Por si acaso, reseteamos el array elements
+    elements = [];
 
     // Place the marker
     if (marker) {
@@ -60,207 +219,6 @@ map.on('click', function(e) {
             fillOpacity: 0.5,
             radius: radius // Use the previously defined radius variable
         }).addTo(map);
-    }
-
-    // Create a new bubble for each click event (right bubble)
-    let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
-
-    $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
-    newBubble.find('.bubble').show(); // Show the bubble
-    newBubble.find('.bubble').addClass("slideInFromRight");
-
-    // Function to display elements
-    function displayElements(elements) {
-        
-        // Clear previous response
-        $("#respuesta").empty();
-
-        if (elements.length === 0 || elements[0].id === null) { // Check if the elements array is empty or if id is null
-            let messages = [
-                "Oops! Something went wrong, click again somewhere else!",
-                "Jax is a genius, but his knowledge has its limits!",
-                "Jax is a bit confused and cannot find that specific point...",
-                "Our time-leapers don't know what you mean, click somewhere else...",
-                "Jax fell off a cliff and cannot answer right now! Click somewhere else..",
-                "Looks like Jax took a break, click somewhere else!",
-                "Jax is pondering, click elsewhere!",
-                "Jax needs a coffee break, try another click!",
-                "Jax is stumped! Try a different location.",
-                "Jax is meditating, click again later!",
-                "Jax's memory banks need a refill! Try another location.",
-                "Jax's circuits are overloaded! Click elsewhere.",
-                "Jax is off exploring, try clicking somewhere else.",
-                "Jax is recalibrating, try again soon!",
-                "Jax needs a moment to process! Click somewhere else.",
-                "Jax is searching the archives! Try another click.",
-                "Jax is on vacation, try another click!",
-                "Jax is on a lunch break! Click somewhere else.",
-                "Jax's sensors are offline! Try another location."
-            ];
-            let message = messages[Math.floor(Math.random() * messages.length)];
-            newBubble.find(".loading").remove();
-            newBubble.find(".respuesta").append("<p>" + message + "</p>");
-            newBubble.find('.bubble').removeClass("bubble right slideInFromRight").addClass("middle-div");
-            newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // return;
-            
-
-            // Scroll to the top of the new bubble
-            newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Create a new bubble underneath the existing one (second bubble)
-            let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
-
-            setTimeout(function() {
-            $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
-                newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
-                newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
-                newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
-                // Display volume button
-                newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
-
-                let messagesAnswerBack = [
-                    "Hey, sure, what would you like to know about?",
-                    "Sure, what about specifically?",
-                    "Select a place so I know what you're talking about!",
-                    "Good taste! Select what you'd like to know more about",
-                    "Want a random fact?, sure! Select something of the list first!",
-                    "Jax is here to assist! Click and ask away.",
-                    "Ready for more info? Click and let me know.",
-                    "Curious? Click and I'll provide answers!",
-                    "Intrigued? Click and I'll share some knowledge.",
-                    "Let's explore! Click and discover something new.",
-                    "Jax is standing by for your click! Ask away.",
-                    "Seeking information? Click and I'll provide.",
-                    "Need help? Click and I'll guide you.",
-                    "Ready for a journey? Click and let's explore.",
-                    "Jax is at your service! Click and inquire.",
-                    "Ready for adventure? Click and let's begin.",
-                    "Jax is here to enlighten! Click and discover.",
-                    "Jax is waiting for your question! Click and ask.",
-                    "Time for knowledge! Click and learn more.",
-                    "Jax is eager to assist you! Click and inquire."
-                ];
-                let messageAnswerBack = messagesAnswerBack[Math.floor(Math.random() * messagesAnswerBack.length)]; // Select a random message for the answer back bubble
-
-                //HERE
-                newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
-
-                newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 750); // Delay of 0.75s
-
-            return; // Exit the function to avoid creating a right bubble
-        } else {
-            let messages = [
-                "Jax, tell me something about",
-                "Hey Jax, tell me about",
-                "How are you doing?, Tell me information about",
-                "Can you tell me about",
-                "I'm interested in",
-                "Give me information about",
-                "I'd like to know about",
-                "Hey bud, tell me about",
-                "What's the story behind",
-                "Enlighten me about",
-                "I'm curious, share some knowledge about",
-                "Jax, could you elaborate on",
-                "Tell me more about",
-                "Let's explore",
-                "Inform me about",
-                "How about some facts on",
-                "Educate me on",
-                "I'm seeking details on",
-                "Jax, I'd appreciate insight on"
-            ];
-            
-            let greeting = messages[Math.floor(Math.random() * messages.length)]; // Select a random greeting
-            newBubble.find('.greeting').text(greeting); // Set the random greeting
-
-            let aux_array = [];
-
-            elements.forEach((element) => {
-                if (!aux_array.includes(element.name)) {
-
-                    // Get the first letter of type
-                    let type = element.type.charAt(0); 
-                
-                    // Form the new id for the paragraph
-                    let newId = type + element.id;
-        
-                    let newResponse = $('<p id="'+ newId +'" class="single-answer">' + element.name + '.</p>'); // Change span to a tag
-                
-                    // Create a new <a> for each element
-                    newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
-                    
-                    aux_array.push(element.name);
-                }
-            });
-
-            newBubble.find(".loading").remove(); // Remove the loading animation
-        }
-
-        // Scroll to the top of the new bubble
-        // $(".offcanvas-body").animate({ scrollTop: newBubble.offset().top }, "slow");
-
-        // Create a new bubble underneath the existing one (second bubble)
-        let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
-        setTimeout(function() {
-            $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
-            newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
-            newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
-
-            let messagesAnswerBack = [
-                "Hey, sure, what would you like to know about?",
-                "Sure, what about specifically?",
-                "Select a place so I know what you're talking about!",
-                "Good taste! Select what you'd like to know more about",
-                "Want a random fact?, sure! Select something of the list first!",
-                "Jax is here to assist! Click and ask away.",
-                "Ready for more info? Click and let me know.",
-                "Curious? Click and I'll provide answers!",
-                "Intrigued? Click and I'll share some knowledge.",
-                "Let's explore! Click and discover something new.",
-                "Jax is standing by for your click! Ask away.",
-                "Seeking information? Click and I'll provide.",
-                "Need help? Click and I'll guide you.",
-                "Ready for a journey? Click and let's explore.",
-                "Jax is at your service! Click and inquire.",
-                "Ready for adventure? Click and let's begin.",
-                "Jax is here to enlighten! Click and discover.",
-                "Jax is waiting for your question! Click and ask.",
-                "Time for knowledge! Click and learn more.",
-                "Jax is eager to assist you! Click and inquire."
-            ];
-            let messageAnswerBack = messagesAnswerBack[Math.floor(Math.random() * messagesAnswerBack.length)]; // Select a random message for the answer back bubble
-            newBubbleAnswerBack.find('.greeting').text(messageAnswerBack); // Set the random message
-
-            let aux_array = [];
-
-            // Add <a> tags for each response
-            elements.forEach((element) => {
-                if (!aux_array.includes(element.name) && elements[0].id !== null ) {
-
-                    // Get the first letter of type
-                    let type = element.type.charAt(0); 
-                
-                    // Form the new id for the paragraph
-                    let newId = type + element.id;
-
-                    // Change span to a tag
-                    let newResponse = $('<a id="'+ newId +'" class="single-answer" href="#">' + element.name + '.</a>');
-
-                    // Create a new <a> for each element
-                    newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
-                    
-                    aux_array.push(element.name);
-                }
-            });
-            newBubbleAnswerBack[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 750); // Delay of 0.75s
-
-        newBubbleAnswerBack.find('.respuesta').append('<i class="volume-icon bx bxs-volume-full"></i>');
-        
-        //HERE
-        $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
 
     // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
@@ -286,6 +244,8 @@ map.on('click', function(e) {
         }).map(element => {
             return {
                 name: element.tags.name || null,
+                lat: element.lat || latlng.lat,
+                lon: element.lon || latlng.lng,
                 type: element.type || null,
                 id: element.id || null
             };
@@ -298,7 +258,9 @@ map.on('click', function(e) {
             .then(data => {
                 // Add the Nominatim data as a new element to the elements array
                 elements.push({
-                    name: data.display_name || null, 
+                    name: data.display_name || null,
+                    lat: data.lat || latlng.lat,
+                    lon: data.lon || latlng.lng, 
                     type: data.osm_type || null, 
                     id: data.osm_id || null
                 });
@@ -323,11 +285,69 @@ map.on('click', function(e) {
     });
 });
 
+$(".searchForm form").submit(function(event) {
+    event.preventDefault();
+
+    // Por si acaso, reseteamos el array elements
+    elements = [];
+
+    let searchData = $(this).find('#search').val();
+
+    // Make a request to Nominatim API to get location details
+    fetch(`https://nominatim.openstreetmap.org/search?q=${searchData}&format=json`)
+    .then(response => response.json())
+    .then(data => {
+        if(data.length > 0){
+            data.forEach(element => {
+                // Add the Nominatim data as a new element to the elements array
+                elements.push({
+                    name: element.display_name || null,
+                    lat: element.lat || null,
+                    lon: element.lon || null,
+                    type: element.osm_type || null, 
+                    id: element.osm_id || null
+                });
+            });
+        }
+
+        // Activate the events that show the answers
+        map.fire('mousedown');
+        simulateMapClick();
+
+        // Display elements
+        displayElements(elements);
+    })
+    .catch(error => {
+        console.error('Error getting elements:', error);
+        alert('Error getting elements. Please try again.');
+    });
+
+});
+
 $(".answer-container").on("click", "a.single-answer", function (e) {
     // Get the id of the answer
     let id_answer = $(this).attr("id").toUpperCase();
-    // Get the text of the clicked anchor tag
-    let clicked_text = $(this).text().trim();
+
+    // Utilizamos flyTo en lugar de setView para una transición suave
+    map.flyTo([$(this).data("lat"), $(this).data("lon")], 18);
+
+    if (marker) {
+        marker.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+    } else {
+        marker = L.marker([$(this).data("lat"), $(this).data("lon")]).addTo(map);
+    }
+
+    // Draw the circle
+    if (circle) {
+        circle.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+    } else {
+        circle = L.circle([$(this).data("lat"), $(this).data("lon")], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: radius // Use the previously defined radius variable
+        }).addTo(map);
+    }
 
     if(id_answer){
         $.ajax({
