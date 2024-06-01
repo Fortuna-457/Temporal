@@ -154,6 +154,10 @@ html, body {
     flex-basis: auto;
   }
 }
+.bx-menu:before {
+  color: white !important;
+}
+
 @media (max-width: 991px) {
   #navbarSupportedContent ul li a {
     padding: 12px 30px;
@@ -167,22 +171,7 @@ html, body {
   }
   .hori-selector .left-navbar,
   .hori-selector .right-navbar {
-    right: 10px;
-  }
-  .hori-selector .left-navbar {
-    top: -25px;
-    left: auto;
-  }
-  .hori-selector .right-navbar-navbar {
-    bottom: -25px;
-  }
-  .hori-selector .left-navbar:before {
-    left: -25px;
-    top: -25px;
-  }
-  .hori-selector .right-navbar-navbar:before {
-    bottom: -25px;
-    left: -25px;
+    display: none;
   }
 }
 .logo-nav {

@@ -327,6 +327,15 @@ map.on('click', function(e) {
     });
 });
 
+
+$(".searchForm form").on('keydown', function(e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) { 
+        e.preventDefault();
+    }
+});
+
+
 $(".searchForm form").submit(function(event) {
     event.preventDefault();
 
@@ -623,4 +632,37 @@ document.getElementById('mapSettings').addEventListener('click', function(){
     // Show the modal
     let settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
     settingsModal.show();
+});
+
+
+// Search form
+
+const searchMini = document.querySelector('#searchMini')
+const form = document.querySelector('.searchForm form');
+const searchIcon = document.querySelector('.searchIcon');
+const input = document.querySelector('#search');
+
+searchIcon.addEventListener('click', function(event) {
+    if (form.classList.contains('expanded')) {
+      // If the form is already expanded, submit the form when the search icon is clicked
+      $(".searchForm form").submit();
+    } else {
+      // If the form is not expanded, just expand the form
+      form.classList.add('expanded');
+    }
+  });
+
+  
+input.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    form.submit();
+  }
+});
+
+document.addEventListener('click', function(event) {
+  const isInsideForm = form.contains(event.target);
+  const isInsideSearchIcon = searchIcon.contains(event.target);
+  if (!isInsideForm && !isInsideSearchIcon) {
+    form.classList.remove('expanded');
+  }
 });
