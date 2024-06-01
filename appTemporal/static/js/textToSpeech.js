@@ -6,44 +6,44 @@ window.onload = function() {
 
     synth.onvoiceschanged = function() {
         voices = synth.getVoices();
+        console.log('Voices loaded:', voices); 
     };
 
-    document.getElementById('speak').addEventListener('click', function(){
+    
+    document.getElementsByClassName('volume-icon')[0].addEventListener('click', function(){
+        console.log("speak: clicked");
         let text = document.querySelector('#respuesta').innerText;
-        speech.text = text;
+        console.log('Text to speak:', text); // Add this line
+        if (text) {
+            speech.text = text;
 
-        let lang = 'en-US'; // Default to English (United States)
-        if (text.match(/[áéíóúñüÁÉÍÓÚÑÜ]/)) { // Simple check for Spanish text
-            lang = 'es-ES'; // Spanish (Spain)
+            let lang = 'en-US'; // Default to English (United States)
+            if (text.match(/[áéíóúñüÁÉÍÓÚÑÜ]/)) { // Simple check for Spanish text
+                lang = 'es-ES'; // Spanish (Spain)
+            }
+
+            let voice = voices.find(voice => voice.lang === lang);
+            if (voice) {
+                speech.voice = voice;
+            }
+
+            speech.volume = selectedVolume;
+            synth.speak(speech);
+        } else {
+            console.log('No text to speak');
         }
+    });;
 
-        let voice = voices.find(voice => voice.lang === lang);
-        if (voice) {
-            speech.voice = voice;
-        }
 
-        speech.volume = selectedVolume;
-        synth.speak(speech);
-    });
-
-    let mybutton = document.getElementById("myBtn");
     let offcanvasBody = document.querySelector('.offcanvas-body');
 
-    mybutton.style.display = "none";
-
-    offcanvasBody.onscroll = function() {
-        mybutton.style.display = offcanvasBody.scrollTop > 20 ? "block" : "none";
-    };
-
-    mybutton.onclick = function() {
-        offcanvasBody.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     document.getElementById('stop').addEventListener('click', function(){
+        console.log("stop: clicked");
         synth.cancel();
     });
 
     document.getElementById('volumeButton').addEventListener('click', function(){
+        console.log("volumeButton: clicked");
         let volumeButtons = document.getElementById('volumeButtons');
         if (!volumeButtons) {
             volumeButtons = document.createElement('div');
@@ -82,12 +82,11 @@ window.onload = function() {
             volumeButtons.appendChild(highButton);
 
             this.parentNode.insertBefore(volumeButtons, this.nextSibling);
-        } else {
-            volumeButtons.remove();
         }
     });
 
     document.getElementById('voiceButton').addEventListener('click', function(){
+        console.log("voiceButton: clicked");
         let voiceButtons = document.getElementById('voiceButtons');
         if (!voiceButtons) {
             voiceButtons = document.createElement('div');
@@ -113,8 +112,6 @@ window.onload = function() {
             }
 
             this.parentNode.insertBefore(voiceButtons, this.nextSibling);
-        } else {
-            voiceButtons.remove();
         }
     });
 }

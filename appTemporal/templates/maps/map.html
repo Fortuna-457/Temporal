@@ -92,58 +92,76 @@
 <div class="searchForm">
   <form onsubmit="event.preventDefault();" role="search">
     <label for="search">Search for stuff</label>
-    <input id="search" type="search" placeholder="Search..." autofocus required />
+    <input id="search" type="search" placeholder="Search..." />
     <button type="submit">Search</button>
   </form>
 </div>
 
     <div id="mapid"></div>
-
+    
         <div class="offcanvas offcanvas-start"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
               <p class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></p>
-              
+
             </div>
             <div class="offcanvas-body">
                 <div class="off-canvas-options">
                     <div class="item-off-canvas item-off-canvas-buttons">
-                        <div class="button-off-canvas"><i class='bx bx-refresh' id="refreshBubbles"></i></div>
-                        <div class="button-off-canvas" id="voiceButton">
-                            <i class='bx bx-globe'></i>
-                        </div>
-                        <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
-                        <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
-                        <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
+                        <div class="button-off-canvas" id="refreshBubbles"><i class='bx bx-refresh'></i></div>
+                        <div class="button-off-canvas" id="mapSettings"><i class='bx bxs-cog'></i></div>
                     </div>
                     <div class="answer-container item-off-canvas item-off-canvas-answer">
                     </div>
                 </div>
-                <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
+                <p  onclick="topFunction()" id="goToTop" class="goTopButton" title="Go to top"><i class='bx bxs-to-top'></i></p>
             </div>
 
               </div>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="off-canvas-options">
-                <div class="item-off-canvas item-off-canvas-buttons">
-                    <div class="button-off-canvas"><i class='bx bx-refresh'></i></div>
-                    <div class="button-off-canvas" id="voiceButton">
-                        <i class='bx bx-globe'></i>
+              <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                  <div class="offcanvas-header">
+                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat with Jax, one of our time-leapers!</h5>
+                      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                          <div id="respuesta" class="item-off-canvas item-off-canvas-answer"></div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="modal" tabindex="-1" id="settingsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Settings</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <span class="info-icon" data-bs-toggle="tooltip" title="The available voices may depend on your browser and system language">🛈</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-content-voice">
+                                <div class="voice-item availableVoices">
+                                    <div class="button-off-canvas" id="voiceButton">
+                                        <i class='bx bx-globe'></i>
+                                        <p>Available voices</p>
+                                    </div>
+                                    <div id="voiceListContainer" style="display: none;"></div>
+                                    <div id="voiceButtons"></div>
+                                </div>
+                                <div class="voice-item volumeSettings">
+                                    <div id="volumeControl">
+                                        <div class="volumeName">
+                                            <i class='bx bx-volume-full'></i>
+                                            <p>Volume:</p>
+                                        </div>
+                                        <label for="volumeSlider">Volume: </label>
+                                        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="button-off-canvas" id="speak"><i class='bx bxs-volume-full'></i></div>
-                    <div class="button-off-canvas" id="stop"><i class='bx bxs-volume-mute'></i></div>
-                    <div class="button-off-canvas" id="volumeButton"><i class='bx bxs-volume-low'></i></div>
                 </div>
-                <div id="respuesta" class="item-off-canvas item-off-canvas-answer"></div>
             </div>
-            <button onclick="topFunction()" id="myBtn" title="Go to top"><i class='bx bxs-to-top'></i></button>
-        </div>
-    </div>
 
     {% comment %} <div class="item-map">
         <div class="map-buttons">
@@ -168,7 +186,7 @@
     
 {% block extra_footer %}
     <!-- TextToSpeech JS -->
-        <script src="{% static 'js/textToSpeech.js' %}" defer></script>
+        {% comment %} <script src="{% static 'js/textToSpeech.js' %}" defer></script> {% endcomment %}
     <!-- End TextToSpeech JS -->
 
     <!-- Map JS -->
@@ -176,3 +194,5 @@
     <!-- End Map JS -->
 
 {% endblock extra_footer %}
+
+
