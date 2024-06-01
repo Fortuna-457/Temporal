@@ -1,3 +1,10 @@
+$(document).ready(function() {
+    $('#myModal').on('hidden.bs.modal', function () {
+        $('#search').focus();
+    });
+});
+
+
 // Initialize the map, marker, and circle representing the radius
 let map = L.map('mapid', {
     center: [37.174782319895975, -3.5914930701801504],
@@ -47,17 +54,23 @@ function simulateMapClick() {
 }
 
 // Function to display elements
-function displayElements(elements) {
+function displayElements(elements, newBubble) {
+    // Ensure elements is an array
+    if (!Array.isArray(elements)) {
+        console.error('elements is not an array');
+        return;
+    }
 
-    // Create a new bubble for each click event (right bubble)
-    let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
-
-    $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
-    newBubble.find('.bubble').show(); // Show the bubble
-    newBubble.find('.bubble').addClass("slideInFromRight");
-
+        // If newBubble is not provided, create a new one
+        if (!newBubble) {
+            newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
+            $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
+            newBubble.find('.bubble').show(); // Show the bubble
+            newBubble.find('.bubble').addClass("slideInFromRight");
+        }
     // Clear previous response
     $("#respuesta").empty();
+    
 
     if (elements.length === 0 || elements[0].id === null) { // Check if the elements array is empty or if id is null
         let messages = [
@@ -81,9 +94,21 @@ function displayElements(elements) {
             "Jax is on a lunch break! Click somewhere else.",
             "Jax's sensors are offline! Try another location."
         ];
-        let message = messages[Math.floor(Math.random() * messages.length)]; // Select a random message
-        newBubble.find(".loading").remove(); // Remove the loading animation
-        newBubble.find(".respuesta").append("<p>" + message + "</p>"); // Add the message to the current bubble
+        // Select a random message from the array
+        let message = messages[Math.floor(Math.random() * messages.length)];
+
+        // Remove the loading animation
+        newBubble.find(".loading").remove();
+
+        // Add the error message to the bubble
+        newBubble.find(".respuesta").append("<p>" + message + "</p>");
+
+        // Adjust the CSS classes for the bubble
+        newBubble.find('.bubble').removeClass("bubble right slideInFromRight").addClass("middle-div");
+
+        // Scroll to the top of the new bubble
+        newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
     }else{
         let messages = [
             "Jax, tell me something about",
@@ -142,7 +167,6 @@ function displayElements(elements) {
         $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
         newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
         newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
-
         let messagesAnswerBack = [
             "Hey, sure, what would you like to know about?",
             "Sure, what about specifically?",
@@ -193,9 +217,20 @@ function displayElements(elements) {
     }, 750); // Delay of 0.75s
 
     $('.bubble.right:last')[0].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    newBubbleAnswerBack.find('.bubble').append('<i class="volume-icon bx bxs-volume-full"></i>');
 }
+let isBubbleGenerating = false;
 
 map.on('click', function(e) {
+
+    // if (isBubbleGenerating) return; // If a bubble is already being generated, do not proceed
+
+    // isBubbleGenerating = true; // Set the flag to true since a bubble is being generated
+
+    let newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
+    $(".answer-container").append(newBubble);
+    newBubble.find('.bubble').show();
+    newBubble.find('.bubble').addClass("slideInFromRight");
 
     let latlng = e.latlng;
 
@@ -221,6 +256,7 @@ map.on('click', function(e) {
         }).addTo(map);
     }
 
+    
     // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
     let query = `[out:json];
     (
@@ -232,6 +268,8 @@ map.on('click', function(e) {
     >;
     out skel qt;`;
 
+    
+    
     fetch('https://overpass-api.de/api/interpreter', {
         method: 'POST',
         body: query
@@ -266,22 +304,26 @@ map.on('click', function(e) {
                 });
 
                 // Display elements
-                displayElements(elements);
+                displayElements(elements, newBubble);
+                // isBubbleGenerating = false;
     
             })
             .catch(error => {
                 console.error('Error getting elements:', error);
                 alert('Error getting elements. Please try again.');
+                // isBubbleGenerating = false;
             });
         }else{
             // Display elements
-            displayElements(elements);
+            displayElements(elements, newBubble);
+            // isBubbleGenerating = false;
         }
 
     })
     .catch(error => {
         console.error('Error getting elements:', error);
         alert('Error getting elements. Please try again.');
+        // isBubbleGenerating = false;
     });
 });
 
@@ -293,10 +335,13 @@ $(".searchForm form").submit(function(event) {
 
     let searchData = $(this).find('#search').val();
 
+    console.log('Search data:', searchData); // Log the search data
+
     // Make a request to Nominatim API to get location details
     fetch(`https://nominatim.openstreetmap.org/search?q=${searchData}&format=json`)
     .then(response => response.json())
     .then(data => {
+        console.log('Nominatim response:', data); // Log the Nominatim response
         if(data.length > 0){
             data.forEach(element => {
                 // Add the Nominatim data as a new element to the elements array
@@ -309,6 +354,8 @@ $(".searchForm form").submit(function(event) {
                 });
             });
         }
+
+        console.log('Elements array:', elements); // Log the elements array
 
         // Activate the events that show the answers
         map.fire('mousedown');
@@ -325,24 +372,30 @@ $(".searchForm form").submit(function(event) {
 });
 
 $(".answer-container").on("click", "a.single-answer", function (e) {
-    
-    // Obtenemos el id de la respuesta
-    let id_answer = $(this).attr("id").toUpperCase();
+    // Prevent default link behavior
+    e.preventDefault();
 
-    // Utilizamos flyTo en lugar de setView para una transición suave
-    map.flyTo([$(this).data("lat"), $(this).data("lon")], 18);
+    // Get the id of the answer
+    let id_answer = $(this).attr("id").toUpperCase();
+    // Get the text of the clicked anchor tag
+    let clicked_text = $(this).text().trim();
+    
+    // Utilize flyTo for smooth transition
+    let lat = $(this).data("lat");
+    let lon = $(this).data("lon");
+    map.flyTo([lat, lon], 18);
 
     if (marker) {
-        marker.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+        marker.setLatLng([lat, lon]);
     } else {
-        marker = L.marker([$(this).data("lat"), $(this).data("lon")]).addTo(map);
+        marker = L.marker([lat, lon]).addTo(map);
     }
 
     // Draw the circle
     if (circle) {
-        circle.setLatLng([$(this).data("lat"), $(this).data("lon")]);
+        circle.setLatLng([lat, lon]);
     } else {
-        circle = L.circle([$(this).data("lat"), $(this).data("lon")], {
+        circle = L.circle([lat, lon], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
@@ -350,30 +403,55 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
         }).addTo(map);
     }
 
-    if(id_answer){
-        $.ajax({
-            url: '/get-info-place/',
-            method: 'POST',
-            contentType: 'application/json',
-            headers: {
-                'X-CSRFToken': csrfToken // Agrega el token CSRF como encabezado
-            },
-            data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
-        })
-        .done(function(response) { // Sacamos la respuesta del server
-            if (response){ // Si no es nulo, lo mostramos.
-                console.log(response);
-            }
-        })
-        .fail(function(error) {
-            console.error('Error:', error);
-        });
-    } else {
-        alert("Not info found about this place."); // En vez de un alert, lo mostramos como una burbuja de texto
+    if (id_answer) {
+        // Show loading animation for the right answer bubble
+        let rightBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'>" + clicked_text + "</div></div></div>");
+        $(".answer-container").append(rightBubble);
+        rightBubble.find('.bubble').show();
+        rightBubble.find('.bubble').addClass("slideInFromRight");
+
+        // Move to top of the right bubble
+        rightBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+
+        // Delay the appearance of the left bubble
+        setTimeout(function() {
+            // Show loading animation for the left bubble
+            let leftBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div></div>");
+            $(".answer-container").append(leftBubble);
+            leftBubble.find('.bubble').show();
+            leftBubble.find('.bubble').addClass("slideInFromLeft");
+            leftBubble.find('.bubble').append('<i class="volume-icon bx bxs-volume-full"></i>');
+            $.ajax({
+                url: '/get-info-place/',
+                method: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': csrfToken // Add the CSRF token as a header
+                },
+                data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
+            })
+            .done(function(response) { // Get the server response
+                if (response) { // If it's not null, display it.
+                    console.log(response);
+
+                    setTimeout(function() {
+                        // Fill left bubble with response
+                        leftBubble.find('.respuesta').empty().text(response.place);
+                        // Remove loading animation from left bubble
+                        leftBubble.find('.loading').remove();
+                        leftBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+                    }, 1000); // Delay of 1 second
+                }
+            })
+            .fail(function(error) {
+                console.error('Error:', error);
+            });
+        }, 750); // Delay of 0.75 seconds
     }
 });
 
-$('.button-off-canvas').on('click', function() {
+
+$('#refreshBubbles').on('click', function() {
     // Add animation to fade out the bubbles
     $('.bubbleComic').addClass('fadeOut').delay(500).queue(function(next) {
         $(this).remove();
@@ -394,6 +472,7 @@ map.addEventListener('mousemove', function() {
     isDragging = true;
 });
 
+
 // Handle the map click event
 map.getContainer().addEventListener('click', function(event) {
     // Evitar el evento click si proviene de un control específico
@@ -408,4 +487,140 @@ map.getContainer().addEventListener('click', function(event) {
         let offcanvas = new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.show();
     }
+});
+
+
+//GO TO TOP BUTTON
+
+// Get the offcanvas body and the "Go to top" button
+let offcanvasBody = document.querySelector('.offcanvas-body');
+let goToTopButton = document.getElementById('goToTop');
+
+// Add a scroll event listener to the offcanvas body
+offcanvasBody.addEventListener('scroll', function() {
+    // If the offcanvas body is scrolled more than 100px, display the "Go to top" button
+    if (offcanvasBody.scrollTop > 100) {
+        goToTopButton.style.display = 'block';
+    } else {
+        goToTopButton.style.display = 'none';
+    }
+});
+
+// Define the topFunction to scroll the offcanvas body back to the top
+function topFunction() {
+    offcanvasBody.scrollTop = 0;
+}
+
+/******************************************** */
+/******************************************** */
+/******************************************** */
+/******************************************** */
+/******* TEXT TO SPEECH PART **************** */
+/******************************************** */
+/******************************************** */
+/******************************************** */
+/******************************************** */
+
+// Initialize the tooltip
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+let selectedVolume = 1; // Default volume
+let synth = window.speechSynthesis;
+let speech = new SpeechSynthesisUtterance();
+let voices = [];
+
+synth.onvoiceschanged = function() {
+    voices = synth.getVoices();
+    // Set speech.voice to the default voice
+    speech.voice = voices.find(voice => voice.default);
+    console.log('Voices loaded:', voices); 
+};
+
+document.getElementById('volumeSlider').addEventListener('input', function(){
+    selectedVolume = this.value;
+    speech.volume = selectedVolume;
+});
+
+document.querySelector('.offcanvas-body').addEventListener('click', function(event){
+    if (event.target.matches('.volume-icon')) {
+        if (synth.speaking) {
+            // If the speech synthesis is speaking, stop it
+            synth.cancel();
+        } else {
+            console.log("speak: clicked");
+
+            // Navigate to the parent bubble of the clicked volume icon
+            let bubble = event.target.closest('.bubble');
+
+            // Get the text inside this bubble
+            let text = bubble.innerText;
+
+            console.log('Text to speak:', text); // Add this line
+            if (text) {
+                speech.text = text;
+
+                let lang = 'en-US'; // Default to English (United States)
+                if (text.match(/[áéíóúñüÁÉÍÓÚÑÜ]/)) { // Simple check for Spanish text
+                    lang = 'es-ES'; // Spanish (Spain)
+                }
+
+                let voice = voices.find(voice => voice.lang === lang);
+                if (voice) {
+                    speech.voice = voice;
+                }
+
+                speech.volume = selectedVolume;
+                synth.speak(speech);
+            } else {
+                console.log('No text to speak');
+            }
+        }
+    }
+});
+
+document.getElementById('voiceButton').addEventListener('click', function(){
+    let voiceListContainer = document.getElementById('voiceListContainer');
+
+    // Toggle the voice list container
+    if (voiceListContainer.style.display === 'none' || voiceListContainer.style.display === '') {
+        voiceListContainer.style.display = 'block';
+
+        // Clear the voice list container
+        voiceListContainer.innerHTML = '';
+
+        // Create the voice list
+        let voiceList = document.createElement('ul');
+        for(let i = 0; i < voices.length ; i++) {
+            let voiceItem = document.createElement('li');
+            let isSelected = speech.voice && voices[i].voiceURI === speech.voice.voiceURI;
+            voiceItem.innerText = voices[i].name + ' (' + voices[i].lang + ')' + (isSelected ? ' (selected)' : '');
+            if (isSelected) {
+                voiceItem.classList.add('selected-voice');
+            }
+            voiceItem.addEventListener('click', function(){
+                speech.voice = voices[i];
+                // Update the list to reflect the new selection
+                Array.from(voiceListContainer.getElementsByTagName('li')).forEach((item, index) => {
+                    item.classList.remove('selected-voice');
+                    item.innerText = voices[index].name + ' (' + voices[index].lang + ')' + (index === i ? ' (selected)' : '');
+                    if (index === i) {
+                        item.classList.add('selected-voice');
+                    }
+                });
+            });
+            voiceList.appendChild(voiceItem);
+        }
+        voiceListContainer.appendChild(voiceList);
+    } else {
+        voiceListContainer.style.display = 'none';
+    }
+});
+
+document.getElementById('mapSettings').addEventListener('click', function(){
+    // Show the modal
+    let settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+    settingsModal.show();
 });
