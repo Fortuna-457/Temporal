@@ -152,24 +152,35 @@ def get_info_place(request):
                         location = data[0]
                         place_name = location.get('display_name', 'N/A')
                         place_type = location.get('osm_type', 'N/A')
+                        
+                        request_info = [
+                            'Historical events in the:' + place_name,
+                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. It has to be about the history of:' + place_name
+                        ]
+                        
                         try:
                             # Realizar la solicitud a la API de OpenAI
                             response = openai.completions.create(
                                 model='gpt-3.5-turbo',
-                                prompt = 'Historical events in the:' + place_name,
+                                prompt = request_info,
                                 temperature=0,
-                                max_tokens=60,
                                 top_p=1,
                                 frequency_penalty=0.5,
                                 presence_penalty=0
                             )
                             
-                            # Obtener el texto de respuesta
+                            # Obtener el texto de la respuesta
                             response_text = response['choices'][0]['text']
                             
                             # Crear un nuevo objeto Place con las coordenadas y la respuesta
                             place = Place(id=relation_id, name=place_name, type=place_type, answer_text=response_text, pub_date=timezone.now())
                             place.save()
+                            
+                            # Obtener las preguntas y respuestas devueltas
+                            questions_answers = response['choices'][1]['text']
+                            
+                            # Crea un nuevo objeto Question con la pregunta creada
+                            print(questions_answers)
                             
                             # Devolver el texto de respuesta en formato JSON
                             return JsonResponse({'place': response_text})
@@ -184,4 +195,4 @@ def get_info_place(request):
             print(f"Error in function mapsView (appTemporal/views.py): {e}")
 
     # Return a default response if there's an error or the request method is not POST
-    return JsonResponse({'place': 'Not info found about this place.'})
+    return JsonResponse({'place': 'No info found about this place.'})

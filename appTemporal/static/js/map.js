@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('#myModal').on('hidden.bs.modal', function () {
         $('#search').focus();
     });
@@ -43,7 +43,7 @@ L.control.locate({
     drawMarker: false,          // Dibujar un marcador de precisión en la ubicación
     showPopup: true,            // No mostrar un popup al geolocalizar
     flyTo: true,                // Realizar un efecto de vuelo al centrar el mapa
-    radius: 15  
+    radius: 15
 }).addTo(map);
 
 // Función para disparar un evento personalizado 'click' en el contenedor del mapa
@@ -57,20 +57,19 @@ function simulateMapClick() {
 function displayElements(elements, newBubble) {
     // Ensure elements is an array
     if (!Array.isArray(elements)) {
-        console.error('elements is not an array');
         return;
     }
 
-        // If newBubble is not provided, create a new one
-        if (!newBubble) {
-            newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
-            $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
-            newBubble.find('.bubble').show(); // Show the bubble
-            newBubble.find('.bubble').addClass("slideInFromRight");
-        }
+    // If newBubble is not provided, create a new one
+    if (!newBubble) {
+        newBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble right'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div>");
+        $(".answer-container").append(newBubble); // Add the new bubble to the existing ones
+        newBubble.find('.bubble').show(); // Show the bubble
+        newBubble.find('.bubble').addClass("slideInFromRight");
+    }
     // Clear previous response
     $("#respuesta").empty();
-    
+
 
     if (elements.length === 0 || elements[0].id === null) { // Check if the elements array is empty or if id is null
         let messages = [
@@ -109,7 +108,7 @@ function displayElements(elements, newBubble) {
         // Scroll to the top of the new bubble
         newBubble[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
-    }else{
+    } else {
         let messages = [
             "Jax, tell me something about",
             "Hey Jax, tell me about",
@@ -131,7 +130,7 @@ function displayElements(elements, newBubble) {
             "I'm seeking details on",
             "Jax, I'd appreciate insight on"
         ];
-        
+
         let greeting = messages[Math.floor(Math.random() * messages.length)]; // Select a random greeting
         newBubble.find('.greeting').text(greeting); // Set the random greeting
 
@@ -141,16 +140,16 @@ function displayElements(elements, newBubble) {
             if (!aux_array.includes(element.name)) {
 
                 // Get the first letter of type
-                let type = element.type.charAt(0); 
-            
+                let type = element.type.charAt(0);
+
                 // Form the new id for the paragraph
                 let newId = type + element.id;
-    
-                let newResponse = $('<p id="'+ newId +'" class="single-answer" data-lat="'+ element.lat +'" data-lon="'+ element.lon +'" >' + element.name + '.</p>'); // Change span to a tag
-            
+
+                let newResponse = $('<p id="' + newId + '" class="single-answer" data-lat="' + element.lat + '" data-lon="' + element.lon + '" >' + element.name + '.</p>'); // Change span to a tag
+
                 // Create a new <a> for each element
                 newBubble.find(".respuesta").append(newResponse); // Add the new response to the current bubble
-                
+
                 aux_array.push(element.name);
             }
         });
@@ -163,7 +162,7 @@ function displayElements(elements, newBubble) {
 
     // Create a new bubble underneath the existing one (second bubble)
     let newBubbleAnswerBack = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'></div></div></div>");
-    setTimeout(function() {
+    setTimeout(function () {
         $(".answer-container").append(newBubbleAnswerBack); // Add the new bubble to the existing ones
         newBubbleAnswerBack.find('.bubble').show(); // Show the bubble
         newBubbleAnswerBack.find('.bubble').addClass("slideInFromLeft");
@@ -196,20 +195,20 @@ function displayElements(elements, newBubble) {
 
         // Add <a> tags for each response
         elements.forEach((element) => {
-            if (!aux_array.includes(element.name) && elements[0].id !== null ) {
+            if (!aux_array.includes(element.name) && elements[0].id !== null) {
 
                 // Get the first letter of type
-                let type = element.type.charAt(0); 
-            
+                let type = element.type.charAt(0);
+
                 // Form the new id for the paragraph
                 let newId = type + element.id;
 
                 // Change span to a tag
-                let newResponse = $('<a id="'+ newId +'" class="single-answer" href="#" data-lat="'+ element.lat +'" data-lon="'+ element.lon +'">' + element.name + '.</a>');
+                let newResponse = $('<a id="' + newId + '" class="single-answer" href="#" data-lat="' + element.lat + '" data-lon="' + element.lon + '">' + element.name + '.</a>');
 
                 // Create a new <a> for each element
                 newBubbleAnswerBack.find(".respuesta").append(newResponse); // Add the new response to the current bubble
-                
+
                 aux_array.push(element.name);
             }
         });
@@ -221,7 +220,7 @@ function displayElements(elements, newBubble) {
 }
 let isBubbleGenerating = false;
 
-map.on('click', function(e) {
+map.on('click', function (e) {
 
     // if (isBubbleGenerating) return; // If a bubble is already being generated, do not proceed
 
@@ -256,7 +255,7 @@ map.on('click', function(e) {
         }).addTo(map);
     }
 
-    
+
     // Make a request to the Overpass API of OpenStreetMap to get the elements within the radius
     let query = `[out:json];
     (
@@ -268,63 +267,61 @@ map.on('click', function(e) {
     >;
     out skel qt;`;
 
-    
-    
+
+
     fetch('https://overpass-api.de/api/interpreter', {
         method: 'POST',
         body: query
     })
-    .then(response => response.json())
-    .then(data => {
-        // Filter and process the data to get only the elements with defined names
-        elements = data.elements.filter(element => {
-            return (element.tags && element.tags.name);
-        }).map(element => {
-            return {
-                name: element.tags.name || null,
-                lat: element.lat || latlng.lat,
-                lon: element.lon || latlng.lng,
-                type: element.type || null,
-                id: element.id || null
-            };
-        });
+        .then(response => response.json())
+        .then(data => {
+            // Filter and process the data to get only the elements with defined names
+            elements = data.elements.filter(element => {
+                return (element.tags && element.tags.name);
+            }).map(element => {
+                return {
+                    name: element.tags.name || null,
+                    lat: element.lat || latlng.lat,
+                    lon: element.lon || latlng.lng,
+                    type: element.type || null,
+                    id: element.id || null
+                };
+            });
 
-        if(elements.length === 0){
-            // Make a request to Nominatim API to get location details
-            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`)
-            .then(response => response.json())
-            .then(data => {
-                // Add the Nominatim data as a new element to the elements array
-                elements.push({
-                    name: data.display_name || null,
-                    lat: data.lat || latlng.lat,
-                    lon: data.lon || latlng.lng, 
-                    type: data.osm_type || null, 
-                    id: data.osm_id || null
-                });
+            if (elements.length === 0) {
+                // Make a request to Nominatim API to get location details
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Add the Nominatim data as a new element to the elements array
+                        elements.push({
+                            name: data.display_name || null,
+                            lat: data.lat || latlng.lat,
+                            lon: data.lon || latlng.lng,
+                            type: data.osm_type || null,
+                            id: data.osm_id || null
+                        });
 
+                        // Display elements
+                        displayElements(elements, newBubble);
+                        // isBubbleGenerating = false;
+
+                    })
+                    .catch(error => {
+                        alert('Error getting elements. Please try again.');
+                        // isBubbleGenerating = false;
+                    });
+            } else {
                 // Display elements
                 displayElements(elements, newBubble);
                 // isBubbleGenerating = false;
-    
-            })
-            .catch(error => {
-                console.error('Error getting elements:', error);
-                alert('Error getting elements. Please try again.');
-                // isBubbleGenerating = false;
-            });
-        }else{
-            // Display elements
-            displayElements(elements, newBubble);
-            // isBubbleGenerating = false;
-        }
+            }
 
-    })
-    .catch(error => {
-        console.error('Error getting elements:', error);
-        alert('Error getting elements. Please try again.');
-        // isBubbleGenerating = false;
-    });
+        })
+        .catch(error => {
+            alert('Error getting elements. Please try again.');
+            // isBubbleGenerating = false;
+        });
 });
 
 
@@ -336,7 +333,16 @@ $(".searchForm form").on('keydown', function(e) {
 });
 
 
-$(".searchForm form").submit(function(event) {
+
+$(".searchForm form").on('keydown', function(e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) { 
+        e.preventDefault();
+    }
+});
+
+
+$(".searchForm form").submit(function (event) {
     event.preventDefault();
 
     // Por si acaso, reseteamos el array elements
@@ -344,39 +350,33 @@ $(".searchForm form").submit(function(event) {
 
     let searchData = $(this).find('#search').val();
 
-    console.log('Search data:', searchData); // Log the search data
-
     // Make a request to Nominatim API to get location details
     fetch(`https://nominatim.openstreetmap.org/search?q=${searchData}&format=json`)
-    .then(response => response.json())
-    .then(data => {
-        console.log('Nominatim response:', data); // Log the Nominatim response
-        if(data.length > 0){
-            data.forEach(element => {
-                // Add the Nominatim data as a new element to the elements array
-                elements.push({
-                    name: element.display_name || null,
-                    lat: element.lat || null,
-                    lon: element.lon || null,
-                    type: element.osm_type || null, 
-                    id: element.osm_id || null
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                data.forEach(element => {
+                    // Add the Nominatim data as a new element to the elements array
+                    elements.push({
+                        name: element.display_name || null,
+                        lat: element.lat || null,
+                        lon: element.lon || null,
+                        type: element.osm_type || null,
+                        id: element.osm_id || null
+                    });
                 });
-            });
-        }
+            }
 
-        console.log('Elements array:', elements); // Log the elements array
+            // Activate the events that show the answers
+            map.fire('mousedown');
+            simulateMapClick();
 
-        // Activate the events that show the answers
-        map.fire('mousedown');
-        simulateMapClick();
-
-        // Display elements
-        displayElements(elements);
-    })
-    .catch(error => {
-        console.error('Error getting elements:', error);
-        alert('Error getting elements. Please try again.');
-    });
+            // Display elements
+            displayElements(elements);
+        })
+        .catch(error => {
+            alert('Error getting elements. Please try again.');
+        });
 
 });
 
@@ -388,7 +388,7 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
     let id_answer = $(this).attr("id").toUpperCase();
     // Get the text of the clicked anchor tag
     let clicked_text = $(this).text().trim();
-    
+
     // Utilize flyTo for smooth transition
     let lat = $(this).data("lat");
     let lon = $(this).data("lon");
@@ -423,7 +423,7 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
         rightBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
 
         // Delay the appearance of the left bubble
-        setTimeout(function() {
+        setTimeout(function () {
             // Show loading animation for the left bubble
             let leftBubble = $("<div class='bubbleComic'><div class='imgBubble'></div><div class='bubble left'><div class='greeting'></div><div class='respuesta'><div class='loading'><div class='circle'></div><div class='circle'></div><div class='circle'></div></div></div></div></div>");
             $(".answer-container").append(leftBubble);
@@ -437,32 +437,31 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
                 headers: {
                     'X-CSRFToken': csrfToken // Add the CSRF token as a header
                 },
-                data: JSON.stringify({"relation_id": id_answer}), // Stringify the data object
+                data: JSON.stringify({ "relation_id": id_answer }), // Stringify the data object
             })
-            .done(function(response) { // Get the server response
-                if (response) { // If it's not null, display it.
-                    console.log(response);
+                .done(function (response) { // Get the server response
+                    if (response) { // If it's not null, display it.
 
-                    setTimeout(function() {
-                        // Fill left bubble with response
-                        leftBubble.find('.respuesta').empty().text(response.place);
-                        // Remove loading animation from left bubble
-                        leftBubble.find('.loading').remove();
-                        leftBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-                    }, 1000); // Delay of 1 second
-                }
-            })
-            .fail(function(error) {
-                console.error('Error:', error);
-            });
+                        setTimeout(function () {
+                            // Fill left bubble with response
+                            leftBubble.find('.respuesta').empty().text(response.place);
+                            // Remove loading animation from left bubble
+                            leftBubble.find('.loading').remove();
+                            leftBubble[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+                        }, 1000); // Delay of 1 second
+                    }
+                })
+                // .fail(function (error) {
+                //     console.error('Error:', error);
+                // });
         }, 750); // Delay of 0.75 seconds
     }
 });
 
 
-$('#refreshBubbles').on('click', function() {
+$('#refreshBubbles').on('click', function () {
     // Add animation to fade out the bubbles
-    $('.bubbleComic').addClass('fadeOut').delay(500).queue(function(next) {
+    $('.bubbleComic').addClass('fadeOut').delay(500).queue(function (next) {
         $(this).remove();
         next();
     });
@@ -472,18 +471,18 @@ $('#refreshBubbles').on('click', function() {
 let isDragging = false;
 
 // Detect when the user is not dragging the map
-map.addEventListener('mousedown', function() {
+map.addEventListener('mousedown', function () {
     isDragging = false;
 });
 
 // Detect when the user is dragging the map
-map.addEventListener('mousemove', function() {
+map.addEventListener('mousemove', function () {
     isDragging = true;
 });
 
 
 // Handle the map click event
-map.getContainer().addEventListener('click', function(event) {
+map.getContainer().addEventListener('click', function (event) {
     // Evitar el evento click si proviene de un control específico
     if (event.target.closest('.leaflet-control-zoom') || event.target.closest('.leaflet-control-locate')) {
         return;
@@ -506,7 +505,7 @@ let offcanvasBody = document.querySelector('.offcanvas-body');
 let goToTopButton = document.getElementById('goToTop');
 
 // Add a scroll event listener to the offcanvas body
-offcanvasBody.addEventListener('scroll', function() {
+offcanvasBody.addEventListener('scroll', function () {
     // If the offcanvas body is scrolled more than 100px, display the "Go to top" button
     if (offcanvasBody.scrollTop > 100) {
         goToTopButton.style.display = 'block';
@@ -545,7 +544,6 @@ synth.onvoiceschanged = function() {
     voices = synth.getVoices();
     // Set speech.voice to the default voice
     speech.voice = voices.find(voice => voice.default);
-    console.log('Voices loaded:', voices); 
 };
 
 document.getElementById('volumeSlider').addEventListener('input', function(){
@@ -559,7 +557,6 @@ document.querySelector('.offcanvas-body').addEventListener('click', function(eve
             // If the speech synthesis is speaking, stop it
             synth.cancel();
         } else {
-            console.log("speak: clicked");
 
             // Navigate to the parent bubble of the clicked volume icon
             let bubble = event.target.closest('.bubble');
@@ -567,7 +564,6 @@ document.querySelector('.offcanvas-body').addEventListener('click', function(eve
             // Get the text inside this bubble
             let text = bubble.innerText;
 
-            console.log('Text to speak:', text); // Add this line
             if (text) {
                 speech.text = text;
 
@@ -583,8 +579,6 @@ document.querySelector('.offcanvas-body').addEventListener('click', function(eve
 
                 speech.volume = selectedVolume;
                 synth.speak(speech);
-            } else {
-                console.log('No text to speak');
             }
         }
     }
