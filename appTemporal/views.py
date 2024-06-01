@@ -195,4 +195,4 @@ def get_info_place(request):
             print(f"Error in function mapsView (appTemporal/views.py): {e}")
 
     # Return a default response if there's an error or the request method is not POST
-    return JsonResponse({'place': 'Not info found about this place.'})
+    return JsonResponse({'place': 'No info found about this place.'})

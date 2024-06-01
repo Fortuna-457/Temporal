@@ -335,13 +335,10 @@ $(".searchForm form").submit(function (event) {
 
     let searchData = $(this).find('#search').val();
 
-    console.log('Search data:', searchData); // Log the search data
-
     // Make a request to Nominatim API to get location details
     fetch(`https://nominatim.openstreetmap.org/search?q=${searchData}&format=json`)
         .then(response => response.json())
         .then(data => {
-            console.log('Nominatim response:', data); // Log the Nominatim response
             if (data.length > 0) {
                 data.forEach(element => {
                     // Add the Nominatim data as a new element to the elements array
@@ -354,8 +351,6 @@ $(".searchForm form").submit(function (event) {
                     });
                 });
             }
-
-            console.log('Elements array:', elements); // Log the elements array
 
             // Activate the events that show the answers
             map.fire('mousedown');
@@ -432,7 +427,6 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
             })
                 .done(function (response) { // Get the server response
                     if (response) { // If it's not null, display it.
-                        console.log(response);
 
                         setTimeout(function () {
                             // Fill left bubble with response
