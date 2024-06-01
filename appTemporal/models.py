@@ -8,13 +8,32 @@ class Place(models.Model):
     type = models.CharField(max_length=60)
     answer_text = models.TextField()
     pub_date = models.DateField()
+
+class Question(models.Model):
     
+    DIFFICULTY = [
+        (0, "Easy"),
+        (1, "Normal"),
+        (2, "Difficult")
+    ]
+    
+    place_id = models.ForeignKey(Place, on_delete=models.CASCADE)
+    difficulty = models.IntegerField(choices=DIFFICULTY, default=1)
+    text = models.TextField()
+    pub_date = models.DateField()
+    
+class Answer(models.Model):
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+    text = models.TextField()
+    pub_date = models.DateField()
+
 class ExtraFields(models.Model):
     
-    ACCEPTORNOT = [
+    ACCEPT_OR_NOT = [
         (0, "Yes, I do accept the privacy policy."),
         (1, "No, I do not accept the privacy policy.")
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    privacy_policy = models.IntegerField(choices=ACCEPTORNOT, default = 1)
+    privacy_policy = models.BooleanField(choices=ACCEPT_OR_NOT, default=1)
