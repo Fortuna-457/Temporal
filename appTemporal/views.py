@@ -227,8 +227,7 @@ def get_questions(request):
                     print('easy')
                     max_id = EasyQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        for easy_question in EasyQuestion.objects.all():
-                            questions.append(Question.objects.filter(id=easy_question.question_id.id))
+                        questions = EasyQuestion.objects.all()
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
@@ -240,20 +239,18 @@ def get_questions(request):
                     print('normal')
                     max_id = NormalQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        for normal_question in NormalQuestion.objects.all():
-                            questions.append(Question.objects.filter(id=normal_question.question_id.id))
+                        questions = NormalQuestion.objects.all()
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
                             random_int = random.randint(1, limit)
-                            questions.append(Question.objects.filter(id=random_int))
+                            questions.append(NormalQuestion.objects.filter(id=random_int))
                     
                 elif difficulty_level == 'difficult':
                     print('difficult')
                     max_id = DifficultQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        for difficult_question in DifficultQuestion.objects.all():
-                            questions.append(Question.objects.filter(id=difficult_question.question_id.id))
+                        questions = DifficultQuestion.objects.all()
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
@@ -263,11 +260,10 @@ def get_questions(request):
                 
                 # Una vez tenemos las preguntas, sacamos las respuestas
                 
-                print(questions)
-                
                 for question in questions:
+                    
                     # Get answers as tuples
-                    answers = Answer.objects.filter(question_id=question.id).values_list('text', 'is_correct')
+                    answers = Answer.objects.filter(question_id=question.question_id.id).values_list('text', 'is_correct')
 
                     correct_answer = None
                     answer_list = []
@@ -279,7 +275,7 @@ def get_questions(request):
                         answer_list.append({'text': text})
 
                     questions_answers.append({
-                        'question': question.text,
+                        'question': question.question_id.text,
                         'answers': answer_list,
                         'correctAnswer': correct_answer
                     })
