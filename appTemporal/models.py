@@ -10,17 +10,18 @@ class Place(models.Model):
     pub_date = models.DateField()
 
 class Question(models.Model):
-    
-    DIFFICULTY = [
-        (0, "easy"),
-        (1, "normal"),
-        (2, "difficult")
-    ]
-    
     place_id = models.ForeignKey(Place, on_delete=models.CASCADE)
-    difficulty = models.IntegerField(choices=DIFFICULTY, default=1)
     text = models.TextField()
     pub_date = models.DateField()
+    
+class EasyQuestion(models.Model):
+    question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
+    
+class NormalQuestion(models.Model):
+    question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
+    
+class DifficultQuestion(models.Model):
+    question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
     
 class Answer(models.Model):
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE)

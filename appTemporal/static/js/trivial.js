@@ -5,6 +5,8 @@ $(document).ready(function () {
     // Set the difficulty
     let difficulty = "normal".toLowerCase(); // Sustituir normal por el valor de los ajustes del modo trivial
 
+    const questions = [];
+
     $.ajax({
         url: '/get-questions/',
         method: 'POST',
@@ -19,65 +21,14 @@ $(document).ready(function () {
     })
         .done(function (response) { // Get the server response
             if (response) { // If it's not null, display it.
-                console.log(response);
+                response.questions.forEach(question => {
+                    questions.push(question);
+                });
             }
         })
         .fail(function (error) {
             console.error('Error:', error);
         });
-
-    const questions = [
-        {
-            question: "When was the Alhambra built?",
-            answers: ["1314", "1892", "9231", "1982"],
-            correctAnswer: "1314"
-        },
-        {
-            question: "What is the capital of France?",
-            answers: ["Paris", "Berlin", "Madrid", "Rome"],
-            correctAnswer: "Paris"
-        },
-        {
-            question: "Who wrote 'To Kill a Mockingbird'?",
-            answers: ["Harper Lee", "Mark Twain", "Ernest Hemingway", "F. Scott Fitzgerald"],
-            correctAnswer: "Harper Lee"
-        },
-        {
-            question: "What is the largest planet in our Solar System?",
-            answers: ["Jupiter", "Earth", "Mars", "Saturn"],
-            correctAnswer: "Jupiter"
-        },
-        {
-            question: "What is the smallest prime number?",
-            answers: ["2", "1", "3", "5"],
-            correctAnswer: "2"
-        },
-        {
-            question: "Who painted the Mona Lisa?",
-            answers: ["Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso", "Claude Monet"],
-            correctAnswer: "Leonardo da Vinci"
-        },
-        {
-            question: "What is the chemical symbol for water?",
-            answers: ["H2O", "O2", "CO2", "NaCl"],
-            correctAnswer: "H2O"
-        },
-        {
-            question: "How many continents are there on Earth?",
-            answers: ["7", "5", "6", "8"],
-            correctAnswer: "7"
-        },
-        {
-            question: "What is the capital of Japan?",
-            answers: ["Tokyo", "Seoul", "Beijing", "Shanghai"],
-            correctAnswer: "Tokyo"
-        },
-        {
-            question: "What year did the Titanic sink?",
-            answers: ["1912", "1905", "1898", "1920"],
-            correctAnswer: "1912"
-        }
-    ];
 
     let currentQuestionIndex = 0;
     let score = 0;
@@ -163,8 +114,8 @@ $(document).ready(function () {
 
         $('#question-text h4').text(question);
         answers.forEach((answer, index) => {
-            $(`#answer-${index + 1}`).html(`<p>${answer}</p>`);
-            if (answer === questionObj.correctAnswer) {
+            $(`#answer-${index + 1}`).html(`<p>${answer.text}</p>`);
+            if (answer.text === questionObj.correctAnswer) {
                 $(`#answer-${index + 1}`).data('correct', true);
             } else {
                 $(`#answer-${index + 1}`).data('correct', false);

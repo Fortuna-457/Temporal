@@ -1,10 +1,11 @@
+from django.views.decorators.http import require_POST
 from datetime import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 import requests
-from appTemporal.models import ExtraFields, Place, Question, Answer
+from appTemporal.models import ExtraFields, Place, Question, Answer, EasyQuestion, NormalQuestion, DifficultQuestion
 from django.db.models import Max
 import json
 from django.http import JsonResponse
@@ -14,6 +15,9 @@ import random
 
 # Configura tu API key de OpenAI
 openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
+
+# Declaramos el máximo de preguntas que se van a devolver al cliente
+MAX_LIMIT = 20
 
 # Create your views here.
 
@@ -201,30 +205,89 @@ def get_info_place(request):
 
 
 @login_required
+@require_POST
 def get_questions(request):
-    if request.method == 'POST':
+    try:
+
+        # Leer y decodificar los datos JSON recibidos
+        datos_json = json.loads(request.body)
+        difficulty_level = datos_json['difficulty'].lower()
+        limit = int(datos_json['limit'])
+
         try:
+            
+            if limit and difficulty_level and limit <= MAX_LIMIT:
 
-            # Leer y decodificar los datos JSON recibidos
-            datos_json = json.loads(request.body)
-            difficulty_level = datos_json['difficulty'].lower()
-            limit = datos_json['limit']
-
-            questions_answers = []
-
-            try:
+                questions_answers = []
                 
-                if limit and difficulty_level:
-                    
-                    max_id = Question.objects.aggregate(max_id=Max('id'))['max_id']
-                    
-                    for i in range(limit):
-                        print(random.sample(range(1, max_id + 1), 1))
+                questions = []
                 
-            except Exception as e: # Captura cualquier excepción durante el registro:
-                print(f"Error in function get_questions (appTemporal/views.py): {e}")
+                # Hacemos un switch
+                if difficulty_level == 'easy':
+                    print('easy')
+                    max_id = EasyQuestion.objects.aggregate(max_id=Max('id'))['max_id']
+                    if max_id < limit:
+                        questions = Question.objects.all()
+                    else:
+                        for x in range(limit):
+                            # Genera un número entero entre 1 y limit (incluyendo ambos)
+                            random_int = random.randint(1, limit)
+                            questions.append(Question.objects.filter(id=random_int))
+                            
+                            
+                elif difficulty_level == 'normal':
+                    print('normal')
+                    max_id = NormalQuestion.objects.aggregate(max_id=Max('id'))['max_id']
+                    if max_id < limit:
+                        questions = Question.objects.all()
+                    else:
+                        for x in range(limit):
+                            # Genera un número entero entre 1 y limit (incluyendo ambos)
+                            random_int = random.randint(1, limit)
+                            questions.append(Question.objects.filter(id=random_int))
+                    
+                elif difficulty_level == 'difficult':
+                    print('difficult')
+                    max_id = DifficultQuestion.objects.aggregate(max_id=Max('id'))['max_id']
+                    if max_id < limit:
+                        questions = Question.objects.all()
+                    else:
+                        for x in range(limit):
+                            # Genera un número entero entre 1 y limit (incluyendo ambos)
+                            random_int = random.randint(1, limit)
+                            questions.append(Question.objects.filter(id=random_int))
+                
+                
+                # Una vez tenemos las preguntas, sacamos las respuestas
+                
+                print(questions)
+                
+                for question in questions:
+                    # Get answers as tuples
+                    answers = Answer.objects.filter(question_id=question.id).values_list('text', 'is_correct')
 
+                    correct_answer = None
+                    answer_list = []
+
+                    for answer in answers:
+                        text, is_correct = answer  # Unpack the tuple
+                        if is_correct:
+                            correct_answer = text
+                        answer_list.append({'text': text})
+
+                    questions_answers.append({
+                        'question': question.text,
+                        'answers': answer_list,
+                        'correctAnswer': correct_answer
+                    })
+
+            return JsonResponse({'questions': questions_answers})
+            
         except Exception as e: # Captura cualquier excepción durante el registro:
             print(f"Error in function get_questions (appTemporal/views.py): {e}")
 
-    return JsonResponse({'questions': questions_answers}) 
+    except Exception as e: # Captura cualquier excepción durante el registro:
+        print(f"Error in function get_questions (appTemporal/views.py): {e}")
+
+    # Return a default response if there's an error or the request method is not POST
+    return JsonResponse({'questions': 'No questions found'})

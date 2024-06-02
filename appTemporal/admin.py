@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ExtraFields, Place, Question, Answer
+from .models import ExtraFields, Place, Question, Answer, EasyQuestion, NormalQuestion, DifficultQuestion
 
 # Register your models here.
 @admin.register(ExtraFields)
@@ -12,7 +12,19 @@ class PlaceAdmin(admin.ModelAdmin):
     
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'place_id', 'difficulty', 'text', 'pub_date']
+    list_display = ['id', 'place_id', 'text', 'pub_date']
+    
+@admin.register(EasyQuestion)
+class EasyQuestionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'question_id']
+    
+@admin.register(NormalQuestion)
+class NormalQuestionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'question_id']
+    
+@admin.register(DifficultQuestion)
+class DifficultQuestionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'question_id']
     
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
