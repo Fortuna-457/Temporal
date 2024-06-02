@@ -525,6 +525,16 @@ div#voiceListContainer {
   margin-right:10px;
 }
 
+.close{
+  color: white !important;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  display: block;
+  position: relative;
+  padding-top: 10px !important;
+  // padding-right: 40px;
+}
 .modal {
   text-align: center;
   padding: 0 !important;

@@ -84,7 +84,6 @@ body {
     font-family: "Rubik", sans-serif;
     font-size: 1.25rem;
     font-weight: 700; 
-    text-transform: uppercase;
     grid-template-columns: 16rem 1fr; 
 
     	  
@@ -150,6 +149,7 @@ img {
 }
 
 .hero__title {
+    text-transform: uppercase;
     font-size: 5rem;
     max-width: 10ch;
     line-height: 1;

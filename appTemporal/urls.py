@@ -23,4 +23,6 @@ urlpatterns = [
     path('privacyPolicy/', views.privacyPolicyView, name='privacyPolicy'),
     # Url de la página del triviall
     path('trivial/', views.trivial, name='trivial'),
+     # Url de la página del edit profile
+    path('profile/', views.profileView, name='profile'),
 ]
