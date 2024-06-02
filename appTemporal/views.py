@@ -4,11 +4,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 import requests
-from appTemporal.models import ExtraFields, Place
+from appTemporal.models import ExtraFields, Place, Question, Answer
+from django.db.models import Max
 import json
 from django.http import JsonResponse
 import openai
 from django.http import HttpResponseNotFound
+import random
 
 # Configura tu API key de OpenAI
 openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
@@ -186,13 +188,43 @@ def get_info_place(request):
                             return JsonResponse({'place': response_text})
                             
                         except Exception as e: # Captura cualquier excepción durante el registro:
-                            print(f"Error in function mapsView (appTemporal/views.py): {e}")
+                            print(f"Error in function get_info_place (appTemporal/views.py): {e}")
 
             # Devolver el texto de respuesta en formato JSON
             return JsonResponse({'place': response_text})
         
         except Exception as e: # Captura cualquier excepción durante el registro:
-            print(f"Error in function mapsView (appTemporal/views.py): {e}")
+            print(f"Error in function get_info_place (appTemporal/views.py): {e}")
 
     # Return a default response if there's an error or the request method is not POST
-    return JsonResponse({'place': 'Not info found about this place.'})
+    return JsonResponse({'place': 'No info found about this place.'})
+
+
+@login_required
+def get_questions(request):
+    if request.method == 'POST':
+        try:
+
+            # Leer y decodificar los datos JSON recibidos
+            datos_json = json.loads(request.body)
+            difficulty_level = datos_json['difficulty'].lower()
+            limit = datos_json['limit']
+
+            questions_answers = []
+
+            try:
+                
+                if limit and difficulty_level:
+                    
+                    max_id = Question.objects.aggregate(max_id=Max('id'))['max_id']
+                    
+                    for i in range(limit):
+                        print(random.sample(range(1, max_id + 1), 1))
+                
+            except Exception as e: # Captura cualquier excepción durante el registro:
+                print(f"Error in function get_questions (appTemporal/views.py): {e}")
+
+        except Exception as e: # Captura cualquier excepción durante el registro:
+            print(f"Error in function get_questions (appTemporal/views.py): {e}")
+
+    return JsonResponse({'questions': questions_answers}) 

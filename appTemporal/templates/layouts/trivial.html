@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-	Contact us
+  Trivial Mode
 {% endblock title %}
 
 {% block extra_head %}
@@ -10,6 +10,11 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	-->
+
+<!-- Token CSRF -->
+  <meta name="csrf-token" content="{{ csrf_token }}">
+<!-- End Token CSRF -->
+
 <link href="{% static 'css/trivial.css' %}" rel="stylesheet">
 
 {% endblock extra_head %}
@@ -25,7 +30,7 @@
         <i class='bx bxs-home-smile'></i>Home
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
       <a class="nav-link" href="{% url 'games' %}">
         <i class='bx bx-game'></i>Games
       </a>
@@ -35,8 +40,8 @@
         <i class='bx bxl-blogger'></i>Blog
       </a>
     </li>
-    <li class="nav-item  active">
-      <a class="nav-link" href="#">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'contact' %}">
         <i class='bx bxl-blogger'></i>Contact us
       </a>
     </li>

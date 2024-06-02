@@ -1,4 +1,31 @@
-$(document).ready(function() {
+$(document).ready(function () {
+
+    // Get the CSRF token
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    // Set the difficulty
+    let difficulty = "normal".toLowerCase(); // Sustituir normal por el valor de los ajustes del modo trivial
+
+    $.ajax({
+        url: '/get-questions/',
+        method: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken // Add the CSRF token as a header
+        },
+        data: JSON.stringify({
+            "difficulty": difficulty,
+            "limit": 10,
+        }), // Stringify the data object
+    })
+        .done(function (response) { // Get the server response
+            if (response) { // If it's not null, display it.
+                console.log(response);
+            }
+        })
+        .fail(function (error) {
+            console.error('Error:', error);
+        });
+
     const questions = [
         {
             question: "When was the Alhambra built?",
@@ -59,7 +86,7 @@ $(document).ready(function() {
     let isPaused = false;
     let remainingTimeWhenPaused = 0;
 
-    
+
     function startQuiz() {
         if (isPaused) {
             // Timer is paused, so resume it
@@ -78,9 +105,8 @@ $(document).ready(function() {
                 startTimer(); // Ensure timer starts when quiz starts
             }
         }
-        console.log("Start/Pause button clicked");
     }
-    
+
     function updateIconClass() {
         const startQuizIcon = $('#start-quiz i');
         if (isPaused) {
@@ -102,7 +128,7 @@ $(document).ready(function() {
         }, 1000);
         $('#start-quiz i').removeClass('bx-play').addClass('bx-pause'); // Update icon class
     }
-    
+
 
     function pauseTimer() {
         if (!isPaused) {
@@ -110,16 +136,14 @@ $(document).ready(function() {
             remainingTimeWhenPaused = timeRemaining;
             isPaused = true;
             $('#start-quiz i').removeClass('bx-pause').addClass('bx-play'); // Update icon class
-            console.log("Timer is paused");
         } else {
             isPaused = false;
             timeRemaining = remainingTimeWhenPaused;
             $('#time-remaining').text(timeRemaining); // Update the time remaining immediately
             startTimer(); // Resume the timer
-            console.log("Timer continues");
         }
     }
-    
+
 
 
     function resetTimer() {
@@ -133,20 +157,20 @@ $(document).ready(function() {
         const questionObj = questions[currentQuestionIndex];
         const question = questionObj.question;
         let answers = questionObj.answers.slice();
-    
+
         // Shuffle answers
         answers = answers.sort(() => Math.random() - 0.5);
-    
+
         $('#question-text h4').text(question);
         answers.forEach((answer, index) => {
-            $(`#answer-${index + 1}`).html(`<p>${answer}</p>`); 
+            $(`#answer-${index + 1}`).html(`<p>${answer}</p>`);
             if (answer === questionObj.correctAnswer) {
                 $(`#answer-${index + 1}`).data('correct', true);
             } else {
                 $(`#answer-${index + 1}`).data('correct', false);
             }
         });
-    
+
         updateIconClass(); // Update icon class based on timer state
     }
 
@@ -155,20 +179,20 @@ $(document).ready(function() {
             text: `+${points}`,
             class: 'points-earned'
         }).css('opacity', 1); // Set initial opacity to 1
-    
+
         $('.points-quiz').append(pointsEarnedDiv); // Append to .points-quiz container
-    
+
         setTimeout(() => {
-            pointsEarnedDiv.animate({ opacity: 0 }, 500, function() {
+            pointsEarnedDiv.animate({ opacity: 0 }, 500, function () {
                 pointsEarnedDiv.remove();
             });
         }, 1000); // Fade out after 1 second
     }
-    
+
 
     function checkAnswer(index) {
         const answerTime = timeRemaining; // Use the counter number
-    
+
         if ($(`#answer-${index + 1}`).data('correct')) {
             let pointsEarned = 0;
             if (answerTime >= 15) { // 20 - 5 = 15
@@ -181,15 +205,14 @@ $(document).ready(function() {
             score += pointsEarned;
             $('#currentScore').text(score);
             displayPointsEarned(pointsEarned); // Display the points earned
-    
+
             // Update highscore if current score is higher
             if (score > highscore) {
                 highscore = score;
                 localStorage.setItem('highscore', highscore); // Store the new high score
-                console.log('New high score:', highscore);
                 $('#highscore').text(highscore);
             }
-    
+
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion();
@@ -219,10 +242,9 @@ $(document).ready(function() {
         isPaused = false; // Ensure timer is not paused when the quiz ends
         updateIconClass(); // Update icon class
     }
-    
 
-    $('#start-quiz').off('click').on('click', function() {
-        console.log("Start/Pause button clicked");
+
+    $('#start-quiz').off('click').on('click', function () {
         if (timer) {
             // Timer is running, so pause it
             updateIconClass(); // Update icon class
@@ -234,72 +256,70 @@ $(document).ready(function() {
         }
     });
 
-    
 
-// Refresh event
-$('.refresh').on('click', function() {
-    console.log("Refresh button clicked");
-    $('#quiz-modal').hide();
 
-    // Reset the current score to 0
-    score = 0;
-    $('#currentScore').text(score);
+    // Refresh event
+    $('.refresh').on('click', function () {
+        $('#quiz-modal').hide();
 
-    // Reset the timer and time remaining
-    clearInterval(timer);
-    timeRemaining = 20;
-    $('#time-remaining').text(timeRemaining);
-    timer = null;
+        // Reset the current score to 0
+        score = 0;
+        $('#currentScore').text(score);
 
-    // Reset the question index
-    currentQuestionIndex = 0;
+        // Reset the timer and time remaining
+        clearInterval(timer);
+        timeRemaining = 20;
+        $('#time-remaining').text(timeRemaining);
+        timer = null;
 
-    // Hide any open modal
-    $('.modal').hide();
+        // Reset the question index
+        currentQuestionIndex = 0;
 
-    // Set the icon class to "bx-pause" directly
-    $('#start-quiz i').removeClass('bx-play').addClass('bx-pause');
+        // Hide any open modal
+        $('.modal').hide();
 
-    // Show the "Quiz Refreshed" message in the middle of the screen for 1 second
-    const refreshMessage = $('<div>', {
-        text: 'Quiz Refreshed',
-        class: 'refresh-message'
-    }).appendTo('body');
+        // Set the icon class to "bx-pause" directly
+        $('#start-quiz i').removeClass('bx-play').addClass('bx-pause');
 
-    // Center the message in the middle of the screen
-    refreshMessage.css({
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        padding: '20px',
-        borderRadius: '10px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-        zIndex: '1000',
-        color: 'black',
-        transition: 'all 0.2s ease'
+        // Show the "Quiz Refreshed" message in the middle of the screen for 1 second
+        const refreshMessage = $('<div>', {
+            text: 'Quiz Refreshed',
+            class: 'refresh-message'
+        }).appendTo('body');
+
+        // Center the message in the middle of the screen
+        refreshMessage.css({
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            padding: '20px',
+            borderRadius: '10px',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+            zIndex: '1000',
+            color: 'black',
+            transition: 'all 0.2s ease'
+        });
+
+        refreshMessage.fadeOut(1000);
+
+        // Remove the message after 1 second
+        setTimeout(() => {
+            refreshMessage.remove();
+        }, 1000);
     });
-
-    refreshMessage.fadeOut(1000);
-
-    // Remove the message after 1 second
-    setTimeout(() => {
-        refreshMessage.remove();
-    }, 1000);
-});
 
 
 
     // Modal close event
-    $('.close-modal, .refresh').on('click', function() {
-        console.log("Modal close or refresh button clicked");
+    $('.close-modal, .refresh').on('click', function () {
         $('#quiz-modal').hide();
         startQuiz();
     });
 
     // Event listener for answer buttons
-    $('.answer-quiz').on('click', function() {
+    $('.answer-quiz').on('click', function () {
         const index = $(this).attr('id').split('-')[1] - 1;
         checkAnswer(index);
     });
@@ -308,16 +328,14 @@ $('.refresh').on('click', function() {
     $('#start-modal').show();
 
     // Event listener for info-modal button click
-    $('#info-quiz').on('click', function() {
-        console.log("Info button clicked");
+    $('#info-quiz').on('click', function () {
         const infoModal = $('#info-modal');
         pauseTimer(); // Pause the timer when info modal is displayed
         infoModal.show();
     });
 
     // Close modal when close button is clicked
-    $('.close-modal').on('click', function() {
-        console.log("Close modal button clicked");
+    $('.close-modal').on('click', function () {
         const infoModal = $('#info-modal');
         infoModal.hide();
         if (!isPaused) {
@@ -326,20 +344,18 @@ $('.refresh').on('click', function() {
     });
 
     // Start quiz modal button click event
-    $('#start-quiz-modal').off('click').on('click', function() {
-        console.log("Start quiz modal button clicked");
+    $('#start-quiz-modal').off('click').on('click', function () {
         $('#start-modal').hide();
         startQuiz(); // Start the quiz
     });
 
     // Close modal when close button is clicked
-    $('.close-modal').on('click', function() {
-        console.log("Close modal button clicked");
+    $('.close-modal').on('click', function () {
         $('#start-modal').hide();
     });
 
     const colors = ['#3f004f', '#4f002e', '#2a004f', '#590082'];
-    $('.answer-quiz p').each(function() {
+    $('.answer-quiz p').each(function () {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         $(this).css('background-color', randomColor);
     });

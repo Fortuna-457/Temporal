@@ -12,9 +12,9 @@ class Place(models.Model):
 class Question(models.Model):
     
     DIFFICULTY = [
-        (0, "Easy"),
-        (1, "Normal"),
-        (2, "Difficult")
+        (0, "easy"),
+        (1, "normal"),
+        (2, "difficult")
     ]
     
     place_id = models.ForeignKey(Place, on_delete=models.CASCADE)
