@@ -224,7 +224,6 @@ def get_questions(request):
                 
                 # Hacemos un switch
                 if difficulty_level == 'easy':
-                    print('easy')
                     max_id = EasyQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
                         questions = EasyQuestion.objects.all()
@@ -233,7 +232,6 @@ def get_questions(request):
                         questions = EasyQuestion.objects.filter(id__in=ids)
                             
                 elif difficulty_level == 'normal':
-                    print('normal')
                     max_id = NormalQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
                         questions = NormalQuestion.objects.all()
@@ -242,7 +240,6 @@ def get_questions(request):
                         questions = NormalQuestion.objects.filter(id__in=ids)
                     
                 elif difficulty_level == 'difficult':
-                    print('difficult')
                     max_id = DifficultQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
                         questions = DifficultQuestion.objects.all()
