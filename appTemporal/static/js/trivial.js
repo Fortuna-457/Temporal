@@ -181,7 +181,23 @@ $(document).ready(function () {
         $('#quiz-modal').show();
         if (score > highscore) {
             highscore = score;
-            localStorage.setItem('highscore', highscore); // Store the new high score
+
+            // Guardamos la nueva highscore en el server
+            $.ajax({
+                url: '/set-highscore/',
+                method: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': csrfToken // Add the CSRF token as a header
+                },
+                data: JSON.stringify({
+                    "highscore": highscore,
+                }), // Stringify the data object
+            })
+                .fail(function (error) {
+                    console.error('Error:', error);
+                });
+
             $('#highscore').text(highscore);
         }
         if (won) {

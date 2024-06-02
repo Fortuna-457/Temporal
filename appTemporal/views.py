@@ -279,3 +279,8 @@ def get_questions(request):
 
     # Return a default response if there's an error or the request method is not POST
     return JsonResponse({'questions': 'No questions found'})
+
+@login_required
+@require_POST
+def set_highscore(request):
+    

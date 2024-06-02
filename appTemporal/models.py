@@ -38,3 +38,4 @@ class ExtraFields(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     privacy_policy = models.BooleanField(choices=ACCEPT_OR_NOT, default=1)
+    highscore = models.IntegerField(default=0)
