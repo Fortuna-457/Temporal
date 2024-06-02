@@ -227,7 +227,8 @@ def get_questions(request):
                     print('easy')
                     max_id = EasyQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        questions = Question.objects.all()
+                        for easy_question in EasyQuestion.objects.all():
+                            questions.append(Question.objects.filter(id=easy_question.question_id.id))
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
@@ -239,7 +240,8 @@ def get_questions(request):
                     print('normal')
                     max_id = NormalQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        questions = Question.objects.all()
+                        for normal_question in NormalQuestion.objects.all():
+                            questions.append(Question.objects.filter(id=normal_question.question_id.id))
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
@@ -250,7 +252,8 @@ def get_questions(request):
                     print('difficult')
                     max_id = DifficultQuestion.objects.aggregate(max_id=Max('id'))['max_id']
                     if max_id < limit:
-                        questions = Question.objects.all()
+                        for difficult_question in DifficultQuestion.objects.all():
+                            questions.append(Question.objects.filter(id=difficult_question.question_id.id))
                     else:
                         for x in range(limit):
                             # Genera un número entero entre 1 y limit (incluyendo ambos)
