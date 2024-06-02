@@ -1,4 +1,31 @@
 $(document).ready(function () {
+
+    // Get the CSRF token
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    // Set the difficulty
+    let difficulty = "normal".toLowerCase(); // Sustituir normal por el valor de los ajustes del modo trivial
+
+    $.ajax({
+        url: '/get-questions/',
+        method: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken // Add the CSRF token as a header
+        },
+        data: JSON.stringify({
+            "difficulty": difficulty,
+            "limit": 10,
+        }), // Stringify the data object
+    })
+        .done(function (response) { // Get the server response
+            if (response) { // If it's not null, display it.
+                console.log(response);
+            }
+        })
+        .fail(function (error) {
+            console.error('Error:', error);
+        });
+
     const questions = [
         {
             question: "When was the Alhambra built?",
