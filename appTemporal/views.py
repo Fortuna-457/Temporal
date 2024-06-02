@@ -229,11 +229,8 @@ def get_questions(request):
                     if max_id < limit:
                         questions = EasyQuestion.objects.all()
                     else:
-                        for x in range(limit):
-                            # Genera un número entero entre 1 y limit (incluyendo ambos)
-                            random_int = random.randint(1, limit)
-                            questions.append(Question.objects.filter(id=random_int))
-                            
+                        ids = random.sample(range(1, max_id + 1), limit)
+                        questions = EasyQuestion.objects.filter(id__in=ids)
                             
                 elif difficulty_level == 'normal':
                     print('normal')
@@ -241,10 +238,8 @@ def get_questions(request):
                     if max_id < limit:
                         questions = NormalQuestion.objects.all()
                     else:
-                        for x in range(limit):
-                            # Genera un número entero entre 1 y limit (incluyendo ambos)
-                            random_int = random.randint(1, limit)
-                            questions.append(NormalQuestion.objects.filter(id=random_int))
+                        ids = random.sample(range(1, max_id + 1), limit)
+                        questions = NormalQuestion.objects.filter(id__in=ids)
                     
                 elif difficulty_level == 'difficult':
                     print('difficult')
@@ -252,14 +247,11 @@ def get_questions(request):
                     if max_id < limit:
                         questions = DifficultQuestion.objects.all()
                     else:
-                        for x in range(limit):
-                            # Genera un número entero entre 1 y limit (incluyendo ambos)
-                            random_int = random.randint(1, limit)
-                            questions.append(Question.objects.filter(id=random_int))
+                        ids = random.sample(range(1, max_id + 1), limit)
+                        questions = DifficultQuestion.objects.filter(id__in=ids)
                 
                 
                 # Una vez tenemos las preguntas, sacamos las respuestas
-                
                 for question in questions:
                     
                     # Get answers as tuples
