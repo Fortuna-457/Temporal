@@ -190,3 +190,27 @@ img {
 .hide {
   top: -60px;
 }
+
+.logo-reset {
+  display: flex;
+}
+.logo-reset .img-reset {
+  height: 70px;
+  width: 70px;
+  flex: 3;
+  background-image: url("../img/logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  font-family: "Montserrat", sans-serif;
+  color: #212529;
+}
+.logo-reset .name-reset {
+  font-size: clamp(1rem, -0.25rem + 3.333vw, 2.75rem);
+  font-family: "Rubik", sans-serif;
+  font-style: italic;
+  color: #6225E6;
+}
+.logo-reset .wrapper-reset {
+  background-color: rgb(219, 219, 219);
+}

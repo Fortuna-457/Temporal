@@ -184,6 +184,7 @@ $(document).ready(function () {
     
 
 
+    
     function endQuiz(won) {
         clearInterval(timer);
         $('#quiz-modal').show();
@@ -204,18 +205,21 @@ $(document).ready(function () {
                 .fail(function (error) {
                     console.error('Error:', error);
                 });
-
+    
             $('#highscore').text(highscore);
-        }
-        if (won) {
-            $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}${score > highscore ? "<br>NEW HIGHSCORE!" : ""}`);
+            $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}<br>NEW HIGHSCORE!`);
         } else {
-            const questionObj = questions[currentQuestionIndex];
-            $('#modal-message').html(`<strong>${questionObj.question}</strong><br>Correct Answer: ${questionObj.correctAnswer}<br><br>You lost. Try again!<br>Your Score: ${score}`);
+            if (won) {
+                $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}`);
+            } else {
+                const questionObj = questions[currentQuestionIndex];
+                $('#modal-message').html(`<strong>${questionObj.question}</strong><br>Correct Answer: ${questionObj.correctAnswer}<br><br>You lost. Try again!<br>Your Score: ${score}`);
+            }
         }
         isPaused = false; // Ensure timer is not paused when the quiz ends
         updateIconClass(); // Update icon class
     }
+    
 
 
     $('#start-quiz').off('click').on('click', function () {
