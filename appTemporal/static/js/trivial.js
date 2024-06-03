@@ -181,7 +181,6 @@ $(document).ready(function () {
         $('#quiz-modal').show();
         if (score > highscore) {
             highscore = score;
-
             // Guardamos la nueva highscore en el server
             $.ajax({
                 url: '/set-highscore/',
