@@ -6,6 +6,13 @@
 {% endblock title %}
 
 {% block extra_head %}
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <!-- Script JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- End Script JQuery -->
+
         <!-- Map CSS -->
         <link href="{% static 'css/map.css' %}" rel='stylesheet'>
          <!-- End Map CSS -->
@@ -36,10 +43,6 @@
           <link rel="stylesheet" href="https://unpkg.com/leaflet-rebound/dist/leaflet-rebound.min.css" />
           <script src="https://unpkg.com/leaflet-rebound/dist/leaflet-rebound.min.js"></script>
         <!-- End Leaflet Rebound -->
-
-        <!-- Script JQuery -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- End Script JQuery -->
 {% endblock extra_head %}
 
 {% block active_template %}
@@ -69,8 +72,8 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
-        <i class='bx bxs-cog'></i>Settings
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
       </a>
     </li>
     <li class="nav-item">
@@ -90,12 +93,14 @@
 {% block content %}
 
 <div class="searchForm">
-  <form onsubmit="event.preventDefault();" role="search">
+  <form role="search">
     <label for="search">Search for stuff</label>
     <input id="search" type="search" placeholder="Search..." />
     <button type="submit">Search</button>
+    <button id="searchMini" style='color:#6700c7' type="button" class="searchIcon"><i class='bx bx-search' ></i></button>
   </form>
 </div>
+
 
     <div id="mapid"></div>
     
@@ -132,11 +137,10 @@
               <div class="modal" tabindex="-1" id="settingsModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Settings</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <span class="info-icon" data-bs-toggle="tooltip" title="The available voices may depend on your browser and system language">🛈</span>
-                        </div>
+                      <div class="modal-header">
+                        <h5 class="modal-title">Change password</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+                    </div>
                         <div class="modal-body">
                             <div class="modal-content-voice">
                                 <div class="voice-item availableVoices">
@@ -158,6 +162,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <span class="info-icon" data-bs-toggle="tooltip" title="The available voices may depend on your browser and system language">🛈</span>
                         </div>
                     </div>
                 </div>
@@ -188,6 +193,7 @@
     <!-- TextToSpeech JS -->
       <script src="{% static 'js/textToSpeech.js' %}" defer></script>
     <!-- End TextToSpeech JS -->
+
 
     <!-- Map JS -->
       <script src="{% static 'js/map.js' %}" defer></script>

@@ -57,7 +57,6 @@ function simulateMapClick() {
 function displayElements(elements, newBubble) {
     // Ensure elements is an array
     if (!Array.isArray(elements)) {
-        console.error('elements is not an array');
         return;
     }
 
@@ -309,7 +308,6 @@ map.on('click', function (e) {
 
                     })
                     .catch(error => {
-                        console.error('Error getting elements:', error);
                         alert('Error getting elements. Please try again.');
                         // isBubbleGenerating = false;
                     });
@@ -321,11 +319,28 @@ map.on('click', function (e) {
 
         })
         .catch(error => {
-            console.error('Error getting elements:', error);
             alert('Error getting elements. Please try again.');
             // isBubbleGenerating = false;
         });
 });
+
+
+$(".searchForm form").on('keydown', function(e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) { 
+        e.preventDefault();
+    }
+});
+
+
+
+$(".searchForm form").on('keydown', function(e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) { 
+        e.preventDefault();
+    }
+});
+
 
 $(".searchForm form").submit(function (event) {
     event.preventDefault();
@@ -360,7 +375,6 @@ $(".searchForm form").submit(function (event) {
             displayElements(elements);
         })
         .catch(error => {
-            console.error('Error getting elements:', error);
             alert('Error getting elements. Please try again.');
         });
 
@@ -437,9 +451,9 @@ $(".answer-container").on("click", "a.single-answer", function (e) {
                         }, 1000); // Delay of 1 second
                     }
                 })
-                .fail(function (error) {
-                    console.error('Error:', error);
-                });
+                // .fail(function (error) {
+                //     console.error('Error:', error);
+                // });
         }, 750); // Delay of 0.75 seconds
     }
 });
@@ -504,3 +518,36 @@ offcanvasBody.addEventListener('scroll', function () {
 function topFunction() {
     offcanvasBody.scrollTop = 0;
 }
+
+
+// Search form
+
+const searchMini = document.querySelector('#searchMini')
+const form = document.querySelector('.searchForm form');
+const searchIcon = document.querySelector('.searchIcon');
+const input = document.querySelector('#search');
+
+searchIcon.addEventListener('click', function(event) {
+    if (form.classList.contains('expanded')) {
+      // If the form is already expanded, submit the form when the search icon is clicked
+      $(".searchForm form").submit();
+    } else {
+      // If the form is not expanded, just expand the form
+      form.classList.add('expanded');
+    }
+  });
+
+  
+input.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    form.submit();
+  }
+});
+
+document.addEventListener('click', function(event) {
+  const isInsideForm = form.contains(event.target);
+  const isInsideSearchIcon = searchIcon.contains(event.target);
+  if (!isInsideForm && !isInsideSearchIcon) {
+    form.classList.remove('expanded');
+  }
+});

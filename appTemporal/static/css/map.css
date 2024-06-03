@@ -217,6 +217,9 @@ body:not(.modal-open) {
   margin-top: 60px;
   background-color: rgba(101, 77, 255, 0.3882352941);
 }
+.offcanvas-header h5 {
+  font-size: clamp(1rem, 0.786rem + 0.571vw, 1.3rem);
+}
 
 .offcanvas {
   width: 500px !important;
@@ -397,7 +400,7 @@ body:not(.modal-open) {
 
 .searchForm {
   position: absolute;
-  z-index: 9999;
+  z-index: 999;
   top: 80px;
   right: 30px;
 }
@@ -407,9 +410,12 @@ form {
   background: var(--color-brand);
   border-radius: var(--rad);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden; /* Hide overflowing content */
+  transition: width 0.3s ease-in-out;
 }
 
-input, button {
+input,
+button {
   height: var(--height);
   font-family: var(--font-fam);
   border: 0;
@@ -435,7 +441,6 @@ button {
   position: absolute;
   top: 0;
   right: 0;
-  width: var(--btn-width);
   font-weight: bold;
   background: var(--color-brand);
   border-radius: 0 var(--rad) var(--rad) 0;
@@ -447,6 +452,8 @@ input:not(:placeholder-shown) {
 }
 input:not(:placeholder-shown) + button {
   display: block;
+  width: var(--btn-width);
+  height: var(--height); /* Ensure height matches input */
 }
 
 label {
@@ -489,6 +496,16 @@ div#voiceListContainer {
   margin-right: 10px;
 }
 
+.close {
+  color: white !important;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  display: block;
+  position: relative;
+  padding-top: 10px !important;
+}
+
 .modal {
   text-align: center;
   padding: 0 !important;
@@ -496,20 +513,19 @@ div#voiceListContainer {
 }
 .modal .modal-dialog {
   display: inline-block;
+  width: 600px;
   text-align: left;
   vertical-align: middle;
   margin-top: 200px;
 }
 .modal .modal-content {
-  width: 600px;
   background-color: #4836bb;
   margin: auto;
-  padding: 20px;
   color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .modal .modal-header {
-  padding: 15px;
+  padding: 20px;
   border-bottom: 1px solid #e5e5e5;
   position: relative;
 }
@@ -529,7 +545,7 @@ div#voiceListContainer {
 }
 .modal .modal-body {
   position: relative;
-  padding: 15px;
+  padding: 20px;
 }
 .modal .modal-content-voice {
   display: flex;
@@ -553,6 +569,10 @@ div#voiceListContainer {
 }
 .modal #volumeButtons button:hover, .modal #voiceButtons button:hover {
   background-color: #45a049;
+}
+
+#searchMini {
+  display: none;
 }
 
 .selected-voice {
@@ -594,4 +614,70 @@ div#voiceListContainer {
 }
 .volumeName i {
   margin-top: 5px;
+}
+
+/* Media query for screen width below 790px */
+/* Media query for screen width below 790px */
+@media (max-width: 790px) {
+  #searchMini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .right {
+    margin-left: auto;
+  }
+  form {
+    width: 50px;
+    overflow: hidden;
+  }
+  form.expanded {
+    width: 15rem;
+  }
+  form.expanded input[type=search],
+  form.expanded button {
+    width: 78%;
+    padding: 0 1.6rem;
+    border: none;
+    visibility: visible;
+  }
+  form.expanded input[type=search]:not(:placeholder-shown) + label[for=search] {
+    display: none;
+  }
+  .searchIcon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: var(--height);
+    font-family: var(--font-fam);
+    color: var(--color-dark);
+    font-size: 1.8rem;
+    line-height: var(--height);
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+  }
+  button[type=submit] {
+    font-size: 0;
+  }
+  [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+    width: 50px;
+    border-radius: 10px;
+  }
+}
+/* Media query for screen width below 570px */
+@media (max-width: 570px) {
+  .modal .modal-content-voice {
+    flex-direction: column;
+  }
+  #volumeControl {
+    margin-top: 20px;
+    width: 300px;
+  }
+  .modal-dialog {
+    width: auto !important;
+  }
 }

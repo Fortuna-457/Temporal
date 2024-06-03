@@ -53,6 +53,10 @@ def contactView(request):
 def games(request):
     return render(request, 'layouts/games.html')
 
+@login_required
+def profileView(request):
+    return render(request, 'layouts/editProfile.html')
+
 
 @login_required
 def logoutView(request):

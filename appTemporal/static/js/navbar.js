@@ -32,9 +32,11 @@ $(document).ready(function(){
 	setTimeout(function(){ test(); });
 });
 $(window).on('resize', function(){
+	console.log("hello im resizing");
 	setTimeout(function(){ test(); }, 500);
 });
 $(".navbar-toggler").click(function(){
+	console.log("hello im navbar collapse");
 	$(".navbar-collapse").slideToggle(300);
 	setTimeout(function(){ test(); });
 });

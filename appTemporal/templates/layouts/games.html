@@ -16,8 +16,8 @@
 {% block active_template %}
   <ul class="navbar-nav ml-auto">
     <div class="hori-selector">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
     </div>
     <li class="nav-item">
       <a class="nav-link" href="{% url 'index' %}">
@@ -40,8 +40,8 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
-        <i class='bx bxs-cog'></i>Settings
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
       </a>
     </li>
     <li class="nav-item">
@@ -85,40 +85,6 @@
 
 			<div class="part-games settings-games-selection">
 				<h1>Choose your game mode!</h1>
-				<button id="myBtn" class="modal-button button-games button-games-options">Settings</button>
-				<div id="settingsModal" class="modal">
-				  <div class="modal-content-settings">
-					<span class="close-modal">&times;</span>
-					<div class="different-settings-container">
-					  <div class="item-modal">
-						<h4>trivial settings</h4>
-						<div class="form-check">
-						  <input class="form-check-input easy" type="radio" name="trivialDifficulty" id="easy">
-						  <label class="form-check-label difficulty" for="easy">Easy</label>
-						</div>
-						<div class="form-check">
-						  <input class="form-check-input normal" type="radio" name="trivialDifficulty" id="normal" checked>
-						  <label class="form-check-label difficulty" for="normal">Normal</label>
-						</div>
-						<div class="form-check">
-						  <input class="form-check-input difficult" type="radio" name="trivialDifficulty" id="difficult">
-						  <label class="form-check-label difficulty" for="difficult">Difficult</label>
-						</div>
-					  </div>
-					  <div class="item-modal">
-						<h4>Creative settings</h4>
-						<div class="form-check">
-						  <input class="form-check-input meters" type="radio" name="creativeSettings" id="15m"  checked>
-						  <label class="form-check-label" for="15m">15m</label>
-						</div>
-						<div class="form-check">
-						  <input class="form-check-input meters" type="radio" name="creativeSettings" id="50m">
-						  <label class="form-check-label" for="50m">50m</label>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
 			  </div>
 
 
@@ -127,7 +93,7 @@
 					<div class="circle"></div>
 					<div class="circle"></div>
 					<div class="card-inner">
-						<h1>trivial mode</h1>
+						<h1>Trivial mode</h1>
 						<div class="photo-games-container">
 							<div class="photo-games2"></div>
 						</div>

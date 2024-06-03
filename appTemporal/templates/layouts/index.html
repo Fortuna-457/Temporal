@@ -15,15 +15,15 @@
 {% block active_template %}
   <ul class="navbar-nav ml-auto">
     <div class="hori-selector">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
     </div>
     <li class="nav-item active">
       <a class="nav-link" href="{% url 'index' %}">
         <i class='bx bxs-home-smile'></i>Home
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item ">
       <a class="nav-link" href="{% url 'games' %}">
         <i class='bx bx-game'></i>Games
       </a>
@@ -39,8 +39,8 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
-        <i class='bx bxs-cog'></i>Settings
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
       </a>
     </li>
     <li class="nav-item">
@@ -56,7 +56,6 @@
     </li>
   </ul>
 {% endblock active_template %}
-
 {% block content %}
   <div class="parallax">
     <div class="hero">
