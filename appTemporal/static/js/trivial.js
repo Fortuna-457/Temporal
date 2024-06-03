@@ -6,7 +6,8 @@ $(document).ready(function () {
     let difficulty = "normal".toLowerCase(); // Sustituir normal por el valor de los ajustes del modo trivial
 
     const questions = [];
-
+    let highscore = 0;
+    
     $.ajax({
         url: '/get-questions/',
         method: 'POST',
@@ -143,38 +144,45 @@ $(document).ready(function () {
 
     function checkAnswer(index) {
         const answerTime = timeRemaining; // Use the counter number
-
-        if ($(`#answer-${index + 1}`).data('correct')) {
-            let pointsEarned = 0;
-            if (answerTime >= 15) { // 20 - 5 = 15
-                pointsEarned = 20;
-            } else if (answerTime >= 10) { // 20 - 10 = 10
-                pointsEarned = 15;
+        // Check if the timer is not paused
+        if (!isPaused) {
+            if ($(`#answer-${index + 1}`).data('correct')) {
+                let pointsEarned = 0;
+                if (answerTime >= 15) { // 20 - 5 = 15
+                    pointsEarned = 20;
+                } else if (answerTime >= 10) { // 20 - 10 = 10
+                    pointsEarned = 15;
+                } else {
+                    pointsEarned = 10;
+                }
+                score += pointsEarned;
+                $('#currentScore').text(score);
+                displayPointsEarned(pointsEarned); // Display the points earned
+                // Update highscore if current score is higher
+                if (score > highscore) {
+                    console.log("New Highscore achieved");
+                    highscore = score;
+                    localStorage.setItem('highscore', highscore);
+                    $('#highscore').text(highscore);
+                    console.log("Updated Highscore:", highscore);
+                }
             } else {
-                pointsEarned = 10;
+                // If the answer is incorrect, end the quiz
+                endQuiz(false);
+                return; // Exit the function early to prevent proceeding to the next question
             }
-            score += pointsEarned;
-            $('#currentScore').text(score);
-            displayPointsEarned(pointsEarned); // Display the points earned
-
-            // Update highscore if current score is higher
-            if (score > highscore) {
-                highscore = score;
-                localStorage.setItem('highscore', highscore); // Store the new high score
-                $('#highscore').text(highscore);
-            }
-
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion();
-                resetTimer();
-            } else {
-                endQuiz(true);
-            }
+        }
+        // Proceed to the next question regardless of whether the timer is paused
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+            resetTimer();
         } else {
-            endQuiz(false);
+            endQuiz(true);
         }
     }
+    
+
 
     function endQuiz(won) {
         clearInterval(timer);
