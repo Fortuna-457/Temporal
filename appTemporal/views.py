@@ -39,7 +39,7 @@ def index(request):
 
 @login_required
 def trivial(request):
-    return render(request, 'layouts/trivial.html')
+    return render(request, 'games/trivial.html')
 
 def privacyPolicyView(request):
     return render(request, 'layouts/privacyPolicy.html')
@@ -136,7 +136,7 @@ def register(request): # Vista registro
        
 @login_required
 def mapsView(request):
-    return render(request, 'maps/map.html')
+    return render(request, 'games/map.html')
 
 
 @login_required
@@ -294,6 +294,20 @@ def set_highscore(request):
         user_highscore = datos_json['highscore']
         
         print(user_highscore)
+        
+    except Exception as e: # Captura cualquier excepción durante el registro:
+        print(f"Error in function set_highscore (appTemporal/views.py): {e}")
+        
+@login_required
+@require_POST
+def get_highscore(request):
+    try:
+
+        # Leer y decodificar los datos JSON recibidos
+        datos_json = json.loads(request.body)
+        active_user = datos_json['highscore']
+        
+        print(active_user)
         
     except Exception as e: # Captura cualquier excepción durante el registro:
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
