@@ -7,9 +7,11 @@
 
 .navbar{
     padding: 0 !important;
-	position: absolute !important;
+	position: fixed !important;
     width: 100% !important;
     z-index: 99999 !important;
+
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
 .navbar-mainbg{

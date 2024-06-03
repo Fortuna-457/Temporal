@@ -41,7 +41,6 @@ $(document).ready(function() {
             $(this).removeClass('bxs-lock-alt').addClass('bx-lock-alt');
         }
     });
-
 });
 
 

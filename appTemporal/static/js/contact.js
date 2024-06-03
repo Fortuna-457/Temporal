@@ -50,3 +50,5 @@ function generateStars(container, numStars) {
   });
   
   feather.replace();
+
+  
