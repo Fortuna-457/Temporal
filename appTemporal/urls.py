@@ -21,12 +21,16 @@ urlpatterns = [
     path('get-questions/', views.get_questions, name='get-questions'),
     # Url del método que actualiza la highscore del usuario
     path('set-highscore/', views.set_highscore, name='set-highscore'),
+    # Url del método que devuelve la highscore del usuario
+    path('get-highscore/', views.get_highscore, name='get-highscore'),
     # Url de la página de contacto
     path('contact/', views.contactView, name='contact'),
     # Url de la página de privacy policy
     path('privacyPolicy/', views.privacyPolicyView, name='privacyPolicy'),
     # Url de la página del triviall
     path('trivial/', views.trivial, name='trivial'),
-     # Url de la página del edit profile
+    # Url de la página del edit profile
     path('profile/', views.profileView, name='profile'),
+    # Url de la página del edit profile que actualiza el profile
+    path('save-profile/', views.save_profile, name='save-profile'),
 ]

@@ -55,8 +55,37 @@ def games(request):
 
 @login_required
 def profileView(request):
-    return render(request, 'layouts/editProfile.html')
+    user = get_user_model()
+    
+    usu = user.objects.get(username=request.user)
+    
+    extrafields = ExtraFields.objects.filter(user=usu).first()
+    
+    return render(request, 'layouts/editProfile.html', { "extrafields":extrafields, "user":usu})
 
+@login_required
+@require_POST
+def save_profile(request):
+    # Obtener el usuario actual
+    user = request.user
+
+    # Obtener el objeto ExtraFields asociado al usuario o crear uno nuevo si no existe
+    extrafields= ExtraFields.objects.get(user=user)
+
+    if extrafields:
+        # Guardar los datos del usuario
+        full_name = request.POST.get('fullName').split(" ")
+        
+        user.username = request.POST.get('username')
+        user.first_name = full_name[0]
+        user.last_name = full_name[1]
+        user.email = request.POST.get('email')
+        user.save()
+        
+        extrafields.about = request.POST.get('about')
+        extrafields.save()
+        
+    return redirect('profile')
 
 @login_required
 def logoutView(request):
@@ -160,12 +189,13 @@ def get_info_place(request):
                     data = response.json()
                     if data:
                         location = data[0]
-                        place_name = location.get('display_name', 'N/A')
+                        place_name = location.get('display_name', 'N/A').split(", ")[0]
+                        place_location = location.get('display_name', 'N/A')
                         place_type = location.get('osm_type', 'N/A')
                         
                         request_info = [
-                            'Historical events in the:' + place_name,
-                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. It has to be about the history of:' + place_name
+                            'Historical events in the: ' + place_name + '. In ' + place_location + '.',
+                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. Show the correct answer with this symbol: -->. It has to be about the history of: ' + place_name + '. In ' + place_location + '.'
                         ]
                         
                         try:

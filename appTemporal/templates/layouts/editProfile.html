@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-	Contact us
+	Profile
 {% endblock title %}
 
 {% block extra_head %}
@@ -82,102 +82,78 @@
 
 <div class="container">
     <div class="row gutters">
-    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="account-settings">
-                <div class="user-profile">
-                    <div class="user-avatar">
-                        <img src="https://cdn-icons-png.flaticon.com/256/3940/3940424.png" alt="Profile Picture">
-                    </div>
-                    <h5 class="user-name">Username</h5>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                            <div class="user-avatar">
+                                <img src="https://cdn-icons-png.flaticon.com/256/3940/3940424.png" alt="Profile Picture">
+                            </div>
+                            <h5 class="user-name">{{ user.username }}</h5>
                     
-                    <h6 class="user-email">Email</h6>
-                </div>
-                <div class="about">
-                    <h5>About</h5>
-                    <p id="editableText">
-                        This is my bio! I love animals and korean/japan history
-                    </p>
-                    <div class="editBioText">
-                        <span id="editIcon" class="edit-icon"><i class='bx bxs-pencil' style='color:#ffffff'></i></span>
-                    <button style="display: none;" type="submit" id="saveBioButton" name="saveBioButton" class="btn btn-primary">Change</button>
-                    </div>
-                    <a href="" id="changePassword">Edit password</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h4 class="mb-2 text-primary">Personal Details</h4>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="fullName">Username</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Username">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="eMail">Email</label>
-                        <input type="email" class="form-control" id="eMail" placeholder="Email">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="phone">Name and surname</label>
-                        <span id="tooltipEdit" class="info-icon" data-bs-toggle="tooltip" title="Your name and surname won't be public">🛈</span>
-                        <input type="text" class="form-control" id="phone" placeholder="Name and surname">
-                    </div>
-                </div>
-            </div>
-            {% comment %} <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mt-3 mb-2 text-primary">Additional information</h6>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="Street">Info 1</label>
-                        <input type="name" class="form-control" id="Street" placeholder="Enter Street">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="ciTy">Info 2</label>
-                        <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="sTate">Info 3</label>
-                        <input type="text" class="form-control" id="sTate" placeholder="Enter State">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="zIp">Info 4</label>
-                        <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
-                    </div>
-                </div>
-            </div>
-            <div class="row gutters"> {% endcomment %}
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="text-right">
-                        <button type="button" id="cancel" name="submit" class="btn btn-secondary">Cancel</button>
-                        <button type="button" id="updateUser" name="submit" class="btn btn-primary">Update</button>
+                            <h6 class="user-email">Highscore - {{ extrafields.highscore }}</h6>
+                        </div>
+                        <div class="about">
+                            <h5>About</h5>
+                            <p>
+                                {{ extrafields.about }}
+                            </p>
+                            <!-- id="changePassword" -->
+                            <a href="{% url 'reset_password' %}">Edit password</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+        <div class="card h-100">
+            <div class="card-body">
+                <form class="row gutters" method="post" action="{% url 'save-profile' %}">
+                    {% csrf_token %}
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h4 class="mb-2 text-primary">Personal Details</h4>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="fullName">Username</label>
+                            <input type="text" class="form-control" name="username" id="fullName" placeholder="Username" value="{{ user.username }}">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="eMail">Email</label>
+                            <input type="email" class="form-control" id="eMail" name="email" placeholder="Email" value="{{ user.email }}">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="phone">Name and surname</label>
+                            <span id="tooltipEdit" class="info-icon" data-bs-toggle="tooltip" title="Your name and surname won't be public">🛈</span>
+                            <input type="text" class="form-control" id="phone" name="fullName" placeholder="Name and surname" value="{{ user.first_name }} {{ user.last_name }}">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="editableText">About me</label>
+                            <textarea style="max-height: 170px; height: 130px;" name="about" class="form-control" id="editableText" placeholder="This is my bio! I love animals and history">{{ extrafields.about }}</textarea>
+                            {% comment %} <div class="editBioText">
+                                <span id="editIcon" class="edit-icon"><i class='bx bxs-pencil' style='color:#ffffff'></i></span>
+                                <button style="display: none;" type="submit" id="saveBioButton" name="saveBioButton" class="btn btn-primary">Change</button>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="text-right">
+                            <input type="reset" id="cancel" name="submit" class="btn btn-secondary" value="Cancel">
+                            <input type="submit" id="updateUser" name="submit" class="btn btn-primary" value="Update">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    </div>
-    </div>
-    </div>
+</div>
 
 
 {% endblock content %}

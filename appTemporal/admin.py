@@ -4,7 +4,7 @@ from .models import ExtraFields, Place, Question, Answer, EasyQuestion, NormalQu
 # Register your models here.
 @admin.register(ExtraFields)
 class ExtraFieldsAdmin(admin.ModelAdmin):
-    list_display = ['user', 'privacy_policy', 'highscore']
+    list_display = ['user', 'privacy_policy', 'highscore', 'about']
     
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
