@@ -160,6 +160,7 @@ def register(request): # Vista registro
             # Redirecciona a la vista loginView si el registro fue exitoso
             return redirect('login')
         else:
+            messages.error(request, 'You need to accept the Privacy policy.')
             return redirect('register')
 
        
