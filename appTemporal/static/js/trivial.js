@@ -410,4 +410,76 @@ function startConfetti() {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         $(this).css('background-color', randomColor);
     });
+
+    $('#highscore-modal-trigger').on('click', function() {
+        const wasPausedBeforeHighscore = isPaused; // Remember if the timer was paused before opening the highscore modal
+        pauseTimer(); // Pause the timer when the highscore modal is displayed
+        isPaused = true; // Update isPaused flag to ensure the timer stays paused
+        toggleAnswerInteraction(false); // Disable answer interaction
+        $('#highscore-modal').show();
+
+        // Hide the paused message if it's displayed
+        $('#paused-message').hide();
+
+        // Event listener for close button in highscore modal
+        function closeHighscoreModal() {
+            $('#highscore-modal').hide();
+            if (!wasPausedBeforeHighscore) {
+                isPaused = false; // Update isPaused flag to resume the timer only if it wasn't paused before opening the highscore modal
+                startTimer(); // Resume the timer when the modal is closed only if it wasn't paused before
+            }
+            toggleAnswerInteraction(true); // Enable answer interaction when the modal is closed
+            $('.close-modal').off('click', closeHighscoreModal); // Remove the event listener
+        }
+
+        // Add event listener for close button in highscore modal
+        $('.close-modal').one('click', closeHighscoreModal);
+    });
+
+    // Event listener for cog icon click to open settings modal
+    $('.box-icon-quiz.cog').on('click', function() {
+        // Remember if the timer was paused before opening the settings modal
+        const wasPausedBeforeSettings = isPaused;
+        pauseTimer(); // Pause the timer when the settings modal is opened
+        isPaused = true; // Update isPaused flag to ensure the timer stays paused
+        toggleAnswerInteraction(false); // Disable answer interaction
+        $('#settingsModal').show();
+
+        // Hide the paused message if it's displayed
+        $('#paused-message').hide();
+
+        // Event listener for close button in settings modal
+        function closeSettingsModal() {
+            $('#settingsModal').hide();
+            if (!wasPausedBeforeSettings) {
+                isPaused = false; // Update isPaused flag to resume the timer only if it wasn't paused before opening the settings modal
+                startTimer(); // Resume the timer when the modal is closed only if it wasn't paused before
+            }
+            toggleAnswerInteraction(true); // Enable answer interaction when the modal is closed
+            $('.close-modal').off('click', closeSettingsModal); // Remove the event listener
+        }
+
+        // Add event listener for close button in settings modal
+        $('.close-modal').one('click', closeSettingsModal);
+    });
+
+
+    // Event listener for close button in settings modal
+    $('#settingsModal .close-modal').on('click', function() {
+        $('#settingsModal').hide();
+        if (!isPaused) {
+            startTimer(); // Resume the timer if it wasn't paused before
+        }
+    });
+
+    // Event listener to close settings modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target == $('#settingsModal')[0]) {
+            $('#settingsModal').hide();
+            if (!isPaused) {
+                startTimer(); // Resume the timer if it wasn't paused before
+            }
+        }
+    };
+
 });
