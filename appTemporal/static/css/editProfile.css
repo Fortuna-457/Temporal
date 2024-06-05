@@ -236,3 +236,9 @@ input:focus {
   text-decoration: none;
   cursor: pointer;
 }
+
+.about-me {
+  max-height: 10.625rem;
+  min-height: 2.111rem;
+  height: 8.125rem;
+}

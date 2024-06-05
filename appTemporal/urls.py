@@ -31,6 +31,4 @@ urlpatterns = [
     path('trivial/', views.trivial, name='trivial'),
     # Url de la página del edit profile
     path('profile/', views.profileView, name='profile'),
-    # Url de la página del edit profile que actualiza el profile
-    path('save-profile/', views.save_profile, name='save-profile'),
 ]
