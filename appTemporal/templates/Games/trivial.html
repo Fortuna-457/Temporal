@@ -13,6 +13,7 @@
 
 <link href="{% static 'css/trivial.css' %}" rel="stylesheet">
 
+
 {% endblock extra_head %}
 
 {% block active_template %}
@@ -65,13 +66,14 @@
 <div class="quiz-layout">
   <div class="navbar-quiz">
     <img src="" alt="">
+    <div class="box-icon-quiz" id="start-quiz"><i id="pauseButtonPlay" class='bx bx-pause'></i></div>
     <div class="box-icon-quiz refresh"><i class='bx bx-refresh'></i></div>
     <div class="box-icon-quiz cog"><i class='bx bxs-cog'></i></div>
-    <div class="box-icon-quiz" id="start-quiz"><i class='bx bx-pause'></i></div>
     <div class="box-icon-quiz info-quiz" id="info-quiz"><i class='bx bxs-info-circle'></i></div>
   </div>
 
   <div class="content-quiz quiz-item">
+    <div id="paused-message" class="paused-message">Quiz Paused, press the button again to continue</div>
     <div class="part-content-quiz scores">
       <div class="time-quiz">Time remaining: <span id="time-remaining">20</span></div>
       <div class="score-quiz">
@@ -89,23 +91,23 @@
       </div>
 
       <div class="part-answer-question answers">
+          <div class="division-answers">
+            <div class="answer-quiz" id="answer-1"></div>
+            <div class="answer-quiz" id="answer-2"></div>
+        </div>
         <div class="division-answers">
-          <div class="answer-quiz" id="answer-1"></div>
-          <div class="answer-quiz" id="answer-2"></div>
-      </div>
-      <div class="division-answers">
-          <div class="answer-quiz" id="answer-3"></div>
-          <div class="answer-quiz" id="answer-4"></div>
-      </div>
+            <div class="answer-quiz" id="answer-3"></div>
+            <div class="answer-quiz" id="answer-4"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
+<canvas id="confetti-canvas"></canvas>
 
 <div id="start-modal" class="modal">
   <div class="modal-content">
-    <span class="close-modal">&times;</span>
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
     <h2>Welcome to Temporal's quiz!</h2>
     <p>Do you want to start the quiz?</p>
     <div class="modal-buttons">
@@ -119,22 +121,35 @@
   <div class="modal-content">
     {% comment %} <span class="close-modal close-modal-lost">&times;</span> {% endcomment %}
     <p id="modal-message"></p>
-    <div class="box-icon-quiz refresh"><i class='bx bx-refresh'></i></div>
-    <a class="games-come-back" href="{% url 'games' %}">Games</a>
+    <div class="buttons-after-losing">
+      <div class="box-icon-quiz refresh"><i class='bx bx-refresh'></i></div>
+    <div class="games-button-lost"><a class="games-come-back" href="{% url 'games' %}">Return to games</a></div>
+    </div>
   </div>
 </div>
 
 <div id="info-modal" class="modal" style="display:none;">
   <div class="modal-content modal-content-info">
-    <span class="close-modal">&times;</span>
-    <h3>How to Earn Points:</h3>
-    <p>Question answered within 5 seconds: <b>+20</b></p>
-    <p>Question answered within 10 seconds: <b>+15</b></p>
-    <p>Question answered within 15 seconds: <b>+10</b></p>
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+    <div class="content-inside-info-modal">
+      <div class="item-info-modal how-to-earn-points">
+        <h3>How to Earn Points:</h3>
+        <p>Question answered within 5 seconds: <b>+20</b></p>
+        <p>Question answered within 10 seconds: <b>+15</b></p>
+        <p>Question answered within 15 seconds: <b>+10</b></p>
+      </div>
+      <div class="item-info-modal pause-info-extra">
+        <h3>Pause:</h3>
+        <p>You're not allowed to earn points or answer the questions while your quiz is paused</p>
+      </div>
+    </div>
+    <h3 class="not-points-while-paused">The quiz will continue after closing this window</h3>
   </div>
 </div>
 
-
+<script src="
+https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js
+"></script>
 <script src="{% static 'js/trivial.js' %}" defer></script>
 
 {% endblock content %}
