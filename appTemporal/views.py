@@ -73,7 +73,7 @@ def profileView(request):
     else:
         form = UpdateCombinedForm(user=usu, extrafields=extrafields)
 
-    return render(request, 'layouts/editProfile.html', {"extrafields": extrafields, "user": usu, 'form': form})
+    return render(request, 'registration/editProfile.html', {"extrafields": extrafields, "user": usu, 'form': form})
 
 
 @login_required
