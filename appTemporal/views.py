@@ -12,6 +12,7 @@ from django.http import JsonResponse
 import openai
 from django.http import HttpResponseNotFound
 import random
+from appTemporal.forms import UpdateCombinedForm
 
 # Configura tu API key de OpenAI
 openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
@@ -28,6 +29,7 @@ def error_404(request, exception):
 # def custom_404(request, exception):
 #     return HttpResponseNotFound('<h1>Page not found</h1>')
 
+
 def index(request):
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
@@ -41,6 +43,7 @@ def index(request):
 def trivial(request):
     return render(request, 'games/trivial.html')
 
+
 def privacyPolicyView(request):
     return render(request, 'layouts/privacyPolicy.html')
 
@@ -53,6 +56,7 @@ def contactView(request):
 def games(request):
     return render(request, 'layouts/games.html')
 
+
 @login_required
 def profileView(request):
     user = get_user_model()
@@ -61,31 +65,16 @@ def profileView(request):
     
     extrafields = ExtraFields.objects.filter(user=usu).first()
     
-    return render(request, 'layouts/editProfile.html', { "extrafields":extrafields, "user":usu})
+    if request.method == 'POST':
+        form = UpdateCombinedForm(request.POST, user=usu, extrafields=extrafields)
+        if form.is_valid():
+            form.save() # Guardo los datos en la BBDD
+            return redirect('profile')
+    else:
+        form = UpdateCombinedForm(user=usu, extrafields=extrafields)
 
-@login_required
-@require_POST
-def save_profile(request):
-    # Obtener el usuario actual
-    user = request.user
+    return render(request, 'registration/editProfile.html', {"extrafields": extrafields, "user": usu, 'form': form})
 
-    # Obtener el objeto ExtraFields asociado al usuario o crear uno nuevo si no existe
-    extrafields= ExtraFields.objects.get(user=user)
-
-    if extrafields:
-        # Guardar los datos del usuario
-        full_name = request.POST.get('fullName').split(" ")
-        
-        user.username = request.POST.get('username')
-        user.first_name = full_name[0]
-        user.last_name = full_name[1]
-        user.email = request.POST.get('email')
-        user.save()
-        
-        extrafields.about = request.POST.get('about')
-        extrafields.save()
-        
-    return redirect('profile')
 
 @login_required
 def logoutView(request):

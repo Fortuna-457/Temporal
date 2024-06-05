@@ -345,6 +345,10 @@ $(".searchForm form").on('keydown', function(e) {
 $(".searchForm form").submit(function (event) {
     event.preventDefault();
 
+    // Activate the events that show the answers
+    map.fire('mousedown');
+    simulateMapClick();
+
     // Por si acaso, reseteamos el array elements
     elements = [];
 
@@ -366,10 +370,6 @@ $(".searchForm form").submit(function (event) {
                     });
                 });
             }
-
-            // Activate the events that show the answers
-            map.fire('mousedown');
-            simulateMapClick();
 
             // Display elements
             displayElements(elements);

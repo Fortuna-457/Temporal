@@ -38,7 +38,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{% url 'contact' %}">
-        <i class='bx bxl-blogger'></i>Contact us
+        <i class='bx bx-support'></i>Contact us
       </a>
     </li>
     <li class="nav-item active">
@@ -62,7 +62,7 @@
 
 {% block content %}
 
-<div id="passwordModal" class="modal">
+{% comment %} <div id="passwordModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Change password</h5>
@@ -78,7 +78,7 @@
             <button type="submit" id="changeUserPassword" name="submit" class="btn btn-primary">Change</button>
         </form>
     </div>
-</div>
+</div> {% endcomment %}
 
 <div class="container">
     <div class="row gutters">
@@ -109,34 +109,68 @@
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
         <div class="card h-100">
             <div class="card-body">
-                <form class="row gutters" method="post" action="{% url 'save-profile' %}">
+                <form class="row gutters" method="post">
                     {% csrf_token %}
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <h4 class="mb-2 text-primary">Personal Details</h4>
                     </div>
+
+                    <!-- Mostrar errores no relacionados con campos específicos -->
+                    {% if form.non_field_errors %}
+                      <div class="col-12">
+                        <div class="alert alert-danger">
+                          {{ form.non_field_errors }}
+                        </div>
+                      </div>
+                    {% endif %}
+
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="fullName">Username</label>
-                            <input type="text" class="form-control" name="username" id="fullName" placeholder="Username" value="{{ user.username }}">
+                            {{ form.username }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.username.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="eMail">Email</label>
-                            <input type="email" class="form-control" id="eMail" name="email" placeholder="Email" value="{{ user.email }}">
+                            {{ form.email }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.email.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="phone">Name and surname</label>
                             <span id="tooltipEdit" class="info-icon" data-bs-toggle="tooltip" title="Your name and surname won't be public">🛈</span>
-                            <input type="text" class="form-control" id="phone" name="fullName" placeholder="Name and surname" value="{{ user.first_name }} {{ user.last_name }}">
+                            {{ form.fullName }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.fullName.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.fullName.errors }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="editableText">About me</label>
-                            <textarea style="max-height: 170px; height: 130px;" name="about" class="form-control" id="editableText" placeholder="This is my bio! I love animals and history">{{ extrafields.about }}</textarea>
+                            {{ form.about }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.about.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.about.errors }}
+                                </div>
+                            {% endif %}
                             {% comment %} <div class="editBioText">
                                 <span id="editIcon" class="edit-icon"><i class='bx bxs-pencil' style='color:#ffffff'></i></span>
                                 <button style="display: none;" type="submit" id="saveBioButton" name="saveBioButton" class="btn btn-primary">Change</button>
