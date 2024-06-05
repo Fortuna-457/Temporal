@@ -1,3 +1,4 @@
+// Trivial JS
 $(document).ready(function () {
     // Get the CSRF token
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
