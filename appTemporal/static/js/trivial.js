@@ -1,12 +1,14 @@
+// Trivial JS
 $(document).ready(function () {
-
     // Get the CSRF token
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
     // Set the difficulty
-    let difficulty = "normal".toLowerCase(); // Sustituir normal por el valor de los ajustes del modo trivial
+    let difficulty = "normal".toLowerCase(); // Substitute normal with the value from settings
 
     const questions = [];
     let highscore = 0;
+
+
     
     $.ajax({
         url: '/get-questions/',
@@ -20,16 +22,16 @@ $(document).ready(function () {
             "limit": 10,
         }), // Stringify the data object
     })
-        .done(function (response) { // Get the server response
-            if (response) { // If it's not null, display it.
-                response.questions.forEach(question => {
-                    questions.push(question);
-                });
-            }
-        })
-        .fail(function (error) {
-            console.error('Error:', error);
-        });
+    .done(function (response) { // Get the server response
+        if (response) { // If it's not null, display it.
+            response.questions.forEach(question => {
+                questions.push(question);
+            });
+        }
+    })
+    .fail(function (error) {
+        console.error('Error:', error);
+    });
 
     let currentQuestionIndex = 0;
     let score = 0;
@@ -37,7 +39,6 @@ $(document).ready(function () {
     let timeRemaining = 20;
     let isPaused = false;
     let remainingTimeWhenPaused = 0;
-
 
     function startQuiz() {
         if (isPaused) {
@@ -81,22 +82,31 @@ $(document).ready(function () {
         $('#start-quiz i').removeClass('bx-play').addClass('bx-pause'); // Update icon class
     }
 
-
     function pauseTimer() {
         if (!isPaused) {
             clearInterval(timer);
             remainingTimeWhenPaused = timeRemaining;
             isPaused = true;
+            toggleAnswerInteraction(false); // Disable answer interaction
             $('#start-quiz i').removeClass('bx-pause').addClass('bx-play'); // Update icon class
+    
+            // Show the "Quiz Paused" message
+            const pausedMessage = $('#paused-message');
+            pausedMessage.css('display', 'block');
+    
         } else {
             isPaused = false;
             timeRemaining = remainingTimeWhenPaused;
             $('#time-remaining').text(timeRemaining); // Update the time remaining immediately
+            toggleAnswerInteraction(true); // Enable answer interaction
             startTimer(); // Resume the timer
+    
+            // Hide the "Quiz Paused" message
+            const pausedMessage = $('#paused-message');
+            pausedMessage.css('display', 'none');
         }
     }
-
-
+    
 
     function resetTimer() {
         clearInterval(timer);
@@ -141,7 +151,6 @@ $(document).ready(function () {
         }, 1000); // Fade out after 1 second
     }
 
-
     function checkAnswer(index) {
         const answerTime = timeRemaining; // Use the counter number
         // Check if the timer is not paused
@@ -181,10 +190,30 @@ $(document).ready(function () {
             endQuiz(true);
         }
     }
-    
 
+let confetti;
 
+function startConfetti() {
+    // Show the confetti canvas
+    document.getElementById('confetti-canvas').style.display = 'block';
+
+    // Create a new ConfettiGenerator object
+    const confettiSettings = {
+        target: 'confetti-canvas',
+        max: 150,
+        size: 1.5,
+        animate: true,
+        props: ['circle', 'square', 'triangle', 'line'],
+        colors: [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+        clock: 25
+    };
     
+    confetti = new ConfettiGenerator(confettiSettings);
+
+    // Start the confetti
+    confetti.render();
+}
+
     function endQuiz(won) {
         clearInterval(timer);
         $('#quiz-modal').show();
@@ -202,27 +231,28 @@ $(document).ready(function () {
                     "highscore": highscore,
                 }), // Stringify the data object
             })
-                .fail(function (error) {
-                    console.error('Error:', error);
-                });
-    
+            .fail(function (error) {
+                console.error('Error:', error);
+            });
+
             $('#highscore').text(highscore);
             $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}<br>NEW HIGHSCORE!`);
         } else {
             if (won) {
-                $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}`);
+                startConfetti();
+                $('#modal-message').html(`<span class="win-message">Congratulations! You won!</span><br>Your Score: ${score}`);
             } else {
                 const questionObj = questions[currentQuestionIndex];
-                $('#modal-message').html(`<strong>${questionObj.question}</strong><br>Correct Answer: ${questionObj.correctAnswer}<br><br>You lost. Try again!<br>Your Score: ${score}`);
+                $('#modal-message').html(`<strong>${questionObj.question}</strong><br>Correct Answer: ${questionObj.correctAnswer}<br><br><span class="lost-message">You lost! Try again!</span><br>Your Score: ${score}`);
             }
         }
         isPaused = false; // Ensure timer is not paused when the quiz ends
+        toggleAnswerInteraction(true); // Ensure answer interaction is enabled
         updateIconClass(); // Update icon class
     }
-    
-
 
     $('#start-quiz').off('click').on('click', function () {
+        $('#paused-message').css('display', 'none');
         if (timer) {
             // Timer is running, so pause it
             updateIconClass(); // Update icon class
@@ -234,12 +264,16 @@ $(document).ready(function () {
         }
     });
 
-
-
     // Refresh event
     $('.refresh').on('click', function () {
         $('#quiz-modal').hide();
 
+        if (confetti) {
+            confetti.clear();
+        }
+    
+        // Hide the confetti canvas
+        document.getElementById('confetti-canvas').style.display = 'none';
         // Reset the current score to 0
         score = 0;
         $('#currentScore').text(score);
@@ -288,7 +322,16 @@ $(document).ready(function () {
         }, 1000);
     });
 
-
+    function toggleAnswerInteraction(enable) {
+        console.log("toggleAnswerInteraction:", enable); // Debug log
+        if (enable) {
+            $('.answer-quiz').removeClass('disabled');
+            $('.answer-quiz p').removeClass('disabled');
+        } else {
+            $('.answer-quiz').addClass('disabled');
+            $('.answer-quiz p').addClass('disabled');
+        }
+    }
 
     // Modal close event
     $('.close-modal, .refresh').on('click', function () {
@@ -298,8 +341,10 @@ $(document).ready(function () {
 
     // Event listener for answer buttons
     $('.answer-quiz').on('click', function () {
-        const index = $(this).attr('id').split('-')[1] - 1;
-        checkAnswer(index);
+        if (!isPaused) { // Only allow answer selection if the timer is not paused
+            const index = $(this).attr('id').split('-')[1] - 1;
+            checkAnswer(index);
+        }
     });
 
     // Show modal
@@ -308,8 +353,28 @@ $(document).ready(function () {
     // Event listener for info-modal button click
     $('#info-quiz').on('click', function () {
         const infoModal = $('#info-modal');
+        const wasPausedBeforeInfo = isPaused; // Remember whether the quiz was paused before opening the info modal
         pauseTimer(); // Pause the timer when info modal is displayed
+        isPaused = true; // Update isPaused flag to ensure the timer stays paused
+        toggleAnswerInteraction(false); // Disable answer interaction
         infoModal.show();
+
+        // Hide the paused message if it's displayed
+        $('#paused-message').hide();
+
+        // Event listener for close button in info modal
+        function closeModal() {
+            infoModal.hide();
+            if (!wasPausedBeforeInfo) {
+                isPaused = false; // Update isPaused flag to resume the timer only if it wasn't paused before opening the info modal
+                startTimer(); // Resume the timer when modal is closed only if it wasn't paused before opening the info modal
+            }
+            toggleAnswerInteraction(true); // Enable answer interaction when modal is closed
+            $('.close-modal').off('click', closeModal); // Remove the event listener
+        }
+
+        // Add event listener for close button in info modal
+        $('.close-modal').one('click', closeModal);
     });
 
     // Close modal when close button is clicked
@@ -317,9 +382,17 @@ $(document).ready(function () {
         const infoModal = $('#info-modal');
         infoModal.hide();
         if (!isPaused) {
-            startTimer(); // Resume the timer when modal is closed
+            startTimer(); // Resume the timer only if it wasn't paused before opening the info modal
         }
+        
+        // Reset z-index of questions container to ensure it appears above other elements
+        $('.questions-container').css('z-index', 'auto');
+        
+        // Remove the 'disabled' class from answer buttons
+        $('.answer-quiz').removeClass('disabled');
+        $('.answer-quiz p').removeClass('disabled');
     });
+
 
     // Start quiz modal button click event
     $('#start-quiz-modal').off('click').on('click', function () {
