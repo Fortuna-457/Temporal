@@ -69,7 +69,6 @@ def profileView(request):
         form = UpdateCombinedForm(request.POST, user=usu, extrafields=extrafields)
         if form.is_valid():
             form.save() # Guardo los datos en la BBDD
-            
             return redirect('profile')
     else:
         form = UpdateCombinedForm(user=usu, extrafields=extrafields)
