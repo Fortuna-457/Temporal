@@ -417,6 +417,10 @@ a:hover {
   justify-content: space-between;
 }
 
+.user-highscore.active-user p {
+  border-bottom: 1px solid #360066;
+}
+
 .modal-highscore-width {
   width: 400px;
 }

@@ -345,3 +345,26 @@ def set_highscore(request):
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
         
     return HttpResponse(status=200)    
+
+
+@login_required
+@require_POST
+def get_ranking(request):
+    try:
+        users = ExtraFields.objects.order_by('-highscore')[:5]
+        
+        ranking = []
+        
+        if users:
+            for user in users:
+                ranking.append({
+                    'username': user.user.username,
+                    'highscore': user.highscore
+                })
+        else:
+            return JsonResponse({'message': 'No hay usuarios en el ranking'}, status=204)
+
+    except Exception as e: # Captura cualquier excepción durante el registro:
+        print(f"Error in function get_ranking (appTemporal/views.py): {e}")
+        
+    return JsonResponse({'ranking': ranking, 'active_user': request.user.username})

@@ -449,8 +449,39 @@ function startConfetti() {
         toggleAnswerInteraction(false); // Disable answer interaction
         $('#highscore-modal').show();
 
+        if (score > highscore){
+            $('#highscore-modal #my_score').text('Your highscore: '+score);
+        }else{
+            $('#highscore-modal #my_score').text('Your highscore: '+highscore);
+        }
+
         // Hide the paused message if it's displayed
         $('#paused-message').hide();
+
+        // Mostramos los cincos usuarios con las puntuaciones más altas, de la modalidad escogida
+        $.ajax({
+            url: '/get-ranking/',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken // Add the CSRF token as a header
+            },
+        })
+            .done(function (response) { // Get the server response
+                if (response) { // If it's not null, display it.
+                    $(".peoples-highscores").empty();
+                    response.ranking.forEach(user => {
+                        if(response.active_user === user.username){
+                            $(".peoples-highscores").append('<div class="user-highscore active-user"><p>You</p><span>'+user.highscore+'</span></div>');
+                        }else{
+                            $(".peoples-highscores").append('<div class="user-highscore"><p>'+user.username+'</p><span>'+user.highscore+'</span></div>');
+                        }
+                    });
+                }
+            })
+            .fail(function (error) {
+                console.error('Error:', error);
+            });
 
         // Event listener for close button in highscore modal
         function closeHighscoreModal() {
