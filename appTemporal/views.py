@@ -305,9 +305,17 @@ def get_questions(request):
                         'question': question.question_id.text,
                         'answers': answer_list,
                         'correctAnswer': correct_answer
-                    }) 
+                    })
+                
+                extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
 
-            return JsonResponse({'questions': questions_answers, 'max_points': questions[0].max_points, 'medium_points': questions[0].medium_points, 'min_points': questions[0].min_points})
+            return JsonResponse({
+                'questions': questions_answers,
+                'max_points': questions[0].max_points,
+                'medium_points': questions[0].medium_points,
+                'min_points': questions[0].min_points,
+                'user_highscore': extrafields.highscore
+            })
             
         except Exception as e: # Captura cualquier excepción durante el registro:
             print(f"Error in function get_questions (appTemporal/views.py): {e}")
@@ -332,16 +340,3 @@ def set_highscore(request):
     except Exception as e: # Captura cualquier excepción durante el registro:
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
         
-@login_required
-@require_POST
-def get_highscore(request):
-    try:
-
-        # Leer y decodificar los datos JSON recibidos
-        datos_json = json.loads(request.body)
-        active_user = datos_json['highscore']
-        
-        print(active_user)
-        
-    except Exception as e: # Captura cualquier excepción durante el registro:
-        print(f"Error in function set_highscore (appTemporal/views.py): {e}")

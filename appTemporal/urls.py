@@ -21,8 +21,6 @@ urlpatterns = [
     path('get-questions/', views.get_questions, name='get-questions'),
     # Url del método que actualiza la highscore del usuario
     path('set-highscore/', views.set_highscore, name='set-highscore'),
-    # Url del método que devuelve la highscore del usuario
-    path('get-highscore/', views.get_highscore, name='get-highscore'),
     # Url de la página de contacto
     path('contact/', views.contactView, name='contact'),
     # Url de la página de privacy policy

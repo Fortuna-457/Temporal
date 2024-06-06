@@ -6,9 +6,16 @@ $(document).ready(function () {
     // Set the difficulty
     let difficulty;
 
+    // Set the default points
     let max_points = 20;
     let medium_points = 15;
     let min_points = 10;
+    
+    // Set the array questions
+    const questions = [];
+    
+    // Set the default highscore
+    let highscore = 0;
 
     if(localStorage.getItem("difficulty")){
         difficulty = localStorage.getItem("difficulty").toLowerCase();
@@ -23,9 +30,6 @@ $(document).ready(function () {
         difficulty = localStorage.setItem("difficulty", value.toLowerCase());
         window.location.reload();
     });
-
-    const questions = [];
-    let highscore = 0;
     
     $.ajax({
         url: '/get-questions/',
@@ -44,9 +48,20 @@ $(document).ready(function () {
             response.questions.forEach(question => {
                 questions.push(question);
             });
+            // Establecemos las puntuaciones en base a la dificultad
             max_points = response.max_points;
             medium_points = response.medium_points;
             min_points = response.min_points;
+
+            $(".how-to-earn-points .time-1").text("+"+max_points);
+            $(".how-to-earn-points .time-2").text("+"+medium_points);
+            $(".how-to-earn-points .time-3").text("+"+min_points);
+
+            // Establecemos el highscore, si es distinto de 0
+            highscore = response.user_highscore;
+            if (highscore > 0){
+                $('#highscore').text(highscore);
+            }
         }
     })
     .fail(function (error) {
