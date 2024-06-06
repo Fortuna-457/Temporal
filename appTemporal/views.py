@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password, ValidationError
 import requests
 from appTemporal.models import ExtraFields, Place, Question, Answer, EasyQuestion, NormalQuestion, DifficultQuestion
 from django.db.models import Max
@@ -104,12 +105,10 @@ def loginView(request):
             return render(request, "registration/login.html")
 
 
-def register(request): # Vista registro
-    
-    if request.method == "GET": # Comprueba si el request es un GET
+def register(request):
+    if request.method == "GET":
         return render(request, 'registration/register.html')
-    else: # Si el metodo no es GET, lo asumirá como POST
-        
+    else:
         # Recoge los datos enviados por el usuario a través del formulario de registro
         username = request.POST.get('user')
         email = request.POST.get('email')
@@ -118,10 +117,13 @@ def register(request): # Vista registro
         accept_privacy = request.POST.get('accept-privacy')
         
         if accept_privacy:
-            accept_privacy=0
-            
             # Obtiene el modelo de usuario personalizado de Django
             User = get_user_model()
+
+            # Verifica si el username tiene una longitud adecuada
+            if len(username) < 5 or len(username) > 12:
+                messages.error(request, 'Username must be between 5 and 12 characters long.')
+                return redirect('register')
             
             # Verifica si el username ya esta registrado
             if User.objects.filter(username=username).exists():
@@ -133,19 +135,31 @@ def register(request): # Vista registro
                 messages.error(request, 'This email already exists. Try again.')
                 return redirect('register')
             
+            # Verifica si las contraseñas coinciden
             if confirm_password != password:
                 messages.error(request, 'Passwords do not match.')
+                return redirect('register')
+            
+            # Valida la contraseña
+            try:
+                validate_password(password)
+            except ValidationError as e:
+                for error in e.messages:
+                    messages.error(request, error)
                 return redirect('register')
             
             try:
                 # Intenta crear el nuevo usuario y su perfil extendido con campos adicionales
                 user = User.objects.create_user(username=username, password=password, email=email)
-                eUser = ExtraFields(user=user, privacy_policy=accept_privacy)
+                eUser = ExtraFields(user=user, privacy_policy=True)  # Asumiendo que `accept_privacy` debe ser True
                 user.save()
                 eUser.save()
-            except Exception as e: # Captura cualquier excepción durante el registro
+                messages.success(request, 'Registration successful! You can now log in.')
+            except Exception as e:
                 print(f"Error in function register (appTemporal/views.py): {e}")
-        
+                messages.error(request, 'An error occurred during registration. Please try again.')
+                return redirect('register')
+
             # Redirecciona a la vista loginView si el registro fue exitoso
             return redirect('login')
         else:

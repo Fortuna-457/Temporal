@@ -10,10 +10,12 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
 
+
 class UpdateExtraFieldsForm(forms.ModelForm):
     class Meta:
         model = ExtraFields
         fields = ['about']
+
 
 class UpdateCombinedForm(forms.Form):
     def __init__(self, *args, **kwargs):
