@@ -447,7 +447,8 @@
     
     <!-- // FORM -->
     
-    <form action="{% url 'talk-to-us' %}">
+    <form method="POST" action="{% url 'talk-to-us' %}">
+    {% csrf_token %}
       <h1 class="title text-center mb-4">Talk to Us</h1>
   
         <!-- Name -->
@@ -455,7 +456,7 @@
           <label for="formName" class="d-block">
             <i class='bx bxs-user icon'></i>
           </label>
-          <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name">
+          <input type="text" name="name" id="formName" class="form-control form-control-lg thick" placeholder="Name">
         </div>
   
         <!-- E-mail -->
@@ -463,18 +464,23 @@
           <label for="formEmail" class="d-block">
             <i class='bx bxs-envelope icon' ></i>
           </label>
-          <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
+          <input type="email" name="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
         </div>
   
         <!-- Message -->
         <div class="form-group message">
-          <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="What's the matter?"></textarea>
+          <textarea id="formMessage" name="message" class="form-control form-control-lg" rows="7" placeholder="What's the matter?"></textarea>
         </div>
       
         <!-- Submit btn -->
         <div class="text-center">
           <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
         </div>
+
+        {% for message in messages %}
+				  <p>{{ message }}</p>
+			  {% endfor %}
+
     </form>
     
   </div>
