@@ -324,24 +324,6 @@ map.on('click', function (e) {
         });
 });
 
-
-$(".searchForm form").on('keydown', function(e) {
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13) { 
-        e.preventDefault();
-    }
-});
-
-
-
-$(".searchForm form").on('keydown', function(e) {
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13) { 
-        e.preventDefault();
-    }
-});
-
-
 $(".searchForm form").submit(function (event) {
     event.preventDefault();
 
@@ -377,7 +359,6 @@ $(".searchForm form").submit(function (event) {
         .catch(error => {
             alert('Error getting elements. Please try again.');
         });
-
 });
 
 $(".answer-container").on("click", "a.single-answer", function (e) {
@@ -536,13 +517,6 @@ searchIcon.addEventListener('click', function(event) {
       form.classList.add('expanded');
     }
   });
-
-  
-input.addEventListener('keydown', function(event) {
-  if (event.key === 'Enter') {
-    form.submit();
-  }
-});
 
 document.addEventListener('click', function(event) {
   const isInsideForm = form.contains(event.target);

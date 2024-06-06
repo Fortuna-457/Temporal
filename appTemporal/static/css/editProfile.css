@@ -78,8 +78,8 @@ input:focus {
 }
 
 .account-settings .user-profile .user-avatar img {
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
   border-radius: 100px;

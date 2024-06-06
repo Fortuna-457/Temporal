@@ -305,6 +305,8 @@ form .form-control:focus {
 }
 form .message .form-control {
   padding: 0.5rem 1.8rem;
+  max-height: 18.75rem;
+  min-height: 7.813rem;
 }
 form ::placeholder {
   font-family: "Montserrat", sans-serif;

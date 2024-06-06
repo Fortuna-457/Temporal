@@ -4,13 +4,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password, ValidationError
 import requests
 from appTemporal.models import ExtraFields, Place, Question, Answer, EasyQuestion, NormalQuestion, DifficultQuestion
 from django.db.models import Max
 import json
 from django.http import JsonResponse
 import openai
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 import random
 from appTemporal.forms import UpdateCombinedForm
 
@@ -104,12 +105,10 @@ def loginView(request):
             return render(request, "registration/login.html")
 
 
-def register(request): # Vista registro
-    
-    if request.method == "GET": # Comprueba si el request es un GET
+def register(request):
+    if request.method == "GET":
         return render(request, 'registration/register.html')
-    else: # Si el metodo no es GET, lo asumirá como POST
-        
+    else:
         # Recoge los datos enviados por el usuario a través del formulario de registro
         username = request.POST.get('user')
         email = request.POST.get('email')
@@ -118,10 +117,13 @@ def register(request): # Vista registro
         accept_privacy = request.POST.get('accept-privacy')
         
         if accept_privacy:
-            accept_privacy=0
-            
             # Obtiene el modelo de usuario personalizado de Django
             User = get_user_model()
+
+            # Verifica si el username tiene una longitud adecuada
+            if len(username) < 5 or len(username) > 12:
+                messages.error(request, 'Username must be between 5 and 12 characters long.')
+                return redirect('register')
             
             # Verifica si el username ya esta registrado
             if User.objects.filter(username=username).exists():
@@ -133,19 +135,31 @@ def register(request): # Vista registro
                 messages.error(request, 'This email already exists. Try again.')
                 return redirect('register')
             
+            # Verifica si las contraseñas coinciden
             if confirm_password != password:
                 messages.error(request, 'Passwords do not match.')
+                return redirect('register')
+            
+            # Valida la contraseña
+            try:
+                validate_password(password)
+            except ValidationError as e:
+                for error in e.messages:
+                    messages.error(request, error)
                 return redirect('register')
             
             try:
                 # Intenta crear el nuevo usuario y su perfil extendido con campos adicionales
                 user = User.objects.create_user(username=username, password=password, email=email)
-                eUser = ExtraFields(user=user, privacy_policy=accept_privacy)
+                eUser = ExtraFields(user=user, privacy_policy=True)  # Asumiendo que `accept_privacy` debe ser True
                 user.save()
                 eUser.save()
-            except Exception as e: # Captura cualquier excepción durante el registro
+                messages.success(request, 'Registration successful! You can now log in.')
+            except Exception as e:
                 print(f"Error in function register (appTemporal/views.py): {e}")
-        
+                messages.error(request, 'An error occurred during registration. Please try again.')
+                return redirect('register')
+
             # Redirecciona a la vista loginView si el registro fue exitoso
             return redirect('login')
         else:
@@ -292,8 +306,16 @@ def get_questions(request):
                         'answers': answer_list,
                         'correctAnswer': correct_answer
                     })
+                
+                extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
 
-            return JsonResponse({'questions': questions_answers})
+            return JsonResponse({
+                'questions': questions_answers,
+                'max_points': questions[0].max_points,
+                'medium_points': questions[0].medium_points,
+                'min_points': questions[0].min_points,
+                'user_highscore': extrafields.highscore
+            })
             
         except Exception as e: # Captura cualquier excepción durante el registro:
             print(f"Error in function get_questions (appTemporal/views.py): {e}")
@@ -313,21 +335,36 @@ def set_highscore(request):
         datos_json = json.loads(request.body)
         user_highscore = datos_json['highscore']
         
-        print(user_highscore)
+        extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
+        
+        extrafields.highscore = user_highscore
+        
+        extrafields.save()
         
     except Exception as e: # Captura cualquier excepción durante el registro:
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
         
+    return HttpResponse(status=200)    
+
+
 @login_required
 @require_POST
-def get_highscore(request):
+def get_ranking(request):
     try:
+        users = ExtraFields.objects.order_by('-highscore')[:5]
+        
+        ranking = []
+        
+        if users:
+            for user in users:
+                ranking.append({
+                    'username': user.user.username,
+                    'highscore': user.highscore
+                })
+        else:
+            return JsonResponse({'message': 'No hay usuarios en el ranking'}, status=204)
 
-        # Leer y decodificar los datos JSON recibidos
-        datos_json = json.loads(request.body)
-        active_user = datos_json['highscore']
-        
-        print(active_user)
-        
     except Exception as e: # Captura cualquier excepción durante el registro:
-        print(f"Error in function set_highscore (appTemporal/views.py): {e}")
+        print(f"Error in function get_ranking (appTemporal/views.py): {e}")
+        
+    return JsonResponse({'ranking': ranking, 'active_user': request.user.username})
