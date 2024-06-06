@@ -16,12 +16,21 @@ class Question(models.Model):
     
 class EasyQuestion(models.Model):
     question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
+    max_points = models.SmallIntegerField(default=10)
+    medium_points = models.SmallIntegerField(default=5)
+    min_points = models.SmallIntegerField(default=1)
     
 class NormalQuestion(models.Model):
     question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
+    max_points = models.SmallIntegerField(default=20)
+    medium_points = models.SmallIntegerField(default=15)
+    min_points = models.SmallIntegerField(default=10)
     
 class DifficultQuestion(models.Model):
     question_id = models.OneToOneField(Question, on_delete=models.CASCADE)
+    max_points = models.SmallIntegerField(default=30)
+    medium_points = models.SmallIntegerField(default=25)
+    min_points = models.SmallIntegerField(default=20)
     
 class Answer(models.Model):
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE)

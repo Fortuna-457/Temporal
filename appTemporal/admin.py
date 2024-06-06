@@ -16,15 +16,15 @@ class QuestionAdmin(admin.ModelAdmin):
     
 @admin.register(EasyQuestion)
 class EasyQuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'question_id']
+    list_display = ['id', 'question_id', 'max_points', 'medium_points', 'min_points']
     
 @admin.register(NormalQuestion)
 class NormalQuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'question_id']
+    list_display = ['id', 'question_id', 'max_points', 'medium_points', 'min_points']
     
 @admin.register(DifficultQuestion)
 class DifficultQuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'question_id']
+    list_display = ['id', 'question_id', 'max_points', 'medium_points', 'min_points']
     
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):

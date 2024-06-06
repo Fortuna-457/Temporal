@@ -2,13 +2,30 @@
 $(document).ready(function () {
     // Get the CSRF token
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
     // Set the difficulty
-    let difficulty = "normal".toLowerCase(); // Substitute normal with the value from settings
+    let difficulty;
+
+    let max_points = 20;
+    let medium_points = 15;
+    let min_points = 10;
+
+    if(localStorage.getItem("difficulty")){
+        difficulty = localStorage.getItem("difficulty").toLowerCase();
+        $(".different-settings-container .item-modal .form-check input[type='radio']").removeAttr("checked");
+        $(".different-settings-container .item-modal .form-check #" + difficulty).attr("checked", "checked");
+    }else{
+        difficulty = $(".different-settings-container .item-modal .form-check").children('input[type="radio"]:checked').attr("id").toLowerCase();
+    }
+
+    $(".different-settings-container .item-modal .form-check").on('click', function (e) {
+        var value = $(this).children('input[type="radio"]').first().attr("id");
+        difficulty = localStorage.setItem("difficulty", value.toLowerCase());
+        window.location.reload();
+    });
 
     const questions = [];
     let highscore = 0;
-
-
     
     $.ajax({
         url: '/get-questions/',
@@ -27,6 +44,9 @@ $(document).ready(function () {
             response.questions.forEach(question => {
                 questions.push(question);
             });
+            max_points = response.max_points;
+            medium_points = response.medium_points;
+            min_points = response.min_points;
         }
     })
     .fail(function (error) {
@@ -157,12 +177,12 @@ $(document).ready(function () {
         if (!isPaused) {
             if ($(`#answer-${index + 1}`).data('correct')) {
                 let pointsEarned = 0;
-                if (answerTime >= 15) { // 20 - 5 = 15
-                    pointsEarned = 20;
-                } else if (answerTime >= 10) { // 20 - 10 = 10
-                    pointsEarned = 15;
+                if (answerTime >= 15) { // max_points - 5 = 15
+                    pointsEarned = max_points;
+                } else if (answerTime >= 10) { // max_points - 10 = 10
+                    pointsEarned = medium_points;
                 } else {
-                    pointsEarned = 10;
+                    pointsEarned = min_points;
                 }
                 score += pointsEarned;
                 $('#currentScore').text(score);
@@ -323,7 +343,6 @@ function startConfetti() {
     });
 
     function toggleAnswerInteraction(enable) {
-        console.log("toggleAnswerInteraction:", enable); // Debug log
         if (enable) {
             $('.answer-quiz').removeClass('disabled');
             $('.answer-quiz p').removeClass('disabled');

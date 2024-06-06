@@ -305,9 +305,9 @@ def get_questions(request):
                         'question': question.question_id.text,
                         'answers': answer_list,
                         'correctAnswer': correct_answer
-                    })
+                    }) 
 
-            return JsonResponse({'questions': questions_answers})
+            return JsonResponse({'questions': questions_answers, 'max_points': questions[0].max_points, 'medium_points': questions[0].medium_points, 'min_points': questions[0].min_points})
             
         except Exception as e: # Captura cualquier excepción durante el registro:
             print(f"Error in function get_questions (appTemporal/views.py): {e}")
