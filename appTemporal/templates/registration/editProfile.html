@@ -87,9 +87,29 @@
                 <div class="card-body">
                     <div class="account-settings">
                         <div class="user-profile">
-                            <div class="user-avatar">
-                                <img src="https://cdn-icons-png.flaticon.com/256/3940/3940424.png" alt="Profile Picture">
+                          <div class="user-avatar" id="avatar-container">
+                            <img id="profile-picture" src="{% static 'img/profilePictures/def.jpg' %}" alt="Profile Picture">
+                            <!-- Hidden image selection container -->
+                            <div id="image-selection" style="display: none;">
+                                <div class="container-profile-pics">
+                                    <img id="profilePic1" src="{% static 'img/profilePictures/hamster.jpg' %}" onclick="replaceImage(this.src, 'profilePic1')">
+                                    <img id="profilePic2" src="{% static 'img/profilePictures/bird.jpg' %}" onclick="replaceImage(this.src, 'profilePic2')">
+                                    <img id="profilePic3" src="{% static 'img/profilePictures/Meerkat.jpg' %}" onclick="replaceImage(this.src, 'profilePic3')">
+                                    <img id="profilePic4" src="{% static 'img/profilePictures/dog.jpg' %}" onclick="replaceImage(this.src, 'profilePic4')">
+                                    <img id="profilePic5" src="{% static 'img/profilePictures/cat.jpg' %}" onclick="replaceImage(this.src, 'profilePic5')">
+                                    <img id="profilePic6" src="{% static 'img/profilePictures/rabbit.jpg' %}" onclick="replaceImage(this.src, 'profilePic6')">
+                                    <img id="profilePic7" src="{% static 'img/profilePictures/bear.jpg' %}" onclick="replaceImage(this.src, 'profilePic7')">
+                                    <img id="profilePic8" src="{% static 'img/profilePictures/deer.jpg' %}" onclick="replaceImage(this.src, 'profilePic8')">
+                                    <img id="profilePic9" src="{% static 'img/profilePictures/otter.jpg' %}" onclick="replaceImage(this.src, 'profilePic9')">
+                                    <img id="profilePic10" src="{% static 'img/profilePictures/penguin.jpg' %}" onclick="replaceImage(this.src, 'profilePic10')">
+                                    <img id="profilePic11" src="{% static 'img/profilePictures/tulican.jpg' %}" onclick="replaceImage(this.src, 'profilePic11')">
+                                    <img id="profilePic12" src="{% static 'img/profilePictures/whiteDog.jpg' %}" onclick="replaceImage(this.src, 'profilePic12)">
+                                    <img id="profilePic13" src="{% static 'img/profilePictures/horse.jpg' %}" onclick="replaceImage(this.src, 'profilePic13)">
+                                    <img id="profilePic14" src="{% static 'img/profilePictures/cow.jpg' %}" onclick="replaceImage(this.src, 'profilePic14)">
+                                    <img id="profilePic15" src="{% static 'img/profilePictures/goat.jpg' %}" onclick="replaceImage(this.src, 'profilePic15)">
+                                </div>
                             </div>
+                        </div>
                             <h5 class="user-name">{{ user.username }}</h5>
                     
                             <h6 class="user-email">Highscore - {{ extrafields.highscore }}</h6>
@@ -189,6 +209,45 @@
     </div>
 </div>
 
+<script>
+
+ function showImageSelection() {
+        document.getElementById("image-selection").style.display = "block";
+    }
+
+    function replaceImage(src, id) {
+        var profilePicture = document.getElementById("profile-picture");
+        profilePicture.src = src;
+
+        // Remove border from previously selected picture
+        var previouslySelected = document.querySelector(".selected-picture");
+        if (previouslySelected) {
+            previouslySelected.classList.remove("selected-picture");
+        }
+
+        // Add border to the newly selected picture
+        var selectedPicture = document.getElementById(id);
+        selectedPicture.classList.add("selected-picture");
+    }
+
+    function closeImageSelection(event) {
+        var container = document.getElementById("image-selection");
+        if (!container.contains(event.target) && event.target !== document.getElementById("profile-picture")) {
+            container.style.display = "none";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Attach event listener to the profile picture image
+        var profilePicture = document.getElementById("profile-picture");
+        if (profilePicture) {
+            profilePicture.addEventListener("click", showImageSelection);
+        }
+
+        // Attach event listener to close image selection when clicking outside
+        document.addEventListener("click", closeImageSelection);
+    });
+</script>
 
 {% endblock content %}
 
