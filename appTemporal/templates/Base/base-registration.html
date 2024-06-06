@@ -21,6 +21,7 @@
 		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 		<link href="{% static 'css/particles.css' %}" rel='stylesheet'>
 		<link href="{% static 'js/login.js' %}" rel='stylesheet'>
+		<link href="{% static 'css/authError.css' %}" rel='stylesheet'>
 		{% block extra_head %}{% endblock extra_head %}
 	</head>
 	<body>
@@ -60,11 +61,25 @@
 
 		{% block content %}{% endblock content %}
 
-		{% if messages %}
-			{% for message in messages %}
-				<p>{{ message }}</p>
-			{% endfor %}
-		{% endif %}
+		<!-- Modal -->
+		<div id="errorModal" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="modal-body">
+					<div class="mensaje d-flex" style="justify-content: center;">
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" role="alert">
+									<strong>Error:</strong> {{ message }}
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
 
+		{% block extra_footer %}{% endblock extra_footer %}
+		<script src="{% static 'js/authError.js' %}" defer></script>
 	</body>
 </html>
