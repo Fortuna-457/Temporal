@@ -11,7 +11,7 @@ from django.db.models import Max
 import json
 from django.http import JsonResponse
 import openai
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 import random
 from appTemporal.forms import UpdateCombinedForm
 
@@ -335,8 +335,13 @@ def set_highscore(request):
         datos_json = json.loads(request.body)
         user_highscore = datos_json['highscore']
         
-        print(user_highscore)
+        extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
+        
+        extrafields.highscore = user_highscore
+        
+        extrafields.save()
         
     except Exception as e: # Captura cualquier excepción durante el registro:
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
         
+    return HttpResponse(status=200)    

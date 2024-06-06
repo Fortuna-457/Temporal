@@ -204,11 +204,7 @@ $(document).ready(function () {
                 displayPointsEarned(pointsEarned); // Display the points earned
                 // Update highscore if current score is higher
                 if (score > highscore) {
-                    console.log("New Highscore achieved");
-                    highscore = score;
-                    localStorage.setItem('highscore', highscore);
-                    $('#highscore').text(highscore);
-                    console.log("Updated Highscore:", highscore);
+                    $('#highscore').text(score);
                 }
             } else {
                 // If the answer is incorrect, end the quiz
@@ -254,6 +250,7 @@ function startConfetti() {
         $('#quiz-modal').show();
         if (score > highscore) {
             highscore = score;
+
             // Guardamos la nueva highscore en el server
             $.ajax({
                 url: '/set-highscore/',
@@ -270,8 +267,8 @@ function startConfetti() {
                 console.error('Error:', error);
             });
 
-            $('#highscore').text(highscore);
-            $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${score}<br>NEW HIGHSCORE!`);
+            startConfetti();
+            $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${highscore}<br>NEW HIGHSCORE!`);
         } else {
             if (won) {
                 startConfetti();
