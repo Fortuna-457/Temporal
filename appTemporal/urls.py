@@ -31,4 +31,6 @@ urlpatterns = [
     path('trivial/', views.trivial, name='trivial'),
     # Url de la página del edit profile
     path('profile/', views.profileView, name='profile'),
+    # Url de la sección talk to us
+    path('talk-to-us/', views.talk_to_us, name='talk-to-us'),
 ]

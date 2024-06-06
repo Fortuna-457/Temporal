@@ -99,3 +99,6 @@ class UpdateCombinedForm(forms.Form):
                 self.extrafields_instance.save()
         
         return self.user_instance, self.extrafields_instance
+    
+    
+    
