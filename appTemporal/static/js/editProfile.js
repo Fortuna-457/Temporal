@@ -78,10 +78,71 @@ $(document).ready(function() {
 
 });
 
+/** Hover effect*/
+
 function showImageSelection() {
     document.getElementById("image-selection").style.display = "block";
+    document.getElementById('profile-picture').style.opacity = '0.7'; // Reduce opacity when container is opened
+    document.getElementById('profile-picture').classList.add('pencil-effect'); // Add pencil effect
 }
 
+function hideImageSelection() {
+    document.getElementById("image-selection").style.display = "none";
+    document.getElementById('profile-picture').style.opacity = '1'; // Restore opacity to normal (1)
+    document.getElementById('profile-picture').classList.remove('pencil-effect'); // Remove pencil effect
+}
+
+function handleMouseEnter() {
+    var profilePicture = document.getElementById('profile-picture');
+    profilePicture.style.opacity = '0.7'; // Reduce opacity when hovered
+    profilePicture.classList.add('pencil-effect'); // Add pencil effect
+}
+
+function handleHover(event) {
+    var profilePicture = document.getElementById('profile-picture');
+    // Check if the image selection container is open
+    if (document.getElementById("image-selection").style.display === "block") {
+        profilePicture.style.opacity = '0.7'; // Reduce opacity when hovered outside while container is open
+        profilePicture.classList.add('pencil-effect');
+    } else {
+        // Only restore opacity and remove pencil effect when mouse leaves the profile picture if image-selection is not displayed
+        if (event.type === 'mouseleave') {
+            profilePicture.style.opacity = '1'; // Restore opacity to normal when container is closed
+            profilePicture.classList.remove('pencil-effect'); // Remove pencil effect
+        }
+    }
+}
+
+function handleMouseLeave() {
+    var profilePicture = document.getElementById('profile-picture');
+    // Check if the image selection container is open
+    if (document.getElementById("image-selection").style.display !== "block") {
+        profilePicture.style.opacity = '1'; // Restore opacity to normal when container is closed
+        profilePicture.classList.remove('pencil-effect'); // Remove pencil effect
+    }
+}
+
+document.getElementById('profile-picture').addEventListener('mouseenter', handleMouseEnter);
+document.getElementById('profile-picture').addEventListener('mouseleave', handleMouseLeave);
+
+document.getElementById('profile-picture').addEventListener('mouseenter', handleHover);
+document.getElementById('profile-picture').addEventListener('mouseleave', handleHover);
+
+document.addEventListener('click', function(event) {
+    var target = event.target;
+    var container = document.getElementById('image-selection');
+    var profilePicture = document.getElementById('profile-picture');
+    
+    // Check if the click is outside the image selection container and its children
+    if (!container.contains(target)) {
+        // Reset opacity of profile picture
+        profilePicture.style.opacity = '1';
+        // Remove pencil effect class
+        profilePicture.classList.remove('pencil-effect');
+    }
+});
+
+/**rest */
 function replaceImage(src, id) {
     var profilePicture = document.getElementById("profile-picture");
     profilePicture.src = src;
