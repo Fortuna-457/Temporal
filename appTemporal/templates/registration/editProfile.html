@@ -12,7 +12,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	-->
-<link href="{% static 'css/editProfile.css' %}" rel="stylesheet">
+    <link href="{% static 'css/editProfile.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block active_template %}
@@ -103,10 +103,10 @@
                                     <img id="profilePic9" src="{% static 'img/profilePictures/otter.jpg' %}" onclick="replaceImage(this.src, 'profilePic9')">
                                     <img id="profilePic10" src="{% static 'img/profilePictures/penguin.jpg' %}" onclick="replaceImage(this.src, 'profilePic10')">
                                     <img id="profilePic11" src="{% static 'img/profilePictures/tulican.jpg' %}" onclick="replaceImage(this.src, 'profilePic11')">
-                                    <img id="profilePic12" src="{% static 'img/profilePictures/whiteDog.jpg' %}" onclick="replaceImage(this.src, 'profilePic12)">
-                                    <img id="profilePic13" src="{% static 'img/profilePictures/horse.jpg' %}" onclick="replaceImage(this.src, 'profilePic13)">
-                                    <img id="profilePic14" src="{% static 'img/profilePictures/cow.jpg' %}" onclick="replaceImage(this.src, 'profilePic14)">
-                                    <img id="profilePic15" src="{% static 'img/profilePictures/goat.jpg' %}" onclick="replaceImage(this.src, 'profilePic15)">
+                                    <img id="profilePic12" src="{% static 'img/profilePictures/whiteDog.jpg' %}" onclick="replaceImage(this.src, 'profilePic12')">
+                                    <img id="profilePic13" src="{% static 'img/profilePictures/horse.jpg' %}" onclick="replaceImage(this.src, 'profilePic13')">
+                                    <img id="profilePic14" src="{% static 'img/profilePictures/cow.jpg' %}" onclick="replaceImage(this.src, 'profilePic14')">
+                                    <img id="profilePic15" src="{% static 'img/profilePictures/goat.jpg' %}" onclick="replaceImage(this.src, 'profilePic15')">
                                 </div>
                             </div>
                         </div>
@@ -208,53 +208,9 @@
         </div>
     </div>
 </div>
-
-<script>
-
-{% comment %} javascript for the js {% endcomment %}
-
- function showImageSelection() {
-        document.getElementById("image-selection").style.display = "block";
-    }
-
-    function replaceImage(src, id) {
-        var profilePicture = document.getElementById("profile-picture");
-        profilePicture.src = src;
-
-        // Remove border from previously selected picture
-        var previouslySelected = document.querySelector(".selected-picture");
-        if (previouslySelected) {
-            previouslySelected.classList.remove("selected-picture");
-        }
-
-        // Add border to the newly selected picture
-        var selectedPicture = document.getElementById(id);
-        selectedPicture.classList.add("selected-picture");
-        }
-
-        function closeImageSelection(event) {
-            var container = document.getElementById("image-selection");
-            if (!container.contains(event.target) && event.target !== document.getElementById("profile-picture")) {
-                container.style.display = "none";
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // Attach event listener to the profile picture image
-            var profilePicture = document.getElementById("profile-picture");
-            if (profilePicture) {
-                profilePicture.addEventListener("click", showImageSelection);
-            }
-
-            // Attach event listener to close image selection when clicking outside
-            document.addEventListener("click", closeImageSelection);
-        });
-</script>
-
 {% endblock content %}
 
 {% block extra_footer %}
-
 
     <!-- Contact JS -->
         <script src="{% static 'js/editProfile.js' %}" defer></script>

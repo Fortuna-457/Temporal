@@ -70,10 +70,47 @@ $(document).ready(function() {
         }
     });
 
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
+    // $(function () {
+    //     $('[data-toggle="tooltip"]').tooltip()
+    //   })
 
-      $('#tooltipEdit').tooltip(options)
+    //   $('#tooltipEdit').tooltip(options)
 
+});
+
+function showImageSelection() {
+    document.getElementById("image-selection").style.display = "block";
+}
+
+function replaceImage(src, id) {
+    var profilePicture = document.getElementById("profile-picture");
+    profilePicture.src = src;
+
+    // Remove border from previously selected picture
+    var previouslySelected = document.querySelector(".selected-picture");
+    if (previouslySelected) {
+        previouslySelected.classList.remove("selected-picture");
+    }
+
+    // Add border to the newly selected picture
+    var selectedPicture = document.getElementById(id);
+    selectedPicture.classList.add("selected-picture");
+}
+
+function closeImageSelection(event) {
+    var container = document.getElementById("image-selection");
+    if (!container.contains(event.target) && event.target !== document.getElementById("profile-picture")) {
+        container.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Attach event listener to the profile picture image
+    var profilePicture = document.getElementById("profile-picture");
+    if (profilePicture) {
+        profilePicture.addEventListener("click", showImageSelection);
+    }
+
+    // Attach event listener to close image selection when clicking outside
+    document.addEventListener("click", closeImageSelection);
 });
