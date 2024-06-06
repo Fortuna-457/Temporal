@@ -28,12 +28,12 @@ class UpdateCombinedForm(forms.Form):
             self.fields['username'] = forms.CharField(required=True, label="Username", initial=self.user_instance.username, widget=forms.TextInput(attrs={"class": "form-control"}))
             self.fields['email'] = forms.EmailField(required=True, label="Email", initial=self.user_instance.email, widget=forms.EmailInput(attrs={"class": "form-control"}))
             
-            full_name = f"{self.user_instance.first_name} {self.user_instance.last_name}".strip()
-            self.fields['fullName'] = forms.CharField(required=True, label="Name", initial=full_name, widget=forms.TextInput(attrs={"class": "form-control"}))
+            # full_name = f"{self.user_instance.first_name} {self.user_instance.last_name}".strip()
+            # self.fields['fullName'] = forms.CharField(required=True, label="Name", initial=full_name, widget=forms.TextInput(attrs={"class": "form-control"}))
 
         else:
             self.fields['username'] = forms.CharField(required=True, label="Username", widget=forms.TextInput(attrs={"class": "form-control"}))
-            self.fields['fullName'] = forms.CharField(required=True, label="Name", widget=forms.TextInput(attrs={"class": "form-control"}))
+            # self.fields['fullName'] = forms.CharField(required=True, label="Name", widget=forms.TextInput(attrs={"class": "form-control"}))
             self.fields['email'] = forms.EmailField(required=True, label="Email", widget=forms.EmailInput(attrs={"class": "form-control"}))
         
         if self.extrafields_instance:
@@ -71,25 +71,25 @@ class UpdateCombinedForm(forms.Form):
 
         return email
     
-    def clean_fullName(self):
-        fullName = self.cleaned_data["fullName"]
-        if any(char.isdigit() for char in fullName):
-            raise forms.ValidationError("The name/surname cannot contain numbers.")
-        return fullName
+    # def clean_fullName(self):
+    #     fullName = self.cleaned_data["fullName"]
+    #     if any(char.isdigit() for char in fullName):
+    #         raise forms.ValidationError("The name/surname cannot contain numbers.")
+    #     return fullName
 
     def save(self, commit=True):
         cleaned_data = self.cleaned_data
         username_value = cleaned_data.get('username')  # Obtener el valor de 'username' del formulario limpio
         email_value = cleaned_data.get('email')  # Obtener el valor de 'email' del formulario limpio
-        fullName_value = cleaned_data.get('fullName')  # Obtener el valor de 'fullName' del formulario limpio
+        # fullName_value = cleaned_data.get('fullName')  # Obtener el valor de 'fullName' del formulario limpio
         about_value = cleaned_data.get('about')  # Obtener el valor de 'about' del formulario limpio
 
         if self.user_instance:
-            first_name, last_name = fullName_value.split(' ', 1) if ' ' in fullName_value else (fullName_value, '')
+            # first_name, last_name = fullName_value.split(' ', 1) if ' ' in fullName_value else (fullName_value, '')
             self.user_instance.username = username_value
             self.user_instance.email = email_value
-            self.user_instance.first_name = first_name
-            self.user_instance.last_name = last_name
+            # self.user_instance.first_name = first_name
+            # self.user_instance.last_name = last_name
             if commit:
                 self.user_instance.save()
 

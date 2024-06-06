@@ -169,7 +169,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    {% comment %} <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="phone">Name and surname</label>
                             <span id="tooltipEdit" class="info-icon" data-bs-toggle="tooltip" title="Your name and surname won't be public">🛈</span>
@@ -181,7 +181,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="editableText">About me</label>
@@ -198,12 +198,18 @@
                             </div> {% endcomment %}
                         </div>
                     </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-end justify-content-end">
+                      <div class="text-right mb-3">
+                        <input type="reset" id="cancel" name="submit" class="btn btn-secondary" value="Cancel">
+                        <input type="submit" id="updateUser" name="submit" class="btn btn-primary" value="Update">
+                      </div>
+                    </div>
+                    {% comment %} <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="text-right">
                             <input type="reset" id="cancel" name="submit" class="btn btn-secondary" value="Cancel">
                             <input type="submit" id="updateUser" name="submit" class="btn btn-primary" value="Update">
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 </form>
             </div>
         </div>
