@@ -368,3 +368,8 @@ def get_ranking(request):
         print(f"Error in function get_ranking (appTemporal/views.py): {e}")
         
     return JsonResponse({'ranking': ranking, 'active_user': request.user.username})
+
+
+@require_POST
+def talk_to_us(request):
+    return JsonResponse({'ranking': ranking, 'active_user': request.user.username})
