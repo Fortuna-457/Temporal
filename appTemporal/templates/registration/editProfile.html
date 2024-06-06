@@ -89,9 +89,11 @@
                         <div class="user-profile">
                           <div class="user-avatar" id="avatar-container">
                             <img id="profile-picture" src="{% static 'img/profilePictures/def.jpg' %}" alt="Profile Picture">
+
                             <!-- Hidden image selection container -->
                             <div id="image-selection" style="display: none;">
                                 <div class="container-profile-pics">
+                                    <div class="triangle-path"></div>
                                     <img id="profilePic1" src="{% static 'img/profilePictures/hamster.jpg' %}" onclick="replaceImage(this.src, 'profilePic1')">
                                     <img id="profilePic2" src="{% static 'img/profilePictures/bird.jpg' %}" onclick="replaceImage(this.src, 'profilePic2')">
                                     <img id="profilePic3" src="{% static 'img/profilePictures/Meerkat.jpg' %}" onclick="replaceImage(this.src, 'profilePic3')">
