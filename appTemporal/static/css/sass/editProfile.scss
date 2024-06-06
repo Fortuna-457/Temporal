@@ -8,15 +8,22 @@ body {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
-    background: #1a1a1a;
+    // background: #1a1a1a;
     position: relative;
     height: 100%;
     color: white;
     font-family: "Montserrat", sans-serif;
 }
 
+html{
+    height:100%;
+}
+
 .container{
-    padding-top: 80px;
+    height: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary{
@@ -236,6 +243,7 @@ input:focus{
 }
 
 #image-selection{
+    border-radius: 10px;
     position: absolute;
     right: 50%;
     padding: 20px;
@@ -254,17 +262,94 @@ input:focus{
     }
 }
 
+.user-avatar img{
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.user-avatar img:hover{
+    opacity: 0.2;
+}
+
+.user-avatar::before {
+    content: "\270E";
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.user-avatar:hover::before {
+    opacity: 1;
+}
+
+
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-icon {
+    width: 30px;
+    height: 30px;
+    display: none;
+}
+
+.triangle-path {
+    background-color: purple;
+    clip-path: polygon(50% 0%, 0 60%, 100% 60%);
+    width: 50px;
+    height: 50px;
+    transform: rotate(-90deg);
+    position: absolute;
+    background-color: getColor("primary");
+    left: -30px;
+}
+
 @media (max-width: 992px) {
     #image-selection {
-        top: 38%;
+        top: 50%;
         left: 14%;
+    }
+
+    .triangle-path{
+        left: 45%;
+        transform: rotate(0deg);
+        top: -28px;
     }
 
 }
 
 @media (max-width: 768px) {
     #image-selection {
-        left: 1%;
+        left: unset !important;
+        right:unset !important;
+    }
+
+    .user-avatar{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 575px) {
+    .container{
+        padding-top: 135px;
     }
 
 }
