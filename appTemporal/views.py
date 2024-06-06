@@ -13,7 +13,9 @@ from django.http import JsonResponse
 import openai
 from django.http import HttpResponseNotFound, HttpResponse
 import random
-from appTemporal.forms import UpdateCombinedForm
+from appTemporal.forms import UpdateCombinedForm, ContactForm
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Configura tu API key de OpenAI
 openai.api_key = "sk-proj-zKkILdlWgX9u28wMElNtT3BlbkFJABlCSDOdREzD3IbU6Cgo"
@@ -326,6 +328,7 @@ def get_questions(request):
     # Return a default response if there's an error or the request method is not POST
     return JsonResponse({'questions': 'No questions found'})
 
+
 @login_required
 @require_POST
 def set_highscore(request):
@@ -370,6 +373,27 @@ def get_ranking(request):
     return JsonResponse({'ranking': ranking, 'active_user': request.user.username})
 
 
-@require_POST
 def talk_to_us(request):
-    return JsonResponse({'ranking': ranking, 'active_user': request.user.username})
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(
+                    f'Message from {name}',
+                    message,
+                    email,
+                    [settings.EMAIL_HOST_USER],  # Replace with your email address
+                )
+                messages.success(request, 'Message sent successfully.')
+            except Exception as e:
+                print(f"Error in function talk_to_us (appTemporal/views.py): {e}")
+        else:
+            messages.error(request, 'The message could not be sent.')
+
+        return redirect('contact')
+    else:
+        form = ContactForm()
+    return render(request, 'layouts/contact.html')

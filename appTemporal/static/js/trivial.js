@@ -204,6 +204,7 @@ $(document).ready(function () {
                 displayPointsEarned(pointsEarned); // Display the points earned
                 // Update highscore if current score is higher
                 if (score > highscore) {
+                    startConfetti();
                     $('#highscore').text(score);
                 }
             } else {
