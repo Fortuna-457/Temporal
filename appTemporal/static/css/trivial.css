@@ -436,8 +436,8 @@ a:hover {
 }
 
 .form-check-input.difficult:checked {
-  background-color: #f1fa9d;
-  border-color: #f1fa9d;
+  background-color: #ff9c9c;
+  border-color: #ff9c9c;
 }
 
 /* Meters radio button styling */
@@ -481,8 +481,8 @@ a:hover {
 }
 
 .form-check-input.difficult:checked::before {
-  background-color: #f1fa9d;
-  box-shadow: 0 8px 13px rgba(255, 156, 156, 0.3);
+  background-color: #ff9c9c;
+  box-shadow: 0 0px 13px rgba(255, 156, 156, 0.87);
 }
 
 .form-check-input.meters:checked::before {
