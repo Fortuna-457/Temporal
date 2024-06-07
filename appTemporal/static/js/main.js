@@ -30,17 +30,38 @@ $(document).ready(function() {
     });
 
 
-    $('#togglePassword').click(function(){
-        let passwordField = $('#user');
-        let passwordFieldType = passwordField.attr('type');
-        if(passwordFieldType == 'password'){
-            passwordField.attr('type', 'text');
-            $(this).removeClass('bx-lock-alt').addClass('bxs-lock-alt');
-        } else {
-            passwordField.attr('type', 'password');
-            $(this).removeClass('bxs-lock-alt').addClass('bx-lock-alt');
-        }
-    });
+//     // Add an eye icon at the end of the password field
+//  $('.input_box').append('<i class="bx bx-show icon toggle-password"></i>');
+
+//  // Initially hide the eye icon and set its right property
+//  $('.toggle-password').css({
+// 	 'display': 'none',
+// 	 'right': '50px'
+//  });
+
+// // Show the eye icon when the user starts typing in the password field
+// $('.input-field[type="password"]').on('input', function() {
+// 	$(this).siblings('.toggle-password').show();
+// });
+
+// // Hide the eye icon when the user stops typing
+// $('.input-field[type="password"]').on('keyup', function() {
+// 	if($(this).val() === '') {
+// 		$(this).siblings('.toggle-password').hide();
+// 	}
+// });
+//  // Toggle the type attribute of the password field between 'text' and 'password'
+//  $('.toggle-password').click(function() {
+// 	 var input = $(this).siblings('input');
+// 	 if (input.attr("type") == "password") {
+// 		 input.attr("type", "text");
+// 		 $(this).attr("class", "bx bx-hide icon toggle-password"); // change the eye icon to 'hide'
+// 	 } else {
+// 		 input.attr("type", "password");
+// 		 $(this).attr("class", "bx bx-show icon toggle-password"); // change the eye icon back to 'show'
+// 	 }
+//  });
+
 });
 
 

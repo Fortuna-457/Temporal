@@ -623,6 +623,11 @@ form .icon {
   text-decoration: none;
 }
 
+.toggle-password {
+  position: absolute;
+  right: 50px;
+}
+
 /********************************/
 /**MEDIA QUERIES **/
 /********************************/
