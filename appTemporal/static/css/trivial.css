@@ -415,6 +415,7 @@ a:hover {
 .user-highscore {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .user-highscore.active-user p, .user-highscore.active-user span {
@@ -521,9 +522,15 @@ a:hover {
   font-style: italic;
 }
 
-#my_score {
-  margin-bottom: 20px;
-  padding: 20px;
+.user-highscore img {
+  height: 30px;
+  width: 30px;
+}
+
+.profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .peoples-highscores {
@@ -533,6 +540,10 @@ a:hover {
 #my_score, .not-points-while-paused {
   font-family: "Rubik", sans-serif;
   font-style: italic;
+}
+
+#my_score {
+  padding-left: 20px;
 }
 
 @media (max-width: 1052px) {
