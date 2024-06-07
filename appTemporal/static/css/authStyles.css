@@ -262,3 +262,21 @@ a:hover {
 .pass {
   cursor: pointer;
 }
+
+/* Media query for screen width below 570px */
+@media (max-width: 972px) {
+  .lunaBubble {
+    display: none;
+  }
+}
+@media (max-width: 472px) {
+  .register_box, .login_box {
+    width: auto;
+  }
+  .remember-forgot {
+    flex-direction: column;
+  }
+  .forgot {
+    margin-top: 8px;
+  }
+}
