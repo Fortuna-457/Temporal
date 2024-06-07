@@ -418,10 +418,10 @@ a:hover {
   margin-bottom: 20px;
 }
 
-.user-highscore.active-user p, .user-highscore.active-user span {
+.active-user {
   font-family: "Rubik", sans-serif;
   font-style: italic;
-  color: #ddbfff;
+  color: #ddbfff !important;
 }
 
 .you-can-earn-more {
