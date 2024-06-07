@@ -643,3 +643,13 @@ a:hover {
     width: 80% !important;
   }
 }
+/* Styles for screens 800px or less */
+@media (max-width: 500px) {
+  .modal-highscore-width, #settingsModal .modal-content {
+    width: auto;
+    margin: 20px;
+  }
+  .close {
+    margin-bottom: 15px;
+  }
+}
