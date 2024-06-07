@@ -204,6 +204,10 @@ a:hover {
   margin-top: 20px;
 }
 
+.reset-password-complete {
+  margin: 0 auto;
+}
+
 .reset-password-complete a {
   background-color: rgb(255, 245, 209);
   padding: 10px 30px;

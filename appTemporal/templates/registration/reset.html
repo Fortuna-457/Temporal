@@ -36,7 +36,18 @@
                 </div>
             </form>
         {% else %}
-            <p>The validation link is not valid</p>
+            <div class="login_box">
+                <div class="login-header">
+                    <span>LOG IN</span>
+                </div>
+
+                <div class="reset-message">
+					<h3>The validation link is not valid.</h3>
+                    <div class="register">
+                        <span class="reset-password-complete"><a href="{% url 'login' %}">Login</a></span>
+                    </div>
+				</div>
+            </div>
         {% endif %}
     </div>
 {% endblock content %}
