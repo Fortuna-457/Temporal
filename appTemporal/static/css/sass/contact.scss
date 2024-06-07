@@ -465,7 +465,8 @@ form {
           color: #fff;
       }
 
-      .footer-content-column ul li a {
+      .footer-content-column ul li a,
+      .footer-call-to-action a {
         color: #fff;
         text-decoration: none;
         position: relative;
@@ -631,6 +632,14 @@ form {
           text-decoration: none;
       }
 
+      .footer-copyright-link{
+        transition: all 0.2s ease;
+      }
+
+      .footer-copyright-link:hover{
+        color: getColor("lightPurple");
+        text-decoration: none;
+      }
 
       /********************************/
       /**MEDIA QUERIES **/

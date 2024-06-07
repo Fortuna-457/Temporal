@@ -440,12 +440,14 @@ form .icon {
   color: #fff;
 }
 
-.footer-content-column ul li a {
+.footer-content-column ul li a,
+.footer-call-to-action a {
   color: #fff;
   text-decoration: none;
   position: relative;
 }
-.footer-content-column ul li a:before {
+.footer-content-column ul li a:before,
+.footer-call-to-action a:before {
   content: "";
   margin-top: 5px;
   position: absolute;
@@ -459,7 +461,8 @@ form .icon {
   transform: scaleX(0);
   transition: transform 0.3s ease-in-out;
 }
-.footer-content-column ul li a:hover::before {
+.footer-content-column ul li a:hover::before,
+.footer-call-to-action a:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
@@ -608,6 +611,15 @@ form .icon {
 
 .footer-copyright-link {
   color: #fff;
+  text-decoration: none;
+}
+
+.footer-copyright-link {
+  transition: all 0.2s ease;
+}
+
+.footer-copyright-link:hover {
+  color: #ddbfff;
   text-decoration: none;
 }
 
