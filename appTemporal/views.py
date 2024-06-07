@@ -11,7 +11,7 @@ from django.db.models import Max
 import json
 from django.http import JsonResponse
 import openai
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 import random
 from appTemporal.forms import UpdateCombinedForm, ContactForm
 from django.core.mail import send_mail
@@ -394,7 +394,7 @@ def talk_to_us(request):
         else:
             messages.error(request, 'The message could not be sent.')
 
-        return redirect('contact')
+        return HttpResponseRedirect('./#talk-to-us')
     else:
         form = ContactForm()
     return render(request, 'layouts/contact.html')
