@@ -259,6 +259,10 @@ input:focus {
   height: 8.125rem;
 }
 
+#profile-picture {
+  margin-bottom: 20px;
+}
+
 #image-selection {
   border-radius: 10px;
   position: absolute;
@@ -284,7 +288,14 @@ input:focus {
 }
 
 .user-avatar img:hover {
-  opacity: 0.2;
+  opacity: 0.7;
+}
+
+.user-avatar {
+  border-radius: 50%;
+  margin: 0 auto !important;
+  margin-bottom: 20px;
+  width: 100px;
 }
 
 .user-avatar::before {
@@ -295,26 +306,12 @@ input:focus {
   transform: translate(-50%, -50%);
   font-size: 24px;
   color: #ffffff;
-  opacity: 0;
+  opacity: 0.2;
   transition: opacity 0.3s ease-in-out;
 }
 
-.user-avatar:hover::before {
+.user-avatar:hover::before, #image-selection:hover + .user-avatar::before {
   opacity: 1;
-}
-
-.hover-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .edit-icon {
@@ -344,6 +341,10 @@ input:focus {
     transform: rotate(0deg);
     top: -28px;
   }
+  .container {
+    display: block !important;
+    padding-top: 80px;
+  }
 }
 @media (max-width: 768px) {
   #image-selection {
@@ -354,11 +355,6 @@ input:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-}
-@media (max-width: 575px) {
-  .container {
-    padding-top: 135px;
   }
 }
 @media (max-width: 578px) {

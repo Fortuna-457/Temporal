@@ -417,8 +417,15 @@ a:hover {
   justify-content: space-between;
 }
 
-.user-highscore.active-user p {
-  border-bottom: 1px solid #360066;
+.user-highscore.active-user p, .user-highscore.active-user span {
+  font-family: "Rubik", sans-serif;
+  font-style: italic;
+  color: #ddbfff;
+}
+
+.you-can-earn-more {
+  text-align: left !important;
+  padding: 20px;
 }
 
 .modal-highscore-width {
@@ -510,6 +517,20 @@ a:hover {
   width: 400px;
 }
 #settingsModal h4 {
+  font-family: "Rubik", sans-serif;
+  font-style: italic;
+}
+
+#my_score {
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.peoples-highscores {
+  padding: 20px;
+}
+
+#my_score, .not-points-while-paused {
   font-family: "Rubik", sans-serif;
   font-style: italic;
 }
