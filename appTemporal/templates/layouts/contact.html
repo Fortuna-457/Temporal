@@ -10,7 +10,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	-->
-<link href="{% static 'css/contact.css' %}" rel="stylesheet">
+  <link href="{% static 'css/contact.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block active_template %}
@@ -556,13 +556,13 @@
                 <a target="_blank" rel="noopener noreferrer" href="{% url 'games' %}">Games</a>
               </li>
               <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                <a href="#">Profile</a>
+                <a href="{% url 'profile' %}">Profile</a>
               </li>
               <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                <a href="{% url 'trivial' %}">Trivial map</a>
+                <a href="{% url 'trivial' %}">Trivial mode</a>
               </li>
               <li class="menu-item menu-item-type-post_type_archive menu-item-object-customer">
-                <a href="{% url 'maps' %}">Creative map</a></li>
+                <a href="{% url 'maps' %}">Creative mode</a></li>
             </ul>
           </div>
         </div>
@@ -574,7 +574,7 @@
           </div>
           <div class="footer-call-to-action">
             <h2 class="footer-call-to-action-title">Call us!</h2>
-            <p class="footer-call-to-action-link-wrapper"> <a href="tel:+666666666" class="footer-call-to-action-link" target="_self"> 666 66 66 66 </p></p>
+            <p class="footer-call-to-action-link-wrapper"><a href="tel:+666666666" class="footer-call-to-action-link" target="_self">666 66 66 66</a></p></p>
           </div>
         </div>
         <div class="footer-social-links">

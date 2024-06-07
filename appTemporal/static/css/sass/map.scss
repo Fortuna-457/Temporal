@@ -461,7 +461,7 @@ input[type="search"] {
   position: relative;
 }
 
-button {
+button:not(.navbar-toggler) {
   display: none;
   position: absolute;
   top: 0;
