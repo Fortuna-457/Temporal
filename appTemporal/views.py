@@ -347,7 +347,7 @@ def set_highscore(request):
     except Exception as e: # Captura cualquier excepción durante el registro:
         print(f"Error in function set_highscore (appTemporal/views.py): {e}")
         
-    return HttpResponse(status=200)    
+    return HttpResponse(status=200)
 
 
 @login_required
@@ -397,3 +397,39 @@ def talk_to_us(request):
     else:
         form = ContactForm()
     return render(request, 'layouts/contact.html')
+
+
+@login_required
+@require_POST
+def set_profile_picture(request):
+    try:
+
+        # Leer y decodificar los datos JSON recibidos
+        datos_json = json.loads(request.body)
+        img_src = datos_json['img_src']
+        
+        extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
+        
+        extrafields.profile_picture = img_src
+        
+        extrafields.save()
+        
+    except Exception as e: # Captura cualquier excepción durante el registro:
+        print(f"Error in function set_profile_picture (appTemporal/views.py): {e}")
+        
+    return HttpResponse(status=200)
+
+
+@login_required
+@require_POST
+def get_profile_picture(request):
+    try:
+
+        extrafields = ExtraFields.objects.filter(user=request.user.pk).first()
+        
+        img_src = extrafields.profile_picture
+
+    except Exception as e: # Captura cualquier excepción durante el registro:
+        print(f"Error in function get_profile_picture (appTemporal/views.py): {e}")
+        
+    return JsonResponse({'profile_picture': img_src})

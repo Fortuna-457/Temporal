@@ -33,4 +33,8 @@ urlpatterns = [
     path('profile/', views.profileView, name='profile'),
     # Url de la sección talk to us
     path('talk-to-us/', views.talk_to_us, name='talk-to-us'),
+    # Url del método que guarda la img del profile
+    path('set-profile-picture/', views.set_profile_picture, name='set-profile-picture'),
+    # Url del método que devuelve la img del profile
+    path('get-profile-picture/', views.get_profile_picture, name='get-profile-picture'),
 ]

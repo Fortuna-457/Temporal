@@ -49,3 +49,4 @@ class ExtraFields(models.Model):
     privacy_policy = models.BooleanField(choices=ACCEPT_OR_NOT, default=1)
     highscore = models.IntegerField(default=0)
     about = models.TextField(default='This is my bio! I love animals and history', max_length=60)
+    profile_picture = models.URLField(default='http://127.0.0.1:8000/static/img/profilePictures/def.jpg')
