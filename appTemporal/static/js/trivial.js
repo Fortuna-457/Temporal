@@ -472,7 +472,7 @@ function startConfetti() {
             if (response) { // If it's not null, display it.
                 $(".peoples-highscores").empty();
                 response.ranking.forEach(user => {
-                    let profilePictureUrl = user.profilePicture || "/static/img/profilePictures/def.jpg"; // Adjusted path
+                    let profilePictureUrl = user.profile_picture || "/static/img/profilePictures/def.jpg"; // Adjusted path
                     
                     // Create the user highscore div
                     let userHighscoreHtml = $('<div>', {class: 'user-highscore'});

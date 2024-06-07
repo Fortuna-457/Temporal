@@ -362,7 +362,8 @@ def get_ranking(request):
             for user in users:
                 ranking.append({
                     'username': user.user.username,
-                    'highscore': user.highscore
+                    'highscore': user.highscore,
+                    'profile_picture': user.profile_picture
                 })
         else:
             return JsonResponse({'message': 'No hay usuarios en el ranking'}, status=204)

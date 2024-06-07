@@ -97,7 +97,7 @@
 			</div>
 		</div> {% endcomment %}
 
-		{% comment %} {% if messages %}
+		{% if messages %}
 			{% for message in messages %}
 				<div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" role="alert">
 					<strong>Error:</strong> {{ message }}
@@ -114,7 +114,7 @@
 					<p>{{ error }}</p>
 				{% endfor %}
 			</div>
-		{% endif %} {% endcomment %}
+		{% endif %}
 
 		{% block extra_footer %}{% endblock extra_footer %}
 		<script src="{% static 'js/authError.js' %}" defer></script>
