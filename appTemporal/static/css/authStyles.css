@@ -214,6 +214,7 @@ a:hover {
   border-radius: 20px;
   color: black;
   transition: all 0.2s ease;
+  margin: 0 auto;
 }
 .reset-password-complete a:hover {
   text-decoration: none;
