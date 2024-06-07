@@ -474,15 +474,14 @@
           <textarea id="formMessage" name="message" class="form-control form-control-lg" rows="7" placeholder="What's the matter?"></textarea>
         </div>
       
-        <!-- Submit btn -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
-        </div>
-
         {% for message in messages %}
 				  <p class="form-message-error">{{ message }}</p>
 			  {% endfor %}
 
+        <!-- Submit btn -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
+        </div>
     </form>
     
   </div>

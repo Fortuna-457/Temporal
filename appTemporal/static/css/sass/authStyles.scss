@@ -255,6 +255,18 @@ $second-color: #ffffff;
     margin-bottom:30px;
   }
 
+  .form-message-error{
+    background-color: rgb(255, 201, 201);
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    color: black;
+    margin-top:15px;
+    border-radius:20px;
+    border:1px solid red;
+    font-family: "Montserrat", sans-serif;
+  }
+
 @media only screen and (max-width: 564px ){
     .wrapper{
         padding:20px;
