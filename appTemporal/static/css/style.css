@@ -149,7 +149,7 @@ img {
 
 .hero__title {
   text-transform: uppercase;
-  font-size: 5rem;
+  font-size: clamp(3rem, 1.571rem + 3.81vw, 5rem);
   max-width: 10ch;
   line-height: 1;
   font-style: italic;

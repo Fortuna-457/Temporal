@@ -468,21 +468,45 @@ function startConfetti() {
                 'X-CSRFToken': csrfToken // Add the CSRF token as a header
             },
         })
-            .done(function (response) { // Get the server response
-                if (response) { // If it's not null, display it.
-                    $(".peoples-highscores").empty();
-                    response.ranking.forEach(user => {
-                        if(response.active_user === user.username){
-                            $(".peoples-highscores").append('<div class="user-highscore active-user"><p>You</p><span>'+user.highscore+'</span></div>');
-                        }else{
-                            $(".peoples-highscores").append('<div class="user-highscore"><p>'+user.username+'</p><span>'+user.highscore+'</span></div>');
+        .done(function (response) { // Get the server response
+            if (response) { // If it's not null, display it.
+                $(".peoples-highscores").empty();
+                response.ranking.forEach(user => {
+                    let profilePictureUrl = user.profilePicture || "/static/img/profilePictures/def.jpg"; // Adjusted path
+                    
+                    // Create the user highscore div
+                    let userHighscoreHtml = $('<div>', {class: 'user-highscore'});
+                    
+                    // Create the container for profile picture and username
+                    let userInfoDiv = $('<div>').css({
+                        'display': 'flex',
+                        'align-items': 'center'
+                    });
+        
+                    // Create the profile picture img with styles
+                    let profilePicture = $('<img>', {
+                        src: profilePictureUrl,
+                        alt: 'Profile picture',
+                        class: 'profile-picture',
+                        css: {
+                            'margin-right': '10px',
+                            'width': '30px',
+                            'height': '30px',
+                            'border-radius': '50%'
                         }
                     });
-                }
-            })
-            .fail(function (error) {
-                console.error('Error:', error);
-            });
+        
+                    let userName = $('<p>').text(response.active_user === user.username ? 'You' : user.username).css('margin', '0');
+                    userInfoDiv.append(profilePicture).append(userName);
+                    let userScore = $('<span>').text(user.highscore);
+                    userHighscoreHtml.append(userInfoDiv).append(userScore);
+                    $(".peoples-highscores").append(userHighscoreHtml);
+                });
+            }
+        })
+        .fail(function (error) {
+            console.error('Error:', error);
+        });
 
         // Event listener for close button in highscore modal
         function closeHighscoreModal() {
