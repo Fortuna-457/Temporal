@@ -36,7 +36,9 @@
                 </div>
             </form>
         {% else %}
-            <p>The validation link is not valid</p>
+        <div class="register">
+            <span class="reset-password-complete"><a href="{% url 'login' %}">Login</a></span>
+        </div>
         {% endif %}
     </div>
 
