@@ -497,6 +497,9 @@ function startConfetti() {
                     });
         
                     let userName = $('<p>').text(response.active_user === user.username ? 'You' : user.username).css('margin', '0');
+                    if (response.active_user === user.username) {
+                        userName.addClass('active-user');
+                    }
                     userInfoDiv.append(profilePicture).append(userName);
                     let userScore = $('<span>').text(user.highscore);
                     userHighscoreHtml.append(userInfoDiv).append(userScore);
@@ -507,6 +510,7 @@ function startConfetti() {
         .fail(function (error) {
             console.error('Error:', error);
         });
+        
 
         // Event listener for close button in highscore modal
         function closeHighscoreModal() {
