@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from appTemporal.models import ExtraFields
 from django.db.models import Q  # Importo "Q" para poder hacer condicionales en consultas Django
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 
 User = get_user_model()
 
@@ -105,3 +106,41 @@ class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, required=True)
     email = forms.EmailField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={'class': 'input-field'}),
+        error_messages={
+            'required': 'Please, enter your email.',
+            'invalid': 'Enter a valid email.'
+        }
+    )
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'input-field'}),
+        error_messages={
+            'required': 'Please, enter a new password.',
+            'invalid': 'Error in your new password.'
+        }
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'input-field'}),
+        error_messages={
+            'required': 'Please, confirm your new password.',
+            'invalid': 'Error in password confirmation.'
+        }
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('new_password1')
+        password2 = cleaned_data.get('new_password2')
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("The two password fields didn’t match.")
+
+        return cleaned_data
