@@ -17,8 +17,7 @@ This is the documentation for the application part.
 <h4>Prerequisites</h4>
 
 <h4>Steps to run the application</h4>
-To clone and run this applicaion, you'll need Git and Node.js (which comes with npm) installed on you computer. <br>
-Next you'll need to run the following commands to run the app:
+To clone and run this applicaion, you'll need 
 
 
 ## [Use-Cases](#Use-Cases)
