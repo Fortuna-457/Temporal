@@ -37,6 +37,7 @@ a{
 
 a:hover{
     text-decoration: underline;
+    color: white !important;
 }
 
 /**wrapper***/
@@ -252,7 +253,12 @@ $second-color: #ffffff;
   }
 
   .reset-message h3{
+    font-family: "Rubik", sans-serif !important;
     margin-bottom:30px;
+  }
+
+  .reset-message span{
+    font-family: "Rubik", sans-serif !important;
   }
 
   .form-message-error{
