@@ -33,7 +33,7 @@ To clone and run this applicaion, you'll need
 
 *   ```GET /```: Show the main window
 
-<h4>Auth</h4>
+<h4>Login</h4>
 
 *   ```GET /login```: Show the login window.
 *    ```POST /login```: Log in the user, and then we are redirected to the main window. But if the user/password is not correct, we are redirected to the login window with a message error. x-access-token header required.
