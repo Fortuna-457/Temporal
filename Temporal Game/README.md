@@ -36,7 +36,8 @@ To clone and run this applicaion, you'll need
 <h4>Auth</h4>
 
 *   ```GET /login```: Show the login window
-*    ```POST /login```: Log in the user, and the we are redirected to the main window. But if the user/password is not correct, we are redirected to the login window with a message error.
+*    ```POST /login```: Log in the user, and then we are redirected to the main window. But if the user/password is not correct, we are redirected to the login window with a message error.
+*    ```POST /logout```: Log out the user, and then we are redirected to the main window.
 
 ## [Use-Cases](#Use-Cases)
 
