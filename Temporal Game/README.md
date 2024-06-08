@@ -4,6 +4,11 @@
 
 <h3>Table of contents</h3>
 
+## [Index](#Index)
+(#Introduction)
+(#Instalation)
+(#Endpoints)
+
 ## [Introduction](#Introduction)
 This is the documentation for the application part.
 <h4>Technologies used</h4>
