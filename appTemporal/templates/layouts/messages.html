@@ -1,8 +1,14 @@
 {% if messages %}
     {% for message in messages %}
-        <div class="form-message-error" role="alert">
-            <strong>Error:</strong> {{ message }}
-        </div>
+        {% if message.tags == "error" %}
+            <div class="form-message-error">
+                <strong>Error:</strong> {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-primary alert-{{ message.tags }} p-4 fade show mt-3 text-center" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
     {% endfor %}
 {% elif form.errors %}
     <div class="form-message-error">
