@@ -19,6 +19,7 @@ This is the documentation for the application part.
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need 
 
+## [Endpoints](#Endpoints)
 
 ## [Use-Cases](#Use-Cases)
 
