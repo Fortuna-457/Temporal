@@ -1,4 +1,4 @@
-# Temporal App
+
 ![Temporal Letters](https://github.com/Fortuna-457/Temporal/blob/60e86e29b9e5e5f1249827d3cad9215187d3f1e8/appTemporal/static/img/temporalLetters.png )
 
 
@@ -40,6 +40,28 @@ To clone and run this applicaion, you'll need
 *    ```POST /logout```: Log out the user, and then we are redirected to the main window.
 
 ## [Use-Cases](#Use-Cases)
+<h4>Click on the thumbnails to go to YouTube</h4>
+
+### Auth use  example
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/d4cc4e396cf970a299afe34067a9d6ad46b879fd/appTemporal/static/img/image_2024-06-08_192758544.png)](https://www.youtube.com/watch?v=0C1rLSAlkBE&t=1s)
+
+
+### Reset password example
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/6d06941766c29ae429cafb980405df571e2a5626/appTemporal/static/img/image_2024-06-08_193955189.png)](https://youtu.be/qLxm46434cA)
+<br>
+### Map use example
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/39fb1ca9f346f433f1913b4d9acc791240f84c2f/appTemporal/static/img/image_2024-06-08_193535273.png)](https://www.youtube.com/watch?v=6E0RjJYCgqc)
+<br>
+## Trivial use example
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/ceba6834c3427409fe96eb56bff8ba36171eb969/appTemporal/static/img/image_2024-06-08_194316645.png)](https://youtu.be/J7Hb9gFKGoY)
+<br>
+### Contact use example
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/4f4b7c50712fc2f75da6ca3d2b2a2cd132118f5e/appTemporal/static/img/image_2024-06-08_193830736.png)](https://youtu.be/P3r5ZydZEcg)
+<br>
+### Edit profile
+[![Watch the video](https://github.com/Fortuna-457/Temporal/raw/653f82ff775c291f9e0dd7f0a44ec4ef721a153d/appTemporal/static/img/image_2024-06-08_194817532.png)](https://youtu.be/K1AlEmj0C9E)
+
+
 
 ## [Authors](#Authors)
 Sofía Khudomyasova: https://github.com/saiihara <br>  <br>
