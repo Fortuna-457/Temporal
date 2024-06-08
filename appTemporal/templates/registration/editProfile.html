@@ -140,8 +140,8 @@
                     <!-- Mostrar errores no relacionados con campos específicos -->
                     {% if form.non_field_errors %}
                       <div class="col-12">
-                        <div class="alert alert-danger">
-                          {{ form.non_field_errors }}
+                        <div class="form-message-error">
+                          <strong>Error:</strong> {{ form.non_field_errors }}
                         </div>
                       </div>
                     {% endif %}
@@ -152,9 +152,9 @@
                             {{ form.username }}
                             <!-- Mostrar errores del campo username -->
                             {% if form.username.errors %}
-                                <div class="alert alert-danger">
-                                    {{ form.username.errors }}
-                                </div>
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.username.errors }}
+                              </div>
                             {% endif %}
                         </div>
                     </div>
@@ -164,9 +164,9 @@
                             {{ form.email }}
                             <!-- Mostrar errores del campo username -->
                             {% if form.email.errors %}
-                                <div class="alert alert-danger">
-                                    {{ form.email.errors }}
-                                </div>
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.email.errors }}
+                              </div>
                             {% endif %}
                         </div>
                     </div>
@@ -189,9 +189,9 @@
                             {{ form.about }}
                             <!-- Mostrar errores del campo username -->
                             {% if form.about.errors %}
-                                <div class="alert alert-danger">
-                                    {{ form.about.errors }}
-                                </div>
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.about.errors }}
+                              </div>
                             {% endif %}
                             {% comment %} <div class="editBioText">
                                 <span id="editIcon" class="edit-icon"><i class='bx bxs-pencil' style='color:#ffffff'></i></span>

@@ -112,6 +112,9 @@
     left: -25px;
 }
 
+.navbar-expand-custom .navbar-toggler:focus {
+	box-shadow: none;
+}
 
 @media(min-width: 992px){
 	.navbar-expand-custom {

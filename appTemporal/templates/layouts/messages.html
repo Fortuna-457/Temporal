@@ -1,0 +1,18 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="form-message-error" role="alert">
+            <strong>Error:</strong> {{ message }}
+        </div>
+    {% endfor %}
+{% elif form.errors %}
+    <div class="form-message-error">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <strong>Error:</strong> {{ error }}
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <strong>Error:</strong> {{ error }}
+        {% endfor %}
+    </div>
+{% endif %}

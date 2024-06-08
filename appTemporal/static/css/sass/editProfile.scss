@@ -317,6 +317,18 @@ input:focus{
     left: -30px;
 }
 
+.form-message-error{
+    background-color: rgb(255, 201, 201);
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    color: black;
+    margin-top:15px;
+    border-radius:20px;
+    border:1px solid red;
+    font-family: "Montserrat", sans-serif;
+  }
+
 @media (max-width: 992px) {
     #image-selection {
         top: 50%;
