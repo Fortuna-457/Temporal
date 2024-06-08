@@ -4,13 +4,13 @@
 
 <h3>Table of contents</h3>
 
-## [Index](#Index)
-## [Introduction](#Introduction)
-## [Instalation](#Instalation)
-## [Endpoints](#Endpoints)
-## [Use-Cases](#Use-Cases)
-## [Authors](#Authors)
-## [Licencia](#licencia)
+#### [Index](#Index)
+#### [Introduction](#Introduction)
+#### [Instalation](#Instalation)
+#### [Endpoints](#Endpoints)
+#### [Use-Cases](#Use-Cases)
+#### [Authors](#Authors)
+#### [Licencia](#licencia)
 
 ## [Introduction](#Introduction)
 This is the documentation for the application part.
