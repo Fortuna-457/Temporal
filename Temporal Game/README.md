@@ -29,6 +29,10 @@ To clone and run this applicaion, you'll need
 
 ## [Endpoints](#Endpoints)
 
+<h4>Home</h4>
+
+*   ```GET /```:
+
 ## [Use-Cases](#Use-Cases)
 
 ## [Authors](#Authors)
