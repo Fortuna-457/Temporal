@@ -1,0 +1,78 @@
+### USERS -------------------------------
+
+### GET ALL USERS
+GET http://localhost:5000/api/users/
+
+### GET USER BY ID
+GET http://localhost:5000/api/users/1
+
+### CREATE USER
+POST http://localhost:5000/api/users/
+Content-Type: application/json
+
+{
+  "displayName": "tristan",
+  "username": "tristan",
+  "password": "1234",
+  "confirmPassword": "1234",
+  "email": "tristan@example.com"
+}
+
+### LOGIN
+GET http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+  "username": "tristan",
+  "password": "1234"
+}
+
+### CATEGORIES -------------------------------
+
+GET http://localhost:5000/api/categories
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MTE3MzE5NTMsImlhdCI6MTcxMTY0NTU1M30.0gaAb-0FM8vd-LQc9X_8ewc2M0AiU4Ml8ZHHzA3UgD4
+
+###
+POST http://localhost:5000/api/categories
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MTE3MzE5NTMsImlhdCI6MTcxMTY0NTU1M30.0gaAb-0FM8vd-LQc9X_8ewc2M0AiU4Ml8ZHHzA3UgD4
+
+{
+  "name": "test_category"
+}
+
+###
+PUT http://localhost:5000/api/categories/1
+Content-Type: application/json
+
+{
+  "name": "test_category_update"
+}
+
+###
+DELETE http://localhost:5000/api/categories/2
+
+
+### TAGS -------------------------------
+
+GET http://localhost:5000/api/tags
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MTEzODUwNDUsImlhdCI6MTcxMTM4NDc0NX0.1VvZiF_EvfQceZGEQ02AUub6emjCdooTQAN8xTdjdmU
+
+###
+POST http://localhost:5000/api/tags
+Content-Type: application/json
+
+{
+  "name": "test_tag"
+}
+
+###
+PUT http://localhost:5000/api/tags/2
+Content-Type: application/json
+
+{
+  "name": "test_tag_update"
+}
+
+###
+DELETE http://localhost:5000/api/tags/1

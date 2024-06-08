@@ -1,0 +1,37 @@
+services:
+  # CONTAINER - MYSQL : https://hub.docker.com/_/mysql
+  mysql:
+    image: mysql:8.3.0
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=wordtriss
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - "3306:3306"
+    networks:
+      - ttb-network
+    container_name: DataBase
+
+  # CONTAINER - PHPMYADMIN : https://hub.docker.com/_/phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    depends_on:
+      - mysql
+    environment:
+      - PMA_HOST=mysql
+    # restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - ttb-network
+    container_name: PHPMyAdmin
+
+networks:
+  ttb-network:
+
+
+volumes:
+  db_data:
