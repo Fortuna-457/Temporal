@@ -6,7 +6,7 @@
 
 *   #### [Index](#Index)
     *   #### [Introduction](#Introduction)
-    *   ## [Instalation](#Instalation)
+    *   #### [Instalation](#Instalation)
     *   #### [Endpoints](#Endpoints)
     *   #### [Use-Cases](#Use-Cases)
     *   #### [Authors](#Authors)
