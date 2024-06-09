@@ -25,19 +25,19 @@ This is the documentation for the application part.
 
 <h4>Prerequisites</h4>
 
-*   [Docker](https://www.docker.com/products/docker-desktop/)
-*   Git (Optional)
+*   [Docker](https://www.docker.com/products/docker-desktop/){:target="_blank"}
+*   [Git (Optional)](https://www.git-scm.com/downloads){:target="_blank"}
 
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need to follow the next steps:
 
 
-1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the [repository](https://github.com/Fortuna-457/Temporal/archive/refs/heads/main.zip) (With this option git is not necessary)
+1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the [repository](https://github.com/Fortuna-457/Temporal/archive/refs/heads/main.zip){:target="_blank"} (With this option git is not necessary)
 2.  ```cd .\Temporal Game\```
 3.  ```cd .\Game\```
 4.  ```docker build -t temporal-game .```
 5.  ```docker run -p 8000:8000 temporal-game```
-6.  Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
+6.  Visit [http://127.0.0.1:8000](http://127.0.0.1:8000){:target="_blank"}
 
 ## Endpoints
 
@@ -118,5 +118,5 @@ Alejandro Castro Canalejo: https://github.com/Fortuna-457  <br>  <br>
 Tristán Alonso Pérez: https://github.com/Tristan-Al  <br>  <br>
 
 
-## Licencia
+## Licence
 All rights reserved to Temporal ©
