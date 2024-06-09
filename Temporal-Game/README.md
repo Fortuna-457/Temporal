@@ -27,14 +27,13 @@ This is the documentation for the application part.
 
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need to follow the next steps:
-
-
-*   git clone https://github.com/Fortuna-457/Temporal.git
-*   cd '.\Temporal Game\'
-*   cd .\Game\
-*   docker build -t temporal-game .
-*   docker run -p 8000:8000 temporal-game
-*   http://127.0.0.1:8000
+<br>
+1.  ```git clone https://github.com/Fortuna-457/Temporal.git```
+2.  ```cd '.\Temporal Game\'```
+3.  ```cd .\Game\```
+4.  ```docker build -t temporal-game .```
+5.  ```docker run -p 8000:8000 temporal-game```
+6.  ```Visit http://127.0.0.1:8000```
 
 ## Endpoints
 
