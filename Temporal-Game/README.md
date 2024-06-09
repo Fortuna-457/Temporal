@@ -37,7 +37,7 @@ To clone and run this applicaion, you'll need to follow the next steps:
 3.  ```cd .\Game\```
 4.  ```docker build -t temporal-game .```
 5.  ```docker run -p 8000:8000 temporal-game```
-6.  Visit [http://127.0.0.1:8000](http://127.0.0.1:8000{:target="_blank"})
+6.  Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ## Endpoints
 
