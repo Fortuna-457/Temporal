@@ -28,6 +28,7 @@ This is the documentation for the application part.
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need to follow the next steps:
 
+
 *   git clone https://github.com/Fortuna-457/Temporal.git
 *   cd '.\Temporal Game\'
 *   cd .\Game\
