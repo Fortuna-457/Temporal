@@ -4,15 +4,16 @@
 
 <h3>Table of contents</h3>
 
-*   #### [Index](#Index)
-    *   #### [Introduction](#Introduction)
-    *   #### [Endpoints](#Endpoints)
-    *   #### [Use-Cases](#Use-Cases)
-    *   #### [Authors](#Authors)
-    *   #### [Licencia](#licencia)
+*   Index
+    *   [Introduction](#Introduction)
+    *   [Instalation](#Instalation)
+    *   [Endpoints](#Endpoints)
+    *   [Use-Cases](#Use-Cases)
+    *   [Authors](#Authors)
+    *   [Licence](#licence)
 
 
-## [Introduction](#Introduction)
+## Introduction
 This is the documentation for the application part.
 <h4>Technologies used</h4>
 
@@ -20,14 +21,25 @@ This is the documentation for the application part.
 | ----------- | ----------- | ---------- |
 | <img src="https://miro.medium.com/v2/resize:fit:1200/1*HVKOLLX7wprRbHTl2IPDcQ.png" height="50"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/1280px-Sass_Logo_Color.svg.png" height="50"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/640px-Bootstrap_logo.svg.png" height="50"> <img src="https://miro.medium.com/v2/resize:fit:860/0*eFomJUFua8tuqe8g.png" height="50"> | <img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" height="50"> <img src="https://avatars.githubusercontent.com/u/18133?s=280&v=4" height="50"> <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" height="50"> <img src="https://f-droid.org/repo/icons-640/org.microg.nlp.backend.nominatim.20042.png" height="50"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Leaflet_logo.svg/2560px-Leaflet_logo.svg.png" height="50"> | <img src="https://axolotagencia.com/wp-content/uploads/2021/12/openai.jpeg" height="50"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1200px-Openstreetmap_logo.svg.png" height="50">|
 
-## [Instalation](#Instalation)
+## Instalation
 
 <h4>Prerequisites</h4>
 
-<h4>Steps to run the application</h4>
-To clone and run this applicaion, you'll need 
+*   [Docker](https://www.docker.com/products/docker-desktop/)
+*   [Git (Optional)](https://www.git-scm.com/downloads)
 
-## [Endpoints](#Endpoints)
+<h4>Steps to run the application</h4>
+To clone and run this applicaion, you'll need to follow the next steps:
+
+
+1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the [repository](https://github.com/Fortuna-457/Temporal/archive/refs/heads/main.zip) (With this option git is not necessary)
+2.  ```cd .\Temporal Game\```
+3.  ```cd .\Game\```
+4.  ```docker build -t temporal-game .```
+5.  ```docker run -p 8000:8000 temporal-game```
+6.  Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+## Endpoints
 
 <h4>Home</h4>
 
@@ -76,7 +88,7 @@ To clone and run this applicaion, you'll need
 *   ```GET /get-profile-picture```: Gets the profile picture of the specified user. Login required.
 *   ```POST /set-profile-picture```: Sets the profile picture of the specified user, with the new user. Login required. x-access-token header required.
 
-## [Use-Cases](#Use-Cases)
+## Use Cases
 <h4>Click on the thumbnails to go to YouTube</h4>
 
 ### Auth use  example
@@ -100,11 +112,11 @@ To clone and run this applicaion, you'll need
 
 
 
-## [Authors](#Authors)
+## Authors
 Sofía Khudomyasova: https://github.com/saiihara <br>  <br>
 Alejandro Castro Canalejo: https://github.com/Fortuna-457  <br>  <br>
 Tristán Alonso Pérez: https://github.com/Tristan-Al  <br>  <br>
 
 
-## [Licencia](#licencia)
+## Licence
 All rights reserved to Temporal ©
