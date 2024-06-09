@@ -1,26 +1,13 @@
-# Dockerfile for the React app
+# Stage 1: Build the React app with Vite
+FROM node:21-alpine as build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . ./
+RUN npm run build
 
-# Use a Node.js image as the base
-FROM node:21-alpine
-
-# Set the working directory
-WORKDIR /frontend
-
-# Copy the app files
-COPY frontend/package.json .
-COPY frontend/yarn.lock .
-
-# Install dependencies
-RUN yarn install
-
-# Copy the rest of the app files
-COPY /frontend .
-
-# Build the React app
-RUN yarn build
-
-# Expose port 3000 (default port for React apps)
-EXPOSE 3000
-
-# Command to start the app
-CMD ["yarn", "start"]
+# Stage 2: Serve the React app using Nginx
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

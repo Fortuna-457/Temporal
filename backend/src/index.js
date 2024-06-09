@@ -14,7 +14,7 @@ const PORT = process.env.API_SERVER_PORT || 3000
  */
 async function main() {
   try {
-    await db.sync() // With { force: true }, all tables are dropped and recreated
+    await db.sync({ force: true }) // With { force: true }, all tables are dropped and recreated
     await initialSetup()
     app.listen(PORT, () => {
       console.log(`Server running on: http://localhost:${PORT}`)

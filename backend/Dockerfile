@@ -4,20 +4,17 @@
 FROM node:21-alpine
 
 # Set the working directory
-WORKDIR /backend
+WORKDIR /app
 
 # Copy the API files
-COPY backend/package.json .
-COPY backend/yarn.lock .
+COPY package.json package-lock.json ./
+COPY src ./src
 
 # Install dependencies
-RUN yarn install
-
-# Copy the rest of the API files
-COPY backend .
+RUN npm install
 
 # Expose port 5000 (default port for Node.js APIs)
 EXPOSE 5000
 
 # Command to start the API
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
