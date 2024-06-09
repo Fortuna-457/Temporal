@@ -25,6 +25,8 @@ This is the documentation for the application part.
 
 <h4>Prerequisites</h4>
 
+*   Docker
+
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need to follow the next steps:
 
