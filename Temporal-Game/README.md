@@ -26,12 +26,13 @@ This is the documentation for the application part.
 <h4>Prerequisites</h4>
 
 *   Docker
+*   Git (Optional)
 
 <h4>Steps to run the application</h4>
 To clone and run this applicaion, you'll need to follow the next steps:
 
 
-1.  ```git clone https://github.com/Fortuna-457/Temporal.git```
+1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the repository (With this option is not necessary to have git)
 2.  ```cd '.\Temporal Game\'```
 3.  ```cd .\Game\```
 4.  ```docker build -t temporal-game .```
