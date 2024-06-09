@@ -32,7 +32,7 @@ This is the documentation for the application part.
 To clone and run this applicaion, you'll need to follow the next steps:
 
 
-1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the repository (With this option is not necessary to have git)
+1.  ```git clone https://github.com/Fortuna-457/Temporal.git``` or you can download the [repository](https://github.com/Fortuna-457/Temporal/archive/refs/heads/main.zip) (With this option is not necessary to have git)
 2.  ```cd '.\Temporal Game\'```
 3.  ```cd .\Game\```
 4.  ```docker build -t temporal-game .```
