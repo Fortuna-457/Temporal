@@ -1,0 +1,227 @@
+{% extends '../Base/base.html' %}
+{% load static %}
+
+{% block title %}
+	Profile
+{% endblock title %}
+
+{% block extra_head %}
+
+
+	<!--
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	-->
+    <link href="{% static 'css/editProfile.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block active_template %}
+  <ul class="navbar-nav ml-auto">
+    <div class="hori-selector">
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'index' %}">
+        <i class='bx bxs-home-smile'></i>Home
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="{% url 'games' %}">
+        <i class='bx bx-game'></i>Games
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Blog
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'contact' %}">
+        <i class='bx bx-support'></i>Contact us
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
+      </a>
+    </li>
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out-circle'></i>Logout
+        </a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class='bx bx-log-in-circle'></i>Login
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+{% endblock active_template %}
+
+{% block content %}
+
+{% comment %} <div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Change password</h5>
+            <button type="button" class="close" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+        </div>
+        <form id="passwordForm">
+            <label for="newPassword">Your new password</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+            
+            <label for="repeatPassword" class="repeatPassword">Repeat your new password</label>
+            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" required>
+            
+            <button type="submit" id="changeUserPassword" name="submit" class="btn btn-primary">Change</button>
+        </form>
+    </div>
+</div> {% endcomment %}
+
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                          <div class="user-avatar" id="avatar-container">
+                            <img id="profile-picture" src="{% static 'img/profilePictures/def.jpg' %}" alt="Profile Picture">
+                            <!-- Hidden image selection container -->
+                            <div id="image-selection" style="display: none;">
+                                <div class="container-profile-pics">
+                                    <div class="triangle-path"></div>
+                                    <img id="profilePic1" src="{% static 'img/profilePictures/hamster.jpg' %}" onclick="replaceImage(this.src, 'profilePic1')">
+                                    <img id="profilePic2" src="{% static 'img/profilePictures/bird.jpg' %}" onclick="replaceImage(this.src, 'profilePic2')">
+                                    <img id="profilePic3" src="{% static 'img/profilePictures/Meerkat.jpg' %}" onclick="replaceImage(this.src, 'profilePic3')">
+                                    <img id="profilePic4" src="{% static 'img/profilePictures/dog.jpg' %}" onclick="replaceImage(this.src, 'profilePic4')">
+                                    <img id="profilePic5" src="{% static 'img/profilePictures/cat.jpg' %}" onclick="replaceImage(this.src, 'profilePic5')">
+                                    <img id="profilePic6" src="{% static 'img/profilePictures/rabbit.jpg' %}" onclick="replaceImage(this.src, 'profilePic6')">
+                                    <img id="profilePic7" src="{% static 'img/profilePictures/bear.jpg' %}" onclick="replaceImage(this.src, 'profilePic7')">
+                                    <img id="profilePic8" src="{% static 'img/profilePictures/deer.jpg' %}" onclick="replaceImage(this.src, 'profilePic8')">
+                                    <img id="profilePic9" src="{% static 'img/profilePictures/otter.jpg' %}" onclick="replaceImage(this.src, 'profilePic9')">
+                                    <img id="profilePic10" src="{% static 'img/profilePictures/penguin.jpg' %}" onclick="replaceImage(this.src, 'profilePic10')">
+                                    <img id="profilePic11" src="{% static 'img/profilePictures/tulican.jpg' %}" onclick="replaceImage(this.src, 'profilePic11')">
+                                    <img id="profilePic12" src="{% static 'img/profilePictures/whiteDog.jpg' %}" onclick="replaceImage(this.src, 'profilePic12')">
+                                    <img id="profilePic13" src="{% static 'img/profilePictures/horse.jpg' %}" onclick="replaceImage(this.src, 'profilePic13')">
+                                    <img id="profilePic14" src="{% static 'img/profilePictures/cow.jpg' %}" onclick="replaceImage(this.src, 'profilePic14')">
+                                    <img id="profilePic15" src="{% static 'img/profilePictures/goat.jpg' %}" onclick="replaceImage(this.src, 'profilePic15')">
+                                </div>
+                            </div>
+                        </div>
+                            <h5 class="user-name">{{ user.username }}</h5>
+                    
+                            <h6 class="user-email">Highscore - {{ extrafields.highscore }}</h6>
+                            <hr>
+                        </div>
+                        <div class="about">
+                            <h5>About</h5>
+                            <p>
+                                {{ extrafields.about }}
+                            </p>
+                            <!-- id="changePassword" -->
+                            <a href="{% url 'reset_password' %}">Edit password</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+        <div class="card h-100">
+            <div class="card-body">
+                <form class="row gutters" method="post">
+                    {% csrf_token %}
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h4 class="mb-2 text-primary">Personal Details</h4>
+                    </div>
+
+                    <!-- Mostrar errores no relacionados con campos específicos -->
+                    {% if form.non_field_errors %}
+                      <div class="col-12">
+                        <div class="form-message-error">
+                          <strong>Error:</strong> {{ form.non_field_errors }}
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="fullName">Username</label>
+                            {{ form.username }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.username.errors %}
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.username.errors }}
+                              </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="eMail">Email</label>
+                            {{ form.email }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.email.errors %}
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.email.errors }}
+                              </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% comment %} <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="phone">Name and surname</label>
+                            <span id="tooltipEdit" class="info-icon" data-bs-toggle="tooltip" title="Your name and surname won't be public">🛈</span>
+                            {{ form.fullName }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.fullName.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.fullName.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div> {% endcomment %}
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="editableText">About me</label>
+                            {{ form.about }}
+                            <!-- Mostrar errores del campo username -->
+                            {% if form.about.errors %}
+                              <div class="form-message-error">
+                                <strong>Error:</strong> {{ form.about.errors }}
+                              </div>
+                            {% endif %}
+                            {% comment %} <div class="editBioText">
+                                <span id="editIcon" class="edit-icon"><i class='bx bxs-pencil' style='color:#ffffff'></i></span>
+                                <button style="display: none;" type="submit" id="saveBioButton" name="saveBioButton" class="btn btn-primary">Change</button>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-end justify-content-end">
+                      <div class="text-right mb-3">
+                        <input type="reset" id="cancel" name="submit" class="btn btn-secondary" value="Cancel">
+                        <input type="submit" id="updateUser" name="submit" class="btn btn-primary" value="Update">
+                      </div>
+                    </div>
+                    {% comment %} <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="text-right">
+                            <input type="reset" id="cancel" name="submit" class="btn btn-secondary" value="Cancel">
+                            <input type="submit" id="updateUser" name="submit" class="btn btn-primary" value="Update">
+                        </div>
+                    </div> {% endcomment %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_footer %}
+
+    <!-- Contact JS -->
+        <script src="{% static 'js/editProfile.js' %}" defer></script>
+    <!-- End Contact JS -->
+
+{% endblock extra_footer %}

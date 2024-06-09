@@ -1,0 +1,683 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --rad: .7rem;
+  --dur: .3s;
+  --color-dark: #2f2f2f;
+  --color-light: #fff;
+  --color-brand: #ddbfff;
+  --font-fam: "Lato", sans-serif;
+  --height: 3rem;
+  --btn-width: 6rem;
+  --bez: cubic-bezier(0, 0, 0.43, 1.49);
+}
+
+.btn-close {
+  cursor: pointer;
+}
+
+#mapid, .offcanvas-body {
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+.button-test, .offcanvas-body {
+  z-index: 9999;
+}
+
+.button-test {
+  margin-top: 300px;
+}
+
+.offcanvas-body {
+  position: relative;
+  overflow-y: auto;
+  background-color: rgb(49, 0, 93) !important;
+  color: white;
+}
+
+.off-canvas-options {
+  width: 100%;
+  display: flex;
+}
+.off-canvas-options .item-off-canvas-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 77vh;
+  position: fixed;
+}
+.off-canvas-options .item-off-canvas-buttons .button-off-canvas {
+  font-size: 16px;
+  padding: 12px;
+  background-color: #644dff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  position: sticky;
+}
+.off-canvas-options .item-off-canvas-answer {
+  flex: 7;
+  padding: 0px 15px 15px 15px;
+  margin-left: 50px;
+}
+
+#low, #medium, #high, #voiceButtons button {
+  position: relative;
+  padding: 8px 10px;
+  background-color: rgb(98, 0, 184) !important;
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 1px 0px 15px 1px;
+}
+
+#low, #medium, #high {
+  width: 150px;
+  margin-bottom: 8px;
+}
+
+#high {
+  margin-bottom: 0px;
+}
+
+#voiceButtons button {
+  width: 250px;
+  margin-bottom: 8px;
+}
+#voiceButtons button:last-child {
+  margin-bottom: 0px;
+}
+
+body:not(.modal-open) {
+  padding-right: 0px !important;
+}
+
+.item-map {
+  flex: 1;
+  position: absolute;
+  bottom: 10px;
+  z-index: 9999;
+  right: 50px;
+}
+
+.container-map {
+  margin: 0px 88px 0px 180px;
+  position: absolute;
+  bottom: 0;
+  flex: 1;
+  display: flex;
+  overflow: visible;
+}
+
+.map-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.map-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  width: 64px;
+  height: 64px;
+  text-decoration: none;
+  border-radius: 100%;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(99, 4, 102, 0.6);
+}
+.map-button:focus, .map-button:hover {
+  color: #fff;
+}
+.map-button:focus::after, .map-button:hover::after {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin-left: calc(-50% - 1px);
+}
+.map-button::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  transition: 0.3s;
+}
+.map-button i, .map-button svg {
+  position: relative;
+  z-index: 1;
+  transition: 0.3s;
+}
+.map-button i {
+  font-size: 25.6px;
+}
+.map-button svg {
+  height: 40%;
+  width: 40%;
+}
+
+.map-button--river {
+  color: #3b5999;
+}
+.map-button--river::after {
+  background: #3b5999;
+}
+
+.map-button--countryside {
+  color: #00b551;
+}
+.map-button--countryside::after {
+  background: #00b551;
+}
+
+.map-button--mountains {
+  color: #a5640f;
+}
+.map-button--mountains::after {
+  background: #a5640f;
+}
+
+.map-button--cities {
+  color: #6e5494;
+}
+.map-button--cities::after {
+  background: #6e5494;
+}
+
+.map-button--world {
+  color: #212121;
+}
+.map-button--world::after {
+  background: #212121;
+}
+
+.offcanvas-header {
+  margin-top: 60px;
+  background-color: rgba(101, 77, 255, 0.3882352941);
+}
+.offcanvas-header h5 {
+  font-size: clamp(1rem, 0.786rem + 0.571vw, 1.3rem);
+}
+
+.offcanvas {
+  width: 500px !important;
+}
+
+.goTopButton {
+  cursor: pointer;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 25px;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 20px;
+}
+
+#geolocateBtn {
+  position: relative;
+  left: 61%;
+  bottom: 7.5rem;
+  padding: 5px 10px;
+  background-color: #6225E6;
+  border: none;
+}
+
+.offcanvas-backdrop.show {
+  display: none !important;
+}
+
+/**Bubble chat**/
+.bubble {
+  --r: 25px; /* the radius */
+  --t: 30px; /* the size of the tail */
+  max-width: 300px;
+  padding: calc(2 * var(--r) / 3);
+  -webkit-mask: radial-gradient(var(--t) at var(--_d) 0, rgba(0, 0, 0, 0) 98%, #000 102%) var(--_d) 100%/calc(100% - var(--r)) var(--t) no-repeat, conic-gradient(at var(--r) var(--r), #000 75%, rgba(0, 0, 0, 0) 0) calc(var(--r) / -2) calc(var(--r) / -2) padding-box, radial-gradient(50% 50%, #000 98%, rgba(0, 0, 0, 0) 101%) 0 0/var(--r) var(--r) space padding-box;
+  -webkit-mask-composite: source-over; /* Added for compatibility */
+  mask-composite: source-over; /* Added for compatibility */
+  background-color: #644dff;
+  color: #fff;
+}
+
+.right {
+  --_d: 100%;
+  border-right: var(--t) solid rgba(0, 0, 0, 0);
+  place-self: end;
+  margin-bottom: 30px;
+  margin-left: 69px;
+}
+
+.left {
+  --_d: 0%;
+  border-left: var(--t) solid rgba(0, 0, 0, 0);
+  margin-right: var(--t);
+  place-self: start;
+  background-color: #4836bb;
+  margin-bottom: 30px;
+}
+
+.imgLuna {
+  height: 150px;
+  width: 150px;
+  background-image: url("../img/lunaCircle.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.599));
+}
+
+.lunaBubble {
+  display: flex;
+  justify-content: center;
+  margin-top: 400px;
+}
+
+.single-answer {
+  display: block;
+  max-width: 90%;
+  margin-right: 5px;
+  margin-bottom: 0.25rem;
+  overflow-wrap: break-word;
+  font-weight: bold;
+}
+
+.respuesta a {
+  color: white;
+}
+.respuesta a:hover {
+  color: rgb(210, 189, 255);
+}
+
+.loading .circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 3px;
+  border-radius: 50%;
+  background: #ffc9f6;
+  animation: loading 1s infinite;
+}
+
+.loading .circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading .circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+/**animations for bubbles **/
+/* CSS for the chat bubble animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+/* Apply animation to bubbles */
+.bubble {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.left.bubble {
+  animation-name: slideInFromLeft;
+}
+
+.right.bubble {
+  animation-name: slideInFromRight;
+}
+
+.searchForm {
+  position: absolute;
+  z-index: 999;
+  top: 80px;
+  right: 30px;
+}
+
+form {
+  width: 15rem;
+  background: var(--color-brand);
+  border-radius: var(--rad);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden; /* Hide overflowing content */
+  transition: width 0.3s ease-in-out;
+}
+
+input,
+button {
+  height: var(--height);
+  font-family: var(--font-fam);
+  border: 0;
+  color: var(--color-dark);
+  font-size: 1.8rem;
+}
+
+input[type=search] {
+  outline: 0;
+  width: 100%;
+  background: var(--color-light);
+  padding: 0 1.6rem;
+  border-radius: var(--rad);
+  appearance: none;
+  transition: all var(--dur) var(--bez);
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+
+button:not(.navbar-toggler) {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: bold;
+  background: var(--color-brand);
+  border-radius: 0 var(--rad) var(--rad) 0;
+}
+
+input:not(:placeholder-shown) {
+  border-radius: var(--rad) 0 0 var(--rad);
+  width: calc(100% - var(--btn-width));
+}
+input:not(:placeholder-shown) + button {
+  display: block;
+  width: var(--btn-width);
+  height: var(--height); /* Ensure height matches input */
+}
+
+label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.middle-div {
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgb(111, 0, 185);
+  margin: 0px 0px 30px 0px;
+  padding: 16px;
+}
+.middle-div .respuesta {
+  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+.middle-div .respuesta p {
+  margin: 0px;
+}
+
+.exampleForm {
+  position: absolute;
+}
+
+/***MODAL TEXT TO SPEECH **/
+div#voiceListContainer {
+  height: 200px;
+  overflow-y: auto;
+  margin-top: 19px;
+  margin-right: 10px;
+}
+
+.close {
+  color: white !important;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  display: block;
+  position: relative;
+  padding-top: 10px !important;
+}
+
+.modal {
+  text-align: center;
+  padding: 0 !important;
+  z-index: 99999;
+}
+.modal .modal-dialog {
+  display: inline-block;
+  width: 600px;
+  text-align: left;
+  vertical-align: middle;
+  margin-top: 200px;
+}
+.modal .modal-content {
+  background-color: #4836bb;
+  margin: auto;
+  color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.modal .modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+.modal .modal-header .info-icon {
+  content: "🛈";
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  top: 8px;
+  width: 15px;
+  height: 15px;
+  font-size: 20px;
+}
+.modal .modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.modal .modal-body {
+  position: relative;
+  padding: 20px;
+}
+.modal .modal-content-voice {
+  display: flex;
+}
+.modal #volumeControl input {
+  width: 100%;
+}
+.modal #volumeButtons button, .modal #voiceButtons button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.modal #volumeButtons button:hover, .modal #voiceButtons button:hover {
+  background-color: #45a049;
+}
+
+#searchMini {
+  display: none;
+}
+
+.selected-voice {
+  font-weight: bold;
+}
+
+.selected-voice::before {
+  content: "★ ";
+  color: gold;
+}
+
+#voiceButton {
+  display: flex;
+}
+#voiceButton p {
+  margin: 0px;
+  margin-left: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+#voiceButton p:hover {
+  color: #ddbfff;
+}
+#voiceButton i {
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.voice-item {
+  flex: 1;
+}
+
+.volumeName {
+  display: flex;
+}
+.volumeName p {
+  margin: 0px;
+  margin-left: 10px;
+}
+.volumeName i {
+  margin-top: 5px;
+}
+
+/* Media query for screen width below 790px */
+/* Media query for screen width below 790px */
+@media (max-width: 790px) {
+  #searchMini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .right {
+    margin-left: auto;
+  }
+  form {
+    width: 50px;
+    overflow: hidden;
+  }
+  form.expanded {
+    width: 15rem;
+  }
+  form.expanded input[type=search],
+  form.expanded button {
+    width: 78%;
+    padding: 0 1.6rem;
+    border: none;
+    visibility: visible;
+  }
+  form.expanded input[type=search]:not(:placeholder-shown) + label[for=search] {
+    display: none;
+  }
+  .searchIcon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: var(--height);
+    font-family: var(--font-fam);
+    color: var(--color-dark);
+    font-size: 1.8rem;
+    line-height: var(--height);
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+  }
+  button[type=submit] {
+    font-size: 0;
+  }
+  [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+    width: 50px;
+    border-radius: 10px;
+  }
+}
+/* Media query for screen width below 570px */
+@media (max-width: 570px) {
+  .modal .modal-content-voice {
+    flex-direction: column;
+  }
+  #volumeControl {
+    margin-top: 20px;
+    width: 300px;
+  }
+  .modal-dialog {
+    width: auto !important;
+  }
+}

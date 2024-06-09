@@ -1,0 +1,226 @@
+
+/*****************************************/
+/** STYLES FOR THE MAIN SCREEN **/
+/*****************************************/
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import './general.scss';
+
+a{
+    text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.parallax {
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-areas: "stack";
+}
+
+.parallax > * {
+    grid-area: stack;
+}
+
+.parallax > img {
+    min-height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.primary-header,
+.hero {
+    z-index: 10;
+}
+
+.parallax__bg {
+    z-index: 1;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+.parallax__dust {
+    z-index: 2;
+}
+
+.parallax__luna {
+    z-index: 3;
+}
+
+.parallax__manny {
+    --parallax-speed: 6;
+    z-index: 4;
+}
+
+.parallax__jax {
+    z-index: 5;
+}
+
+.parallax__rays {
+    z-index: 3;
+}
+
+
+
+/** general styling **/
+
+html {
+   color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    font-family: "Rubik", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700; 
+    grid-template-columns: 16rem 1fr; 
+
+    	  
+    background-image:url('../img/bg.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.container-content{
+    height:100vh;
+}
+
+.wrapper-body {
+    height:auto;
+    width: min(65rem, 100% - 4rem);
+    margin-inline: auto;
+    margin-top: 62px;
+}
+
+
+.flex-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.button {
+    font: inherit;
+    font-style: italic;
+    text-transform: uppercase;
+    background: hsl(279, 75%, 59%);
+    padding: 1em 2em;
+    border: 0;
+    border-radius: 0.125em;
+}
+
+
+
+.logo {
+    max-width: 100px;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: -3rem;
+        z-index: -1;
+        background: radial-gradient(hsl(0 0% 100% / 0.5), transparent 70%);
+    }
+}
+
+.hero {
+    position: relative;
+    z-index: 1000;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero__title {
+    text-transform: uppercase;
+    font-size: clamp(3rem, 1.571rem + 3.81vw, 5rem);
+    max-width: 10ch;
+    line-height: 1;
+    font-style: italic;
+    font-weight: 900;
+    position: relative;
+    color: white;
+
+    > span {
+        font-style: normal;
+        font-size: 0.5em;
+        display: block;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: black;
+        z-index: -1;
+        scale: 2;
+        opacity: 0.5;
+        filter: blur(5rem);
+        translate: -50%;
+    }
+}
+
+
+.temporal{
+    color:purple;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: top 0.3s;
+  }
+
+  .hide {
+    top: -60px;
+  }
+
+
+  .logo-reset{
+    display:flex;
+
+    .img-reset{
+        height:70px;
+        width:70px;
+        flex:3;
+        background-image:url('../img/logo.png');
+        background-repeat:no-repeat;
+        background-size:contain;
+        background-position:center center;
+        font-family: "Montserrat", sans-serif;
+        color: #212529;
+    }
+
+    .name-reset{
+        font-size: clamp(1rem, -0.25rem + 3.333vw, 2.75rem);
+        font-family: "Rubik", sans-serif;
+        font-style: italic;
+        color: getColor("primary");
+    }
+
+    .wrapper-reset{
+        background-color: rgb(219, 219, 219);
+    }
+  }
+

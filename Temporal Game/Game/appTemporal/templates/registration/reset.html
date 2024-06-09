@@ -1,0 +1,55 @@
+{% extends '../Base/base-registration.html' %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block content %}
+    <div class="wrapper">
+        {% if validlink %}
+            <form class="text-center" method="POST">
+            {% csrf_token %}
+                <div class="login_box">
+                
+                    <div class="login-header">
+                        <span>NEW</span>
+                    </div>
+                    
+                    <span>Set your new password. Don't forget it this time!</span>
+
+                    <div class="input_box">
+                        <input type="password" name="new_password1" id="new_password1" class="input-field" required>
+                        <label for="new_password1" class="label">New password</label>
+                        <i class="bx bx-lock-alt icon"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="password" name="new_password2" id="new_password2" class="input-field" required>
+                        <label for="new_password2" class="label">Repeat new password</label>
+                        <i class="bx bx-lock-alt icon"></i>
+                    </div>
+
+                    {% include '../layouts/messages.html' %}
+
+                    <div class="input_box">
+                        <input type="submit" class="input-submit" value="Reset password">
+                    </div>
+                </div>
+            </form>
+        {% else %}
+            <div class="login_box">
+                <div class="login-header">
+                    <span>LOG IN</span>
+                </div>
+
+                <div class="reset-message">
+					<h3>The validation link is not valid.</h3>
+                    <div class="register">
+                        <span class="reset-password-complete"><a href="{% url 'login' %}">Login</a></span>
+                    </div>
+				</div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,193 @@
+{% extends '../Base/base.html' %}
+{% load static %}
+
+{% block title %}
+  Trivial Mode
+{% endblock title %}
+
+{% block extra_head %}
+	<!--
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	-->
+
+<link href="{% static 'css/trivial.css' %}" rel="stylesheet">
+
+
+{% endblock extra_head %}
+
+{% block active_template %}
+  <ul class="navbar-nav ml-auto">
+    <div class="hori-selector">
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'index' %}">
+        <i class='bx bxs-home-smile'></i>Home
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'games' %}">
+        <i class='bx bx-game'></i>Games
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Blog
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'contact' %}">
+        <i class='bx bx-support'></i>Contact us
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
+      </a>
+    </li>
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out-circle'></i>Logout
+        </a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class='bx bx-log-in-circle'></i>Login
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+{% endblock active_template %}
+
+{% block content %}
+
+<div class="quiz-layout">
+  <div class="navbar-quiz">
+    <img src="" alt="">
+    <div class="box-icon-quiz" id="start-quiz"><i id="pauseButtonPlay" class='bx bx-pause'></i></div>
+    {% comment %} <button class="box-icon-quiz toggle-sidebar" id="toggle-sidebar"><i class='bx bx-menu'></i></button> {% endcomment %}
+    <div class="sidebar-options" id="sidebar-options">
+      <div class="box-icon-quiz refresh"><i class='bx bx-refresh'></i></div>
+      <div class="box-icon-quiz cog"><i class='bx bxs-cog'></i></div>
+      <div class="box-icon-quiz info-quiz" id="info-quiz"><i class='bx bxs-info-circle'></i></div>
+      <div class="box-icon-quiz info-quiz" id="highscore-modal-trigger"><i class='bx bx-line-chart'></i></div>
+    </div>
+  </div>
+
+  <div class="content-quiz quiz-item">
+    <div id="paused-message" class="paused-message">Quiz Paused, press the button again to continue</div>
+    <div class="part-content-quiz scores">
+      <div class="time-quiz">Time remaining: <span id="time-remaining">20</span></div>
+      <div class="score-quiz">
+        <div class="points-quiz">Score:&nbsp;<span id="currentScore">0</span></div>
+        <div class="points-earned"></div>
+        <div class="highscore-quiz">Highscore:&nbsp;<span id="highscore">0</span></div>
+        <span id="new-highscore-message" style="display: none; color: green;">New Highscore!</span>
+    </div>
+  </div>
+
+    <div class="part-content-quiz question-quiz">
+      <div class="part-answer-question question">
+        <div class="img-manny"></div>
+        <div id="question-text"><h4></h4></div>
+      </div>
+
+      <div class="part-answer-question answers">
+          <div class="division-answers">
+            <div class="answer-quiz" id="answer-1"></div>
+            <div class="answer-quiz" id="answer-2"></div>
+        </div>
+        <div class="division-answers">
+            <div class="answer-quiz" id="answer-3"></div>
+            <div class="answer-quiz" id="answer-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<canvas id="confetti-canvas"></canvas>
+
+<div id="start-modal" class="modal">
+  <div class="modal-content">
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+    <h2>Welcome to Temporal's quiz!</h2>
+    <p>Do you want to start the quiz?</p>
+    <div class="modal-buttons">
+      <button id="start-quiz-modal" class="button-games" class="btn">Play</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="quiz-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    {% comment %} <span class="close-modal close-modal-lost">&times;</span> {% endcomment %}
+    <p id="modal-message"></p>
+    <div class="buttons-after-losing">
+      <div class="box-icon-quiz refresh"><i class='bx bx-refresh'></i></div>
+    <div class="games-button-lost"><a class="games-come-back" href="{% url 'games' %}">Return to games</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="info-modal" class="modal" style="display:none;">
+  <div class="modal-content modal-content-info">
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+    <div class="content-inside-info-modal">
+      <div class="item-info-modal how-to-earn-points">
+        <h3>How to Earn Points:</h3>
+        <p>Question answered within 5 seconds: <b class="time-1">+20</b></p>
+        <p>Question answered within 10 seconds: <b class="time-2">+15</b></p>
+        <p>Question answered within 15 seconds: <b class="time-3">+10</b></p>
+      </div>
+      <div class="item-info-modal pause-info-extra">
+        <h3>Pause:</h3>
+        <p>You're not allowed to earn points or answer the questions while your quiz is paused</p>
+      </div>
+    </div>
+    <h3 class="not-points-while-paused">The quiz will continue after closing this window</h3>
+  </div>
+</div>
+
+<div id="highscore-modal" class="modal" style="display:none;">
+  <div class="modal-content modal-highscore-width">
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+    <h4 id="my_score"></h4>
+    <div class="peoples-highscores"></div>
+    <div id="other-highscores"></div>
+    <h4 class="not-points-while-paused">The quiz will continue after closing this window</h4>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <button type="button" class="close close-modal" data-bs-dismiss="modal"><i class='bx bxs-x-circle'></i></button>
+    <div class="different-settings-container">
+      <div class="item-modal">
+        <h4>Trivial settings</h4>
+        <div class="form-check">
+          <input class="form-check-input easy" type="radio" name="trivialDifficulty" id="easy">
+          <label class="form-check-label difficulty" for="easy"><span class="text-difficulty">Easy</span></label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input normal" type="radio" name="trivialDifficulty" id="normal" checked>
+          <label class="form-check-label difficulty" for="normal"><span class="text-difficulty">Normal</span></label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input difficult" type="radio" name="trivialDifficulty" id="difficult">
+          <label class="form-check-label difficulty" for="difficult"><span class="text-difficulty">Difficult</span></label>
+        </div>
+      </div>
+    </div>
+    <p class="you-can-earn-more">You can earn more points in the difficult mode!</p>
+    <h4 class="not-points-while-paused">The quiz will continue after closing this window</h4>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_footer %}
+  <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+  <script src="{% static 'js/trivial.js' %}" defer></script>
+{% endblock extra_footer %}

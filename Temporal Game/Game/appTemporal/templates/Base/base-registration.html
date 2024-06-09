@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/svg+xml" href="{% static 'img/logo.png' %}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{% block title %}{% endblock title %}</title>
+		<!--
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		-->
+		<!-- boostrap 4 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Token CSRF -->
+		<meta name="csrf-token" content="{{ csrf_token }}">
+        <!-- End Token CSRF -->
+
+		<!-- font awesome -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- jquery -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+		<link href="{% static 'css/authStyles.css' %}" rel="stylesheet">
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<link href="{% static 'css/particles.css' %}" rel='stylesheet'>
+		<link href="{% static 'js/login.js' %}" rel='stylesheet'>
+		<link href="{% static 'css/authError.css' %}" rel='stylesheet'>
+
+
+		{% block extra_head %}{% endblock extra_head %}
+	</head>
+	<body>
+
+		<div id="particle-container">
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+			<div class="particle"></div>
+		</div>
+
+		{% block content %}{% endblock content %}
+
+		{% comment %} <!-- Modal -->
+		<div id="errorModal" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="modal-body">
+					<div class="mensaje d-flex" style="justify-content: center;">
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-primary alert-{{ message.tags }} alert-dismissible fade show mt-3 text-center" role="alert">
+									<strong>Error:</strong> {{ message }}
+								</div>
+							{% endfor %}
+						{% elif form.errors %}
+							<div class="alert alert-primary alert-dismissible fade show mt-3 text-center" role="alert">
+								{% for field in form %}
+									{% for error in field.errors %}
+										<strong>Error:</strong> {{ error }}
+									{% endfor %}
+								{% endfor %}
+								{% for error in form.non_field_errors %}
+									<strong>Error:</strong> {{ error }}
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div> {% endcomment %}
+
+		{% block extra_footer %}{% endblock extra_footer %}
+		<script src="{% static 'js/authError.js' %}" defer></script>
+	</body>
+</html>

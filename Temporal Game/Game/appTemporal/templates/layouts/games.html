@@ -1,0 +1,142 @@
+{% extends '../Base/base.html' %}
+{% load static %}
+
+{% block title %}
+	Selection Screen
+{% endblock title %}
+
+{% block extra_head %}
+	<!--
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	-->
+	<link href="{% static 'css/games.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block active_template %}
+  <ul class="navbar-nav ml-auto">
+    <div class="hori-selector">
+      <div class="left-navbar"></div>
+      <div class="right-navbar"></div>
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'index' %}">
+        <i class='bx bxs-home-smile'></i>Home
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'games' %}">
+        <i class='bx bx-game'></i>Games
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class='bx bxl-blogger'></i>Blog
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'contact' %}">
+        <i class='bx bx-support'></i>Contact us
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'profile' %}">
+        <i class='bx bxs-user'></i>Profile
+      </a>
+    </li>
+    <li class="nav-item">
+      {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out-circle'></i>Logout
+        </a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class='bx bx-log-in-circle'></i>Login
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+{% endblock active_template %}
+
+{% block content %}
+	<div class="wrapper-games">
+
+		<div class="container-games">
+
+			<div class="part-games">
+				<div class="card">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="card-inner">
+						<h1>Creative mode</h1>
+						<div class="photo-games-container">
+							<div class="photo-games"></div>
+						</div>
+						<p>Freedom to shape you own historical narratives</p>
+						<ul>
+							<li>Unrestricted Exploration</li>
+							<li>Boundless Creativity</li>
+							<li>Dynamic Interaction</li>
+						</ul>
+						<a href="{% url 'maps' %}"><button class="button-games">Go!</button></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="part-games settings-games-selection">
+				<h1>Choose your game mode!</h1>
+			  </div>
+
+
+			<div class="part-games">
+				<div class="card">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="card-inner">
+						<h1>Trivial mode</h1>
+						<div class="photo-games-container">
+							<div class="photo-games2"></div>
+						</div>
+						<p>Challenge your knowledge with intriguing questions</p>
+						<ul>
+							<li>Cognitive Challenge</li>
+							<li>Historical Depth</li>
+							<li>Educational Focus</li>
+						</ul>
+						<a href="{% url 'trivial' %}"><button class="button-games">Go!</button></a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script>
+		// Get the modal
+var modal = document.getElementById("settingsModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close-modal")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+	</script>
+{% endblock content %}

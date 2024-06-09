@@ -1,0 +1,72 @@
+{% extends '../Base/base-registration.html' %}
+{% load static %}
+
+{% block title %}
+	Registration
+{% endblock title %}
+
+{% block content %}
+	<div class="wrapper wrapper-register">
+
+		<div class="item-register">
+			<div class="lunaBubble">
+				<div class="imgLuna"></div>
+				<div class="bubble left">Join us to unlock access to our captivating blog and immersive games. Dive into the depths of history with us!</div>
+			</div> 
+		</div>
+
+		<div class="item-register">
+			<form class="text-center" method="POST">
+			{% csrf_token %}
+
+				<div class="register_box">
+					<div class="register-header">
+						<span>JOIN!</span>
+					</div>
+				
+					<div class="input_box">
+						<input type="text" name="user" id="user" class="input-field" required>
+						<label for="user" class="label">Username</label>
+						<i class="bx bx-user icon"></i>
+					</div>
+		
+					<div class="input_box">
+						<input type="email" name="email" id="email" class="input-field" required>
+						<label for="email" class="label">Email</label>
+						<i class='bx bx-spreadsheet icon'></i>
+					</div>
+			
+					<div class="input_box">
+						<input type="password" name="pass" id="pass" class="input-field" required>
+						<label for="pass" class="label">Password</label>
+						<i class="bx bx-lock-alt icon"></i>
+					</div>
+		
+					<div class="input_box">
+						<input type="password" name="confirm-pass" id="confirm-pass" class="input-field" required>
+						<label for="confirm-pass" class="label">Repeat the password</label>
+						<i class='bx bxs-lock-alt icon'></i>
+					</div>
+
+					{% include '../layouts/messages.html' %}
+
+					<div class="input_box">
+						<input type="submit" class="input-submit" value="register"></input>
+					</div>
+
+					<div class="privacy-policy">
+						<div class="accept-privacy">
+							<input type="checkbox" id="accept-privacy" name="accept-privacy"></input>
+							<label for="accept-privacy">I accept the <a href="{% url 'privacyPolicy' %}">Privacy policy</a></label>
+						</div>
+					</div>
+
+					<div class="login">
+						<span>Already registered? <a href="{% url 'login' %}">Login</a></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+{% endblock content %}

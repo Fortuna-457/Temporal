@@ -1,0 +1,42 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+$map-button-size: 64px;
+$map-button-icon-size: 0.4;
+$map-button-background: #fff;
+$map-button-active-color: #fff;
+$map-button-transition-time: 0.3s;
+
+$map-button-colors: (
+  'river': #3b5999,
+  'countryside': #00b551,
+  'mountains': #a5640f,
+  'cities': #6e5494,
+  'world': #212121,
+);
+
+$colors: (
+    primary: #6225E6,
+    purple1: #644dff,
+    purple2: #4836bb,
+    darkerPurple: #654dff63,
+    secondary: #FBC638,
+    lightYellowColor: #fff5d1,
+    register-color: pink,
+    black-color: #000000,
+    lightWhite: #ececec,
+    lightPurple: #ddbfff,
+);
+
+html, body{
+  scroll-behavior: smooth;
+}
+
+@function getColor($colorName) {
+    @return map-get($colors, $colorName);
+}
