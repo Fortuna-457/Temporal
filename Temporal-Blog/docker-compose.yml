@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # CONTAINER - FRONTEND (React + Vite)
+  frontend: 
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports: 
+      - "3000:80"
+    environment: 
+      - VITE_API_BASE_URL=http://localhost:5000/api
+      - VITE_TINY_MCE_API_KEY=your_secret_key
+    depends_on:
+      - backend
+      - db
+    networks:
+      - ttb-network
+    container_name: Frontend
+
+# CONTAINER - BACKEND (Node.js)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_DIALECT=mysql
+      - DB_USER=your_username
+      - DB_PASSWORD=your_password
+      - DB_PORT=3306
+      - DB_DATABASE=wordtriss
+      - WT_ADMIN_USER=your_username
+      - WT_ADMIN_PASSWORD=your_password
+      - API_SERVER_PORT=5000
+      - LIMIT=10
+      - JWT_SECRET_KEY=your_secret_key
+      - JWT_EXPIRATION_TIME=1d
+    depends_on:
+      - db
+    networks:
+      - ttb-network
+    container_name: Backend
+
+  # CONTAINER - MYSQL : https://hub.docker.com/_/mysql
+  db:
+    image: mysql:8.3.0
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=wordtriss
+      - MYSQL_USER=your_username
+      - MYSQL_PASSWORD=your_password
+      - MYSQL_ROOT_PASSWORD=your_password
+    ports:
+      - "3306:3306"
+    networks:
+      - ttb-network
+    container_name: DataBase
+
+  # CONTAINER - PHPMYADMIN : https://hub.docker.com/_/phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    depends_on:
+      - db
+    environment:
+      - PMA_HOST=mysql
+    # restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - ttb-network
+    container_name: PHPMyAdmin
+
+networks:
+  ttb-network:
+
+volumes:
+  db_data:
