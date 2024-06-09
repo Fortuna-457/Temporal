@@ -7,17 +7,24 @@ A Full-Stack Blog CMS
 ## Table of Contents
 * [Overview](#overview)
 * [Main features](#main-features)
-* [Technologies](#technologies)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Project Architecture](#project-architecture)
+* [DataBase Schema](#database-schema)
+* [Project Structure](#project-structure)
+* [Frontend Doc](#frontend-react-documentation)
+* [Backend Doc](#backend-nodejs-documentation)
 
-### Overview
+
+## Overview
 This manual provides comprehensive documentation for WordTriss, a full-stack blog CMS. The frontend is developed using React, the backend uses Node.js, and the database is managed with MySQL. This manual details the application's architecture, features, and usage. The Blog Application is a web-based platform for creating, managing, and publishing blog posts.
 
-### Main Features
-#### Authentication and Authorization
+## Main Features
+### Authentication and Authorization
 - **JWT (JSON Web Tokens)**: Used for authentication and securing API endpoints.
 - **Role-Based Access Control (RBAC)**: Different permissions are assigned based on user roles.
 
-#### User Roles and Permissions
+### User Roles and Permissions
 - **Admin**
     - Full access to all functionalities.
 - **Editor**
@@ -28,8 +35,27 @@ This manual provides comprehensive documentation for WordTriss, a full-stack blo
     - Limited Post Creation: Can create and edit their own posts but need approval from an Editor or Admin. Also can create tags but not categories.
 - **Subscriber**
     - Read-Only Access: Can view posts and leave comments. Default role when creating a new user
+  
+### Automatic Schema Creation
+The WordTriss project is configured to automatically create the database schema upon installation. This feature simplifies the setup process and ensures that the necessary tables and relationships are correctly established without requiring manual intervention.
 
-#### Technologies
+### Sequelize
+The project uses Sequelize, an ORM for Node.js, to manage database interactions. Sequelize's sync method is utilized to create the database schema based on the defined models.
+
+### Initial Set Up
+With the utility script `backend/initialSetup.js` handles the initial setup, including schema creation and the insertion of initial data.
+
+### Docker Integration
+WordTriss includes Docker integration, simplifying the installation and deployment process. Docker allows you to encapsulate each component of the application within containers, ensuring consistency across different environments.
+**Services**
+
+- **Frontend:** Configured to build a Docker image for the frontend React application. It includes instructions to install dependencies, build the application, and serve it using a lightweight web server like Nginx.
+- **Backend:** Configured to build a Docker image for the backend Node.js application. It sets up the environment, installs dependencies, and exposes the necessary ports for API communication.
+- **Database (MySQL):** Configured to run a MySQL database service within a Docker container. It provides persistent storage for data used by the WordTriss application.
+- **PhpMyAdmin:** Configured to run PhpMyAdmin, a web-based database management tool, within a Docker container. This service allows for easy management and administration of the MySQL database.
+
+
+### Technologies
 <table>
   <tr>
     <td align="center">
@@ -61,19 +87,58 @@ This manual provides comprehensive documentation for WordTriss, a full-stack blo
       <img width="50" src="https://user-images.githubusercontent.com/25181517/192108374-8da61ba1-99ec-41d7-80b8-fb2f7c0a4948.png" alt="GitHub" title="GitHub"/>
       <img width="50" src="https://user-images.githubusercontent.com/25181517/192108372-f71d70ac-7ae6-4c0d-8395-51d8870c2ef0.png" alt="Git" title="Git"/>
       <img width="50" src="https://user-images.githubusercontent.com/25181517/192109061-e138ca71-337c-4019-8d42-4792fdaa7128.png" alt="Postman" title="Postman"/>
-      <img width="50" src="https://user-images.githubusercontent.com/25181517/121401671-49102800-c959-11eb-9f6f-74d49a5e1774.png" alt="npm" title="npm"/>
-      <img width="50" src="https://user-images.githubusercontent.com/25181517/192107858-fe19f043-c502-4009-8c47-476fc89718ad.png" alt="REST" title="REST"/>
+      <img width="50" src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/97_Docker_logo_logos-1024.png" alt="Docker" title="Docker"/>
     </td>
   </tr>
 </table>
 
-### Project Architecture
+## Requirements
+Before running WordTriss, ensure you have the following prerequisites installed on your system:
+
+- **Docker:** Ensure Docker is installed on your machine. You can download and install Docker Desktop from this [link](https://www.docker.com/products/docker-desktop).
+
+- **Git:** Git is required to clone the WordTriss repository from GitHub. You can download and install Git from this [link](https://git-scm.com/downloads).
+
+## Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Tristan-Al/WordTriss.git
+    ```
+2. Navigate to the project directory:
+
+    ```bash
+    cd wordtriss
+    ```
+3. **Update Environment Variables:** Before starting the Docker containers, ensure to update the environment variables in the `docker-compose.yml` file according to your requirements. Modify the values of `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`, `WT_ADMIN_USER`, `WT_ADMIN_PASSWORD`, `JWT_SECRET_KEY`, and so on as needed.
+
+4. Build images and run Docker containers:
+
+    ```bash
+    docker-compose up --build -d
+    ```
+5. Access WordTriss:
+
+    - Frontend: [http://localhost:3000](http://localhost:3000)
+    - PhpMyAdmin: [http://localhost:8080](http://localhost:8080)
+
+6. To stop WordTriss, run:
+
+    ```bash
+    docker-compose down
+    ```
+
+## Project Architecture
 The application is structured into three main components:
 - **Frontend**: React application for the user interface.
 - **Backend**: Node.js application using Express.js to handle API requests.
 - **Database**: MySQL database for storing all data.
 
-### Project Structure
+## Database Schema
+![database-schema](https://github.com/Tristan-Al/WordTriss/assets/101890965/3f69e76b-f222-40aa-825c-019887dcae02)
+
+## Project Structure
 ```bash
 WordTriss/
 ├── backend/
@@ -142,7 +207,7 @@ WordTriss/
 └──
 ```
 
-### Frontend (React) Documentation
+## Frontend (React) Documentation
 - **Technology Stack**
   - **React**: A JavaScript library for building user interfaces.
   - **Redux**: For state management
@@ -159,7 +224,7 @@ WordTriss/
   - **react-dom**: Serves as the entry point to the DOM and server renderers for React.
   - **react-toastify**: A library to add notifications to your app with ease.
 
-### Backend (Node.js) Documentation
+## Backend (Node.js) Documentation
 - **Technology Stack**
   - **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine.
   - **Express.js**: A minimal and flexible Node.js web application framework.
@@ -174,7 +239,7 @@ WordTriss/
   - **nodemon**: A utility that monitors for any changes in your source and automatically restarts your server.
   - **process**: Provides various process-related utilities.
 
-### Endpoints
+## Endpoints
 ### Authentication
 #### Login
 - **Endpoint**: `POST api/login`
@@ -361,16 +426,5 @@ GET http://localhost:5000/api/users/1
 }
 ```
 
-### Database Schema
-![database-schema](https://github.com/Tristan-Al/WordTriss/assets/101890965/3f69e76b-f222-40aa-825c-019887dcae02)
 
 
-#### Automatic Schema Creation
-The WordTriss project is configured to automatically create the database schema upon installation. This feature simplifies the setup process and ensures that the necessary tables and relationships are correctly established without requiring manual intervention.
-
-### Configuration Details
-#### Sequelize
-The project uses Sequelize, an ORM for Node.js, to manage database interactions. Sequelize's sync method is utilized to create the database schema based on the defined models.
-
-#### initialSetup.js
-This utility script handles the initial setup, including schema creation and the insertion of initial data.
