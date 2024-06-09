@@ -4,7 +4,7 @@
 
 <h3>Table of contents</h3>
 
-*   #### [Index](#Index)
+*   [Index](#Index)
     *   [Introduction](#Introduction)
     *   [Instalation](#Instalation)
     *   [Endpoints](#Endpoints)
