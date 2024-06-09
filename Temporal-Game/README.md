@@ -25,7 +25,7 @@ This is the documentation for the application part.
 
 <h4>Prerequisites</h4>
 
-*   [Docker](https://www.docker.com/products/docker-desktop/)
+*   <a href="https://www.docker.com/products/docker-desktop/" taget="_blank">Docker</a>
 *   [Git (Optional)](https://www.git-scm.com/downloads)
 
 <h4>Steps to run the application</h4>
