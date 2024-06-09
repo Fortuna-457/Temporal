@@ -10,7 +10,7 @@
     *   [Endpoints](#Endpoints)
     *   [Use-Cases](#Use-Cases)
     *   [Authors](#Authors)
-    *   [Licencia](#licencia)
+    *   [Licence](#licence)
 
 
 ## Introduction
