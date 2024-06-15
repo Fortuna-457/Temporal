@@ -18,6 +18,10 @@ $p-4: #590082;
     opacity: 0.4;
 }
 
+#highscore{
+    position:relative;
+}
+
 #new-highscore-message{
     font-family: "Rubik", sans-serif;
     font-style: italic;
@@ -25,7 +29,6 @@ $p-4: #590082;
     position: absolute;
     font-size: 20px;
     bottom: 50px;
-    left: 90px;
 }
 .paused-message {
     display: none;
@@ -123,6 +126,7 @@ $p-4: #590082;
                 .points-quiz, .highscore-quiz {
                     flex: 1;
                     display: flex;
+                    position: relative;
                     align-items: center;
                     justify-content: center;
                     font-size: clamp(1rem, 0.286rem + 1.905vw, 2rem);
@@ -563,9 +567,10 @@ a:hover{
     }
   }
 
-//   .show-message-new-highscore{
-//     display: inline !important;
-//   }
+  .show-new-highscore-message {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
 
   #settingsModal{
     .modal-content{
@@ -604,6 +609,15 @@ a:hover{
   }
 
 @media (max-width: 1052px) {
+
+    #new-highscore-message{
+        bottom: -50px;
+    }
+
+    .points-earned{
+        left: 73%;
+    }
+
     .content-quiz {
         flex-direction: column;
     }

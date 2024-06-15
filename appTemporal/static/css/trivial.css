@@ -22,6 +22,10 @@ body {
   opacity: 0.4;
 }
 
+#highscore {
+  position: relative;
+}
+
 #new-highscore-message {
   font-family: "Rubik", sans-serif;
   font-style: italic;
@@ -29,7 +33,6 @@ body {
   position: absolute;
   font-size: 20px;
   bottom: 50px;
-  left: 90px;
 }
 
 .paused-message {
@@ -121,6 +124,7 @@ body {
 .quiz-layout .content-quiz .scores .score-quiz .points-quiz, .quiz-layout .content-quiz .scores .score-quiz .highscore-quiz {
   flex: 1;
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   font-size: clamp(1rem, 0.286rem + 1.905vw, 2rem);
@@ -524,6 +528,11 @@ a:hover {
   font-style: italic;
 }
 
+.show-new-highscore-message {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
 #settingsModal .modal-content {
   width: 400px;
 }
@@ -557,6 +566,12 @@ a:hover {
 }
 
 @media (max-width: 1052px) {
+  #new-highscore-message {
+    bottom: -50px;
+  }
+  .points-earned {
+    left: 73%;
+  }
   .content-quiz {
     flex-direction: column;
   }

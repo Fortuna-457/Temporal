@@ -191,7 +191,24 @@ $(document).ready(function () {
             }
         });
 
-        updateIconClass(); // Update icon class based on timer state
+        updateIconClass();
+    }
+
+    function displayNewHighscoreMessage() {
+        const newHighscoreMessage = $('<span>', {
+            id: 'new-highscore-message',
+            text: 'New Highscore!'
+        }).hide(); // Initially hide the message
+    
+        $('.highscore-quiz').append(newHighscoreMessage);
+    
+        newHighscoreMessage.fadeIn(300, function() {
+            setTimeout(() => {
+                newHighscoreMessage.fadeOut(400, function() {
+                    newHighscoreMessage.remove();
+                });
+            }, 3000);
+        });
     }
 
     function displayPointsEarned(points) {
@@ -224,11 +241,12 @@ $(document).ready(function () {
                 score += pointsEarned;
                 $('#currentScore').text(score);
                 displayPointsEarned(pointsEarned);
-    
-                // Update highscore if current score is higher
-                if (score > highscore) {
-                    highscore = score;
-                    $('#highscore').text(highscore);
+
+                    if (score > highscore) {
+                        highscore = score;
+                        $('#highscore').text(highscore);
+                        displayNewHighscoreMessage()
+                
                 }
             } else {
                 endQuiz(false);
@@ -268,6 +286,8 @@ $(document).ready(function () {
     
             startConfetti(document.getElementById('confetti-canvas'));
             $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${highscore}<br>NEW HIGHSCORE!`);
+            $('#new-highscore-message').addClass("show-new-highscore-message");
+            $('#new-highscore-message').css('display', 'inline');
         } else {
             if (won) {
                 $('#modal-message').html(`<span class="win-message">Congratulations! You won!</span><br>Your Score: ${score}`);
@@ -450,7 +470,8 @@ $(document).ready(function () {
         $('#highscore-modal').show();
 
         if (score > highscore){
-            $('#new-highscore-message').css('display', 'block');
+            $('#new-highscore-message').addClass("show-new-highscore-message");
+            $('#new-highscore-message').css('display', 'inline');
             $('#highscore-modal #my_score').text('Your highscore: '+score);
         }else{
             $('#highscore-modal #my_score').text('Your highscore: '+highscore);
