@@ -44,7 +44,7 @@ def index(request):
 
 @login_required
 def trivial(request):
-    return render(request, 'games/trivial.html')
+    return render(request, 'Games/trivial.html')
 
 
 def privacyPolicyView(request):
@@ -57,7 +57,7 @@ def contactView(request):
 
 @login_required
 def games(request):
-    return render(request, 'layouts/games.html')
+    return render(request, 'layouts/Games.html')
 
 
 @login_required
@@ -171,7 +171,7 @@ def register(request):
        
 @login_required
 def mapsView(request):
-    return render(request, 'games/map.html')
+    return render(request, 'Games/map.html')
 
 
 @login_required
