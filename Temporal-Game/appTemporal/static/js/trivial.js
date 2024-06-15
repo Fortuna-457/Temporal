@@ -30,6 +30,30 @@ $(document).ready(function () {
         difficulty = localStorage.setItem("difficulty", value.toLowerCase());
         window.location.reload();
     });
+
+
+    let confetti;
+
+    function startConfetti(element) {
+        // Show the confetti canvas
+        element.style.display = 'block';
+
+        // Create a new ConfettiGenerator object
+        const confettiSettings = {
+            target: element,
+            max: 150,
+            size: 1.5,
+            animate: true,
+            props: ['circle', 'square', 'triangle', 'line'],
+            colors: [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            clock: 25
+        };
+        
+        confetti = new ConfettiGenerator(confettiSettings);
+
+        // Start the confetti
+        confetti.render();
+    }
     
     $.ajax({
         url: '/get-questions/',
@@ -142,7 +166,6 @@ $(document).ready(function () {
         }
     }
     
-
     function resetTimer() {
         clearInterval(timer);
         timeRemaining = 20;
@@ -204,7 +227,6 @@ $(document).ready(function () {
                 displayPointsEarned(pointsEarned); // Display the points earned
                 // Update highscore if current score is higher
                 if (score > highscore) {
-                    startConfetti();
                     $('#highscore').text(score);
                 }
             } else {
@@ -223,33 +245,10 @@ $(document).ready(function () {
         }
     }
 
-let confetti;
-
-function startConfetti() {
-    // Show the confetti canvas
-    document.getElementById('confetti-canvas').style.display = 'block';
-
-    // Create a new ConfettiGenerator object
-    const confettiSettings = {
-        target: 'confetti-canvas',
-        max: 150,
-        size: 1.5,
-        animate: true,
-        props: ['circle', 'square', 'triangle', 'line'],
-        colors: [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
-        clock: 25
-    };
-    
-    confetti = new ConfettiGenerator(confettiSettings);
-
-    // Start the confetti
-    confetti.render();
-}
-
     function endQuiz(won) {
         clearInterval(timer);
         $('#quiz-modal').show();
-        if (score > highscore) {
+        if (won && score > highscore) {
             highscore = score;
 
             // Guardamos la nueva highscore en el server
@@ -268,11 +267,11 @@ function startConfetti() {
                 console.error('Error:', error);
             });
 
-            startConfetti();
+            startConfetti(document.getElementById('confetti-canvas'));
             $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${highscore}<br>NEW HIGHSCORE!`);
         } else {
             if (won) {
-                startConfetti();
+                startConfetti(document.getElementById('confetti-canvas'));
                 $('#modal-message').html(`<span class="win-message">Congratulations! You won!</span><br>Your Score: ${score}`);
             } else {
                 const questionObj = questions[currentQuestionIndex];

@@ -200,8 +200,8 @@ def get_info_place(request):
                         place_type = location.get('osm_type', 'N/A')
                         
                         request_info = [
-                            'Historical events in the: ' + place_name + '. In ' + place_location + '.',
-                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. Show the correct answer with this symbol: -->. It has to be about the history of: ' + place_name + '. In ' + place_location + '.'
+                            'Historical events in the: ' + place_name + '. In ' + place_location + '. In one paragraph.',
+                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. It has to be about the history of: ' + place_name + '. In ' + place_location + '. Show the correct answer between this symbol: -->. The difficulty between (). The questions between -.'
                         ]
                         
                         try:
