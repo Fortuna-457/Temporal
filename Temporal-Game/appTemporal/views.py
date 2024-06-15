@@ -57,7 +57,7 @@ def contactView(request):
 
 @login_required
 def games(request):
-    return render(request, 'layouts/Games.html')
+    return render(request, 'layouts/games.html')
 
 
 @login_required
