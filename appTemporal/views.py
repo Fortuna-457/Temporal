@@ -44,7 +44,7 @@ def index(request):
 
 @login_required
 def trivial(request):
-    return render(request, 'games/trivial.html')
+    return render(request, 'Games/trivial.html')
 
 
 def privacyPolicyView(request):
@@ -57,7 +57,7 @@ def contactView(request):
 
 @login_required
 def games(request):
-    return render(request, 'layouts/games.html')
+    return render(request, 'layouts/Games.html')
 
 
 @login_required
@@ -171,7 +171,7 @@ def register(request):
        
 @login_required
 def mapsView(request):
-    return render(request, 'games/map.html')
+    return render(request, 'Games/map.html')
 
 
 @login_required
@@ -200,8 +200,8 @@ def get_info_place(request):
                         place_type = location.get('osm_type', 'N/A')
                         
                         request_info = [
-                            'Historical events in the: ' + place_name + '. In ' + place_location + '.',
-                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. Show the correct answer with this symbol: -->. It has to be about the history of: ' + place_name + '. In ' + place_location + '.'
+                            'Historical events in the: ' + place_name + '. In ' + place_location + '. In one paragraph.',
+                            'Give me three questions, with three false answers, and one true answer. The first question should be easy, the second normal, and the third difficult. It has to be about the history of: ' + place_name + '. In ' + place_location + '. Show the correct answer between this symbol: -->. The difficulty between (). The questions between -.'
                         ]
                         
                         try:
