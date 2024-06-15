@@ -22,6 +22,16 @@ body {
   opacity: 0.4;
 }
 
+#new-highscore-message {
+  font-family: "Rubik", sans-serif;
+  font-style: italic;
+  color: rgb(109, 255, 109);
+  position: absolute;
+  font-size: 20px;
+  bottom: 50px;
+  left: 90px;
+}
+
 .paused-message {
   display: none;
   position: fixed;
