@@ -191,7 +191,24 @@ $(document).ready(function () {
             }
         });
 
-        updateIconClass(); // Update icon class based on timer state
+        updateIconClass();
+    }
+
+    function displayNewHighscoreMessage() {
+        const newHighscoreMessage = $('<span>', {
+            id: 'new-highscore-message',
+            text: 'New Highscore!'
+        }).hide(); // Initially hide the message
+    
+        $('.highscore-quiz').append(newHighscoreMessage);
+    
+        newHighscoreMessage.fadeIn(300, function() {
+            setTimeout(() => {
+                newHighscoreMessage.fadeOut(400, function() {
+                    newHighscoreMessage.remove();
+                });
+            }, 3000);
+        });
     }
 
     function displayPointsEarned(points) {
@@ -210,32 +227,32 @@ $(document).ready(function () {
     }
 
     function checkAnswer(index) {
-        const answerTime = timeRemaining; // Use the counter number
-        // Check if the timer is not paused
+        const answerTime = timeRemaining;
         if (!isPaused) {
             if ($(`#answer-${index + 1}`).data('correct')) {
                 let pointsEarned = 0;
-                if (answerTime >= 15) { // max_points - 5 = 15
+                if (answerTime >= 15) {
                     pointsEarned = max_points;
-                } else if (answerTime >= 10) { // max_points - 10 = 10
+                } else if (answerTime >= 10) {
                     pointsEarned = medium_points;
                 } else {
                     pointsEarned = min_points;
                 }
                 score += pointsEarned;
                 $('#currentScore').text(score);
-                displayPointsEarned(pointsEarned); // Display the points earned
-                // Update highscore if current score is higher
-                if (score > highscore) {
-                    $('#highscore').text(score);
+                displayPointsEarned(pointsEarned);
+
+                    if (score > highscore) {
+                        highscore = score;
+                        $('#highscore').text(highscore);
+                        displayNewHighscoreMessage()
+                
                 }
             } else {
-                // If the answer is incorrect, end the quiz
                 endQuiz(false);
-                return; // Exit the function early to prevent proceeding to the next question
+                return;
             }
         }
-        // Proceed to the next question regardless of whether the timer is paused
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             loadQuestion();
@@ -244,44 +261,47 @@ $(document).ready(function () {
             endQuiz(true);
         }
     }
+    
 
     function endQuiz(won) {
         clearInterval(timer);
         $('#quiz-modal').show();
+    
         if (won && score > highscore) {
             highscore = score;
-
-            // Guardamos la nueva highscore en el server
             $.ajax({
                 url: '/set-highscore/',
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {
-                    'X-CSRFToken': csrfToken // Add the CSRF token as a header
+                    'X-CSRFToken': csrfToken
                 },
                 data: JSON.stringify({
                     "highscore": highscore,
-                }), // Stringify the data object
+                }),
             })
             .fail(function (error) {
                 console.error('Error:', error);
             });
-
+    
             startConfetti(document.getElementById('confetti-canvas'));
             $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${highscore}<br>NEW HIGHSCORE!`);
+            $('#new-highscore-message').addClass("show-new-highscore-message");
+            $('#new-highscore-message').css('display', 'inline');
         } else {
             if (won) {
-                startConfetti(document.getElementById('confetti-canvas'));
                 $('#modal-message').html(`<span class="win-message">Congratulations! You won!</span><br>Your Score: ${score}`);
             } else {
                 const questionObj = questions[currentQuestionIndex];
                 $('#modal-message').html(`<strong>${questionObj.question}</strong><br>Correct Answer: ${questionObj.correctAnswer}<br><br><span class="lost-message">You lost! Try again!</span><br>Your Score: ${score}`);
             }
         }
-        isPaused = false; // Ensure timer is not paused when the quiz ends
-        toggleAnswerInteraction(true); // Ensure answer interaction is enabled
-        updateIconClass(); // Update icon class
+    
+        isPaused = false;
+        toggleAnswerInteraction(true);
+        updateIconClass();
     }
+    
 
     $('#start-quiz').off('click').on('click', function () {
         $('#paused-message').css('display', 'none');
@@ -450,6 +470,8 @@ $(document).ready(function () {
         $('#highscore-modal').show();
 
         if (score > highscore){
+            $('#new-highscore-message').addClass("show-new-highscore-message");
+            $('#new-highscore-message').css('display', 'inline');
             $('#highscore-modal #my_score').text('Your highscore: '+score);
         }else{
             $('#highscore-modal #my_score').text('Your highscore: '+highscore);
