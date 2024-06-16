@@ -34,13 +34,13 @@ $(document).ready(function () {
 
     let confetti;
 
-    function startConfetti(element) {
+    function startConfetti() {
         // Show the confetti canvas
-        element.style.display = 'block';
+        document.getElementById('confetti-canvas').style.display = 'block';
 
         // Create a new ConfettiGenerator object
         const confettiSettings = {
-            target: element,
+            target: document.getElementById('confetti-canvas'),
             max: 150,
             size: 1.5,
             animate: true,
@@ -284,7 +284,7 @@ $(document).ready(function () {
                 console.error('Error:', error);
             });
     
-            startConfetti(document.getElementById('confetti-canvas'));
+            startConfetti();
             $('#modal-message').html(`Congratulations! You won!<br>Your Score: ${highscore}<br>NEW HIGHSCORE!`);
             $('#new-highscore-message').addClass("show-new-highscore-message");
             $('#new-highscore-message').css('display', 'inline');
